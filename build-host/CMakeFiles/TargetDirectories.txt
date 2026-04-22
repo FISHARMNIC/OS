@@ -1,0 +1,3 @@
+/Users/nico/Documents/OS/build-host/CMakeFiles/kernel.dir
+/Users/nico/Documents/OS/build-host/CMakeFiles/edit_cache.dir
+/Users/nico/Documents/OS/build-host/CMakeFiles/rebuild_cache.dir

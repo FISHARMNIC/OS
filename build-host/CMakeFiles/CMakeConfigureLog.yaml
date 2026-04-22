@@ -1,0 +1,206 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:26 (project)"
+    message: |
+      The target system is: Generic -  - i686
+      The host system is: Darwin - 25.3.0 - arm64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:26 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: /opt/homebrew/bin/i686-elf-gcc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      /opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-ld: cannot find crt0.o: Invalid argument
+      /opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-ld: cannot find -lc: Invalid argument
+      collect2: error: ld returned 1 exit status
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:26 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /opt/homebrew/bin/i686-elf-gcc 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is GNU, found in:
+        /Users/nico/Documents/OS/build-host/CMakeFiles/3.31.10/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1238 (message)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:26 (project)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      i686-elf-gcc (GCC) 15.2.0
+      Copyright (C) 2025 Free Software Foundation, Inc.
+      This is free software; see the source for copying conditions.  There is NO
+      warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:26 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP"
+      binary: "/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_SYSROOT: ""
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_86e0b/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_86e0b.dir/build.make CMakeFiles/cmTC_86e0b.dir/build
+        gmake[1]: Entering directory '/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP'
+        Building C object CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj
+        /opt/homebrew/bin/i686-elf-gcc   -v -o CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj -c /opt/local/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Using built-in specs.
+        COLLECT_GCC=/opt/homebrew/bin/i686-elf-gcc
+        Target: i686-elf
+        Configured with: ../configure --target=i686-elf --prefix=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0 --infodir=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/share/info/i686-elf --disable-nls --without-isl --without-headers --with-as=/opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-as --with-ld=/opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-ld --with-system-zlib --enable-languages=c,c++
+        Thread model: single
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 15.2.0 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_86e0b.dir/'
+         /opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/15.2.0/cc1 -quiet -v /opt/local/share/cmake-3.31/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_86e0b.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=pentiumpro -version -o /var/folders/z9/7cg2gm3d67s50cxlj7rynb5r0000gn/T//ccE0KP8n.s
+        GNU C23 (GCC) version 15.2.0 (i686-elf)
+        	compiled by GNU C version Apple LLVM 17.0.0 (clang-1700.6.3.2), GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.3.1, isl version none
+        warning: MPC header version 1.3.1 differs from library version 1.4.1.
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/../../../../i686-elf/sys-include"
+        ignoring nonexistent directory "/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/../../../../i686-elf/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include
+         /opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include-fixed
+        End of search list.
+        Compiler executable checksum: 7ce520eefe2df57ad3211a6dc34d3efb
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_86e0b.dir/'
+         /opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-as -v -o CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj /var/folders/z9/7cg2gm3d67s50cxlj7rynb5r0000gn/T//ccE0KP8n.s
+        GNU assembler version 2.46.0 (i686-elf) using BFD version (GNU Binutils) 2.46.0.20260210
+        COMPILER_PATH=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/15.2.0/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/15.2.0/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/
+        LIBRARY_PATH=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.'
+        Linking C static library libcmTC_86e0b.a
+        /opt/local/bin/cmake -P CMakeFiles/cmTC_86e0b.dir/cmake_clean_target.cmake
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86e0b.dir/link.txt --verbose=1
+        /opt/homebrew/bin/i686-elf-ar qc libcmTC_86e0b.a CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj
+        /opt/homebrew/bin/i686-elf-ranlib libcmTC_86e0b.a
+        gmake[1]: Leaving directory '/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:26 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include]
+          add: [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include-fixed]
+        end of search list found
+        collapse include dir [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include] ==> [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include]
+        collapse include dir [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include-fixed] ==> [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include-fixed]
+        implicit include dirs: [/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include;/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include-fixed]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/opt/local/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:26 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP']
+        ignore line: []
+        ignore line: [Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_86e0b/fast]
+        ignore line: [/opt/local/bin/gmake  -f CMakeFiles/cmTC_86e0b.dir/build.make CMakeFiles/cmTC_86e0b.dir/build]
+        ignore line: [gmake[1]: Entering directory '/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP']
+        ignore line: [Building C object CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [/opt/homebrew/bin/i686-elf-gcc   -v -o CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj -c /opt/local/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/opt/homebrew/bin/i686-elf-gcc]
+        ignore line: [Target: i686-elf]
+        ignore line: [Configured with: ../configure --target=i686-elf --prefix=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0 --infodir=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/share/info/i686-elf --disable-nls --without-isl --without-headers --with-as=/opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-as --with-ld=/opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-ld --with-system-zlib --enable-languages=c,c++]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 15.2.0 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_86e0b.dir/']
+        ignore line: [ /opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/15.2.0/cc1 -quiet -v /opt/local/share/cmake-3.31/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_86e0b.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=pentiumpro -version -o /var/folders/z9/7cg2gm3d67s50cxlj7rynb5r0000gn/T//ccE0KP8n.s]
+        ignore line: [GNU C23 (GCC) version 15.2.0 (i686-elf)]
+        ignore line: [	compiled by GNU C version Apple LLVM 17.0.0 (clang-1700.6.3.2)  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.3.1  isl version none]
+        ignore line: [warning: MPC header version 1.3.1 differs from library version 1.4.1.]
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring nonexistent directory "/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/../../../../i686-elf/sys-include"]
+        ignore line: [ignoring nonexistent directory "/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/../../../../i686-elf/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include]
+        ignore line: [ /opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/include-fixed]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 7ce520eefe2df57ad3211a6dc34d3efb]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_86e0b.dir/']
+        ignore line: [ /opt/homebrew/opt/i686-elf-binutils/bin/i686-elf-as -v -o CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj /var/folders/z9/7cg2gm3d67s50cxlj7rynb5r0000gn/T//ccE0KP8n.s]
+        ignore line: [GNU assembler version 2.46.0 (i686-elf) using BFD version (GNU Binutils) 2.46.0.20260210]
+        ignore line: [COMPILER_PATH=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/15.2.0/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/15.2.0/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/libexec/gcc/i686-elf/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/:/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/]
+        ignore line: [LIBRARY_PATH=/opt/homebrew/Cellar/i686-elf-gcc/15.2.0/lib/gcc/i686-elf/15.2.0/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro' '-dumpdir' 'CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.']
+        ignore line: [Linking C static library libcmTC_86e0b.a]
+        ignore line: [/opt/local/bin/cmake -P CMakeFiles/cmTC_86e0b.dir/cmake_clean_target.cmake]
+        ignore line: [/opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86e0b.dir/link.txt --verbose=1]
+        ignore line: [/opt/homebrew/bin/i686-elf-ar qc libcmTC_86e0b.a CMakeFiles/cmTC_86e0b.dir/CMakeCCompilerABI.c.obj]
+        ignore line: [/opt/homebrew/bin/i686-elf-ranlib libcmTC_86e0b.a]
+        ignore line: [gmake[1]: Leaving directory '/Users/nico/Documents/OS/build-host/CMakeFiles/CMakeScratch/TryCompile-xgrwlP']
+        ignore line: []
+        ignore line: []
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+...
