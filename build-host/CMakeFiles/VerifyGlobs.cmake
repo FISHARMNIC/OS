@@ -6,8 +6,7 @@ cmake_policy(SET CMP0009 NEW)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/nico/Documents/OS/libs/src/*.c")
 set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/boot/boot.c"
-  "/Users/nico/Documents/OS/libs/src/boot/paging.c"
-  "/Users/nico/Documents/OS/libs/src/boot/privledge.c"
+  "/Users/nico/Documents/OS/libs/src/boot/terminal.c"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c"
   "/Users/nico/Documents/OS/libs/src/graphics/init.c"
   "/Users/nico/Documents/OS/libs/src/graphics/tty.c"
@@ -15,6 +14,9 @@ set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/input/mouse.c"
   "/Users/nico/Documents/OS/libs/src/interrupts/idt.c"
   "/Users/nico/Documents/OS/libs/src/interrupts/pic.c"
+  "/Users/nico/Documents/OS/libs/src/lib/string.c"
+  "/Users/nico/Documents/OS/libs/src/sys/paging.c"
+  "/Users/nico/Documents/OS/libs/src/sys/privledge.c"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

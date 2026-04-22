@@ -1,9 +1,12 @@
 #include <graphics.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <sys/string.h>
 
-static uint32_t tty_col = 0;
-static uint32_t tty_row = 0;
+static uint32_t tty_x = 0;
+static uint32_t tty_y = 0;
 
-static uint32_t tty_columns(void)
+static uint32_t tty_cols(void)
 {
     return graphics_fb_active->width / CHAR_WIDTH;
 }
@@ -22,12 +25,17 @@ void tty_clear(void)
     const uint32_t addr = graphics_fb_active->addr;
     const uint32_t color = graphics_context_default.color_bg;
 
-    for (uint32_t y = 0; y < height; ++y) {
+    for (uint32_t y = 0; y < height; ++y)
+    {
         uint8_t *row = (uint8_t *)(addr + (y * pitch));
-        for (uint32_t x = 0; x < width; ++x) {
-            if (bpp == 32) {
+        for (uint32_t x = 0; x < width; ++x)
+        {
+            if (bpp == 32)
+            {
                 ((uint32_t *)row)[x] = color;
-            } else if (bpp == 16) {
+            }
+            else if (bpp == 16)
+            {
                 ((uint16_t *)row)[x] = (uint16_t)color;
             }
         }
@@ -38,42 +46,56 @@ void tty_clear(void)
 
 void tty_reset(void)
 {
-    tty_col = 0;
-    tty_row = 0;
+    tty_x = 0;
+    tty_y = 0;
 }
 
 static void tty_newline(void)
 {
-    tty_col = 0;
-    tty_row++;
+    tty_x = 0;
+    tty_y++;
 
-    if (tty_row >= tty_rows()) {
+    if (tty_y >= tty_rows())
+    {
         tty_clear();
     }
 }
 
 void tty_putch(char c)
 {
-    if (c == '\n') {
+    if (c == '\n')
+    {
         tty_newline();
         return;
     }
+    else if (c == '\b')
+    {
+        if (tty_x > 0)
+        {
+            tty_x--;
+        }
+        graphics_draw_char((uint8_t)' ', tty_x * CHAR_WIDTH, tty_y * CHAR_HEIGHT, &graphics_context_default);
+        return;
+    }
 
-    if (tty_col >= tty_columns()) {
+    if (tty_x >= tty_cols())
+    {
         tty_newline();
     }
 
-    graphics_draw_char((uint8_t)c, tty_col * CHAR_WIDTH, tty_row * CHAR_HEIGHT, &graphics_context_default);
-    tty_col++;
+    graphics_draw_char((uint8_t)c, tty_x * CHAR_WIDTH, tty_y * CHAR_HEIGHT, &graphics_context_default);
+    tty_x++;
 
-    if (tty_col >= tty_columns()) {
+    if (tty_x >= tty_cols())
+    {
         tty_newline();
     }
 }
 
-void tty_puts(const char* str)
+void tty_puts(const char *str)
 {
-    while (*str != '\0') {
+    while (*str != '\0')
+    {
         tty_putch(*str++);
     }
 }
@@ -84,24 +106,71 @@ void tty_puti(int32_t value)
     uint32_t n;
     uint32_t idx = 0;
 
-    if (value == 0) {
+    if (value == 0)
+    {
         tty_putch('0');
         return;
     }
 
-    if (value < 0) {
+    if (value < 0)
+    {
         tty_putch('-');
         n = (uint32_t)(-(value + 1)) + 1U;
-    } else {
+    }
+    else
+    {
         n = (uint32_t)value;
     }
 
-    while (n > 0U) {
+    while (n > 0U)
+    {
         buf[idx++] = (char)('0' + (n % 10U));
         n /= 10U;
     }
 
-    while (idx > 0U) {
+    while (idx > 0U)
+    {
         tty_putch(buf[--idx]);
     }
+}
+
+void tty_printf(const char *str, ...)
+{
+    va_list args;
+    va_start(args, str);
+
+    uint32_t len = strlen(str);
+    bool fmtspec = false;
+    for (uint32_t i = 0; i < len; i++)
+    {
+        const char ch = str[i];
+        if (fmtspec)
+        {
+            fmtspec = false;
+            switch(ch)
+            {
+                case 'd':
+                    tty_puti(va_arg(args, uint32_t));
+                    break;
+                case 'c':
+                    tty_putch(va_arg(args, uint32_t));
+                    break;
+                case 's':
+                    tty_puts(va_arg(args, char*));
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (ch == '%')
+        {
+            fmtspec = true;
+        }
+        else
+        {
+            tty_putch(ch);
+        }
+    }
+
+    va_end(args);
 }

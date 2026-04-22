@@ -6,6 +6,11 @@ static volatile uint8_t keyboard_sc = 0; // can't cache in keyboard_getch
 volatile event_on_key_fn keyboard_on_press_fn = NULLPTR;
 static const char KEYSET[128] = "`^1234567890-=\b\tqwertyuiop[]\\ asdfghjkl;'\n  zxcvbnm,./      ~!@#$%^&*()_+  QWERTYUIOP{}| ASDFGHJKL:\"   ZXCVBNM<>?";
 
+void keyboard_init()
+{
+    // keyboard_get_keycode(); // load out first char
+}
+
 void keyboard_handler(regs32_t r)
 {
     keyboard_sc = inb(KEYBOARD_PORT);
@@ -46,8 +51,8 @@ char keyboard_getch()
 
 void keyboard_gets(char *buffer, uint32_t len)
 {
-    event_on_key_fn onk = keyboard_on_press_fn; // destroy event handler to prioritize stdio
-    keyboard_on_press_fn = NULLPTR;
+    // event_on_key_fn onk = keyboard_on_press_fn; // destroy event handler to prioritize stdio
+    // keyboard_on_press_fn = NULLPTR;
 
     uint32_t index = 0;
 
@@ -83,6 +88,6 @@ void keyboard_gets(char *buffer, uint32_t len)
 
     buffer[index] = 0;
 
-    keyboard_on_press_fn = onk;
+    // keyboard_on_press_fn = onk;
     return;
 }

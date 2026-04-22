@@ -35,6 +35,7 @@ void postboot_init(multiboot_info_t* mbi)
 
     // Enable mouse streaming
     mouse_init();
+    keyboard_init();
 
     interrupts_enable();
 

@@ -36,4 +36,6 @@ typedef struct __attribute__((packed)) {
 
 void postboot_init(multiboot_info_t* mbi);
 
+void terminal();
+
 #endif

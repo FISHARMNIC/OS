@@ -59,4 +59,6 @@ void tty_putch(char c);
 void tty_puts(const char* str);
 void tty_puti(int32_t value);
 
+void tty_printf(const char *str, ...);
+
 #endif

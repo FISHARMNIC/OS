@@ -186,53 +186,29 @@ libs/src/boot/boot.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/boot.c.s
 .PHONY : libs/src/boot/boot.c.s
 
-libs/src/boot/paging.obj: libs/src/boot/paging.c.obj
-.PHONY : libs/src/boot/paging.obj
+libs/src/boot/terminal.obj: libs/src/boot/terminal.c.obj
+.PHONY : libs/src/boot/terminal.obj
 
 # target to build an object file
-libs/src/boot/paging.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/paging.c.obj
-.PHONY : libs/src/boot/paging.c.obj
+libs/src/boot/terminal.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/terminal.c.obj
+.PHONY : libs/src/boot/terminal.c.obj
 
-libs/src/boot/paging.i: libs/src/boot/paging.c.i
-.PHONY : libs/src/boot/paging.i
-
-# target to preprocess a source file
-libs/src/boot/paging.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/paging.c.i
-.PHONY : libs/src/boot/paging.c.i
-
-libs/src/boot/paging.s: libs/src/boot/paging.c.s
-.PHONY : libs/src/boot/paging.s
-
-# target to generate assembly for a file
-libs/src/boot/paging.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/paging.c.s
-.PHONY : libs/src/boot/paging.c.s
-
-libs/src/boot/privledge.obj: libs/src/boot/privledge.c.obj
-.PHONY : libs/src/boot/privledge.obj
-
-# target to build an object file
-libs/src/boot/privledge.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/privledge.c.obj
-.PHONY : libs/src/boot/privledge.c.obj
-
-libs/src/boot/privledge.i: libs/src/boot/privledge.c.i
-.PHONY : libs/src/boot/privledge.i
+libs/src/boot/terminal.i: libs/src/boot/terminal.c.i
+.PHONY : libs/src/boot/terminal.i
 
 # target to preprocess a source file
-libs/src/boot/privledge.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/privledge.c.i
-.PHONY : libs/src/boot/privledge.c.i
+libs/src/boot/terminal.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/terminal.c.i
+.PHONY : libs/src/boot/terminal.c.i
 
-libs/src/boot/privledge.s: libs/src/boot/privledge.c.s
-.PHONY : libs/src/boot/privledge.s
+libs/src/boot/terminal.s: libs/src/boot/terminal.c.s
+.PHONY : libs/src/boot/terminal.s
 
 # target to generate assembly for a file
-libs/src/boot/privledge.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/privledge.c.s
-.PHONY : libs/src/boot/privledge.c.s
+libs/src/boot/terminal.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/terminal.c.s
+.PHONY : libs/src/boot/terminal.c.s
 
 libs/src/graphics/draw.obj: libs/src/graphics/draw.c.obj
 .PHONY : libs/src/graphics/draw.obj
@@ -402,6 +378,78 @@ libs/src/interrupts/pic.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.s
 .PHONY : libs/src/interrupts/pic.c.s
 
+libs/src/lib/string.obj: libs/src/lib/string.c.obj
+.PHONY : libs/src/lib/string.obj
+
+# target to build an object file
+libs/src/lib/string.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/lib/string.c.obj
+.PHONY : libs/src/lib/string.c.obj
+
+libs/src/lib/string.i: libs/src/lib/string.c.i
+.PHONY : libs/src/lib/string.i
+
+# target to preprocess a source file
+libs/src/lib/string.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/lib/string.c.i
+.PHONY : libs/src/lib/string.c.i
+
+libs/src/lib/string.s: libs/src/lib/string.c.s
+.PHONY : libs/src/lib/string.s
+
+# target to generate assembly for a file
+libs/src/lib/string.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/lib/string.c.s
+.PHONY : libs/src/lib/string.c.s
+
+libs/src/sys/paging.obj: libs/src/sys/paging.c.obj
+.PHONY : libs/src/sys/paging.obj
+
+# target to build an object file
+libs/src/sys/paging.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/paging.c.obj
+.PHONY : libs/src/sys/paging.c.obj
+
+libs/src/sys/paging.i: libs/src/sys/paging.c.i
+.PHONY : libs/src/sys/paging.i
+
+# target to preprocess a source file
+libs/src/sys/paging.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/paging.c.i
+.PHONY : libs/src/sys/paging.c.i
+
+libs/src/sys/paging.s: libs/src/sys/paging.c.s
+.PHONY : libs/src/sys/paging.s
+
+# target to generate assembly for a file
+libs/src/sys/paging.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/paging.c.s
+.PHONY : libs/src/sys/paging.c.s
+
+libs/src/sys/privledge.obj: libs/src/sys/privledge.c.obj
+.PHONY : libs/src/sys/privledge.obj
+
+# target to build an object file
+libs/src/sys/privledge.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/privledge.c.obj
+.PHONY : libs/src/sys/privledge.c.obj
+
+libs/src/sys/privledge.i: libs/src/sys/privledge.c.i
+.PHONY : libs/src/sys/privledge.i
+
+# target to preprocess a source file
+libs/src/sys/privledge.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/privledge.c.i
+.PHONY : libs/src/sys/privledge.c.i
+
+libs/src/sys/privledge.s: libs/src/sys/privledge.c.s
+.PHONY : libs/src/sys/privledge.s
+
+# target to generate assembly for a file
+libs/src/sys/privledge.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/privledge.c.s
+.PHONY : libs/src/sys/privledge.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -418,12 +466,9 @@ help:
 	@echo "... libs/src/boot/boot.obj"
 	@echo "... libs/src/boot/boot.i"
 	@echo "... libs/src/boot/boot.s"
-	@echo "... libs/src/boot/paging.obj"
-	@echo "... libs/src/boot/paging.i"
-	@echo "... libs/src/boot/paging.s"
-	@echo "... libs/src/boot/privledge.obj"
-	@echo "... libs/src/boot/privledge.i"
-	@echo "... libs/src/boot/privledge.s"
+	@echo "... libs/src/boot/terminal.obj"
+	@echo "... libs/src/boot/terminal.i"
+	@echo "... libs/src/boot/terminal.s"
 	@echo "... libs/src/graphics/draw.obj"
 	@echo "... libs/src/graphics/draw.i"
 	@echo "... libs/src/graphics/draw.s"
@@ -445,6 +490,15 @@ help:
 	@echo "... libs/src/interrupts/pic.obj"
 	@echo "... libs/src/interrupts/pic.i"
 	@echo "... libs/src/interrupts/pic.s"
+	@echo "... libs/src/lib/string.obj"
+	@echo "... libs/src/lib/string.i"
+	@echo "... libs/src/lib/string.s"
+	@echo "... libs/src/sys/paging.obj"
+	@echo "... libs/src/sys/paging.i"
+	@echo "... libs/src/sys/paging.s"
+	@echo "... libs/src/sys/privledge.obj"
+	@echo "... libs/src/sys/privledge.i"
+	@echo "... libs/src/sys/privledge.s"
 .PHONY : help
 
 
