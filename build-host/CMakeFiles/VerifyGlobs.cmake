@@ -8,6 +8,9 @@ set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/boot/boot.c"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c"
   "/Users/nico/Documents/OS/libs/src/graphics/init.c"
+  "/Users/nico/Documents/OS/libs/src/input/mouse.c"
+  "/Users/nico/Documents/OS/libs/src/interrupts/idt.c"
+  "/Users/nico/Documents/OS/libs/src/interrupts/pic.c"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

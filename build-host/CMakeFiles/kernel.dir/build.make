@@ -146,13 +146,58 @@ CMakeFiles/kernel.dir/libs/src/graphics/init.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/kernel.dir/libs/src/graphics/init.c.s"
 	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/nico/Documents/OS/libs/src/graphics/init.c -o CMakeFiles/kernel.dir/libs/src/graphics/init.c.s
 
+CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj: CMakeFiles/kernel.dir/flags.make
+CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj: /Users/nico/Documents/OS/libs/src/input/mouse.c
+CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj: CMakeFiles/kernel.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nico/Documents/OS/build-host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj -MF CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj.d -o CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj -c /Users/nico/Documents/OS/libs/src/input/mouse.c
+
+CMakeFiles/kernel.dir/libs/src/input/mouse.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/kernel.dir/libs/src/input/mouse.c.i"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/nico/Documents/OS/libs/src/input/mouse.c > CMakeFiles/kernel.dir/libs/src/input/mouse.c.i
+
+CMakeFiles/kernel.dir/libs/src/input/mouse.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/kernel.dir/libs/src/input/mouse.c.s"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/nico/Documents/OS/libs/src/input/mouse.c -o CMakeFiles/kernel.dir/libs/src/input/mouse.c.s
+
+CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj: CMakeFiles/kernel.dir/flags.make
+CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj: /Users/nico/Documents/OS/libs/src/interrupts/idt.c
+CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj: CMakeFiles/kernel.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nico/Documents/OS/build-host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj -MF CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj.d -o CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj -c /Users/nico/Documents/OS/libs/src/interrupts/idt.c
+
+CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.i"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/nico/Documents/OS/libs/src/interrupts/idt.c > CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.i
+
+CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.s"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/nico/Documents/OS/libs/src/interrupts/idt.c -o CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.s
+
+CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj: CMakeFiles/kernel.dir/flags.make
+CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj: /Users/nico/Documents/OS/libs/src/interrupts/pic.c
+CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj: CMakeFiles/kernel.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/nico/Documents/OS/build-host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj -MF CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj.d -o CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj -c /Users/nico/Documents/OS/libs/src/interrupts/pic.c
+
+CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.i"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/nico/Documents/OS/libs/src/interrupts/pic.c > CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.i
+
+CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.s"
+	/opt/homebrew/bin/i686-elf-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/nico/Documents/OS/libs/src/interrupts/pic.c -o CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.s
+
 # Object files for target kernel
 kernel_OBJECTS = \
 "CMakeFiles/kernel.dir/boot/boot.S.obj" \
 "CMakeFiles/kernel.dir/kernel/main.c.obj" \
 "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj" \
 "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj" \
-"CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj"
+"CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj" \
+"CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj" \
+"CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj" \
+"CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj"
 
 # External object files for target kernel
 kernel_EXTERNAL_OBJECTS = \
@@ -163,11 +208,14 @@ compiled/MyOS.bin: CMakeFiles/kernel.dir/kernel/main.c.obj
 compiled/MyOS.bin: CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj
 compiled/MyOS.bin: CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj
 compiled/MyOS.bin: CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj
+compiled/MyOS.bin: CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj
+compiled/MyOS.bin: CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj
+compiled/MyOS.bin: CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj
 compiled/MyOS.bin: FONT.F16.o
 compiled/MyOS.bin: CMakeFiles/kernel.dir/build.make
 compiled/MyOS.bin: /Users/nico/Documents/OS/boot/linker.ld
 compiled/MyOS.bin: CMakeFiles/kernel.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/nico/Documents/OS/build-host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C executable compiled/MyOS.bin"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/nico/Documents/OS/build-host/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking C executable compiled/MyOS.bin"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/kernel.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -1,5 +1,5 @@
-#ifndef GRAPHICS_DRAW_H
-#define GRAPHICS_DRAW_H
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 #include <stdint.h>
 #include <boot.h>

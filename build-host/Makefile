@@ -234,6 +234,78 @@ libs/src/graphics/init.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/init.c.s
 .PHONY : libs/src/graphics/init.c.s
 
+libs/src/input/mouse.obj: libs/src/input/mouse.c.obj
+.PHONY : libs/src/input/mouse.obj
+
+# target to build an object file
+libs/src/input/mouse.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj
+.PHONY : libs/src/input/mouse.c.obj
+
+libs/src/input/mouse.i: libs/src/input/mouse.c.i
+.PHONY : libs/src/input/mouse.i
+
+# target to preprocess a source file
+libs/src/input/mouse.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/input/mouse.c.i
+.PHONY : libs/src/input/mouse.c.i
+
+libs/src/input/mouse.s: libs/src/input/mouse.c.s
+.PHONY : libs/src/input/mouse.s
+
+# target to generate assembly for a file
+libs/src/input/mouse.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/input/mouse.c.s
+.PHONY : libs/src/input/mouse.c.s
+
+libs/src/interrupts/idt.obj: libs/src/interrupts/idt.c.obj
+.PHONY : libs/src/interrupts/idt.obj
+
+# target to build an object file
+libs/src/interrupts/idt.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj
+.PHONY : libs/src/interrupts/idt.c.obj
+
+libs/src/interrupts/idt.i: libs/src/interrupts/idt.c.i
+.PHONY : libs/src/interrupts/idt.i
+
+# target to preprocess a source file
+libs/src/interrupts/idt.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.i
+.PHONY : libs/src/interrupts/idt.c.i
+
+libs/src/interrupts/idt.s: libs/src/interrupts/idt.c.s
+.PHONY : libs/src/interrupts/idt.s
+
+# target to generate assembly for a file
+libs/src/interrupts/idt.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.s
+.PHONY : libs/src/interrupts/idt.c.s
+
+libs/src/interrupts/pic.obj: libs/src/interrupts/pic.c.obj
+.PHONY : libs/src/interrupts/pic.obj
+
+# target to build an object file
+libs/src/interrupts/pic.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj
+.PHONY : libs/src/interrupts/pic.c.obj
+
+libs/src/interrupts/pic.i: libs/src/interrupts/pic.c.i
+.PHONY : libs/src/interrupts/pic.i
+
+# target to preprocess a source file
+libs/src/interrupts/pic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.i
+.PHONY : libs/src/interrupts/pic.c.i
+
+libs/src/interrupts/pic.s: libs/src/interrupts/pic.c.s
+.PHONY : libs/src/interrupts/pic.s
+
+# target to generate assembly for a file
+libs/src/interrupts/pic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.s
+.PHONY : libs/src/interrupts/pic.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -256,6 +328,15 @@ help:
 	@echo "... libs/src/graphics/init.obj"
 	@echo "... libs/src/graphics/init.i"
 	@echo "... libs/src/graphics/init.s"
+	@echo "... libs/src/input/mouse.obj"
+	@echo "... libs/src/input/mouse.i"
+	@echo "... libs/src/input/mouse.s"
+	@echo "... libs/src/interrupts/idt.obj"
+	@echo "... libs/src/interrupts/idt.i"
+	@echo "... libs/src/interrupts/idt.s"
+	@echo "... libs/src/interrupts/pic.obj"
+	@echo "... libs/src/interrupts/pic.i"
+	@echo "... libs/src/interrupts/pic.s"
 .PHONY : help
 
 

@@ -23,6 +23,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/nico/Documents/OS/libs/src/boot/boot.c" "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c" "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/init.c" "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/input/mouse.c" "CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/interrupts/idt.c" "CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/interrupts/idt.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/interrupts/pic.c" "CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
