@@ -282,6 +282,54 @@ libs/src/graphics/init.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/init.c.s
 .PHONY : libs/src/graphics/init.c.s
 
+libs/src/graphics/tty.obj: libs/src/graphics/tty.c.obj
+.PHONY : libs/src/graphics/tty.obj
+
+# target to build an object file
+libs/src/graphics/tty.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/tty.c.obj
+.PHONY : libs/src/graphics/tty.c.obj
+
+libs/src/graphics/tty.i: libs/src/graphics/tty.c.i
+.PHONY : libs/src/graphics/tty.i
+
+# target to preprocess a source file
+libs/src/graphics/tty.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/tty.c.i
+.PHONY : libs/src/graphics/tty.c.i
+
+libs/src/graphics/tty.s: libs/src/graphics/tty.c.s
+.PHONY : libs/src/graphics/tty.s
+
+# target to generate assembly for a file
+libs/src/graphics/tty.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/tty.c.s
+.PHONY : libs/src/graphics/tty.c.s
+
+libs/src/input/keyboard.obj: libs/src/input/keyboard.c.obj
+.PHONY : libs/src/input/keyboard.obj
+
+# target to build an object file
+libs/src/input/keyboard.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/input/keyboard.c.obj
+.PHONY : libs/src/input/keyboard.c.obj
+
+libs/src/input/keyboard.i: libs/src/input/keyboard.c.i
+.PHONY : libs/src/input/keyboard.i
+
+# target to preprocess a source file
+libs/src/input/keyboard.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/input/keyboard.c.i
+.PHONY : libs/src/input/keyboard.c.i
+
+libs/src/input/keyboard.s: libs/src/input/keyboard.c.s
+.PHONY : libs/src/input/keyboard.s
+
+# target to generate assembly for a file
+libs/src/input/keyboard.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/input/keyboard.c.s
+.PHONY : libs/src/input/keyboard.c.s
+
 libs/src/input/mouse.obj: libs/src/input/mouse.c.obj
 .PHONY : libs/src/input/mouse.obj
 
@@ -382,6 +430,12 @@ help:
 	@echo "... libs/src/graphics/init.obj"
 	@echo "... libs/src/graphics/init.i"
 	@echo "... libs/src/graphics/init.s"
+	@echo "... libs/src/graphics/tty.obj"
+	@echo "... libs/src/graphics/tty.i"
+	@echo "... libs/src/graphics/tty.s"
+	@echo "... libs/src/input/keyboard.obj"
+	@echo "... libs/src/input/keyboard.i"
+	@echo "... libs/src/input/keyboard.s"
 	@echo "... libs/src/input/mouse.obj"
 	@echo "... libs/src/input/mouse.i"
 	@echo "... libs/src/input/mouse.s"

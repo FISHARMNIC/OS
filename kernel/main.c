@@ -2,14 +2,23 @@
 
 #include <boot.h>
 #include <graphics.h>
+#include <keyboard.h>
+
+void drawch(uint8_t c)
+{
+    tty_putch(keyboard_keycode_to_char(c));
+}
 
 void kernel_entry(multiboot_info_t* mbi)
 {
     postboot_init(mbi);
 
-    graphics_draw_string("Booted", 0, 0, &graphics_context_default);
+    tty_puts("Booted!\n");
 
+    keyboard_on_press_fn = drawch;
+
+    // char buff[100];
     for (;;) {
-        __asm__ volatile("hlt");
+        // keyboard_gets(buff, sizeof(buff));
     }
 }

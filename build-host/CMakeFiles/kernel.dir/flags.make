@@ -7,11 +7,11 @@ ASM_DEFINES =
 
 ASM_INCLUDES = -I/Users/nico/Documents/OS/libs/inc
 
-ASM_FLAGS = -m32 -ffreestanding -fno-pic -fno-pie -fno-stack-protector -Wall -Wextra -Werror
+ASM_FLAGS = -m32 -ffreestanding -fno-pic -fno-pie -fno-stack-protector -Wall -Wextra -Werror -Wno-unused-parameter
 
 C_DEFINES = 
 
 C_INCLUDES = -I/Users/nico/Documents/OS/libs/inc
 
-C_FLAGS = -m32 -ffreestanding -fno-pic -fno-pie -fno-stack-protector -Wall -Wextra -Werror
+C_FLAGS = -m32 -ffreestanding -fno-pic -fno-pie -fno-stack-protector -Wall -Wextra -Werror -Wno-unused-parameter
 

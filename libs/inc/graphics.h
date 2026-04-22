@@ -53,4 +53,10 @@ void graphics_init_context(graphics_context_t* context, framebuffer_t* fb, const
 void graphics_draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_context_t* ctx);
 void graphics_draw_string(char* string, uint32_t x, uint32_t y, graphics_context_t* ctx);
 
+void tty_clear(void);
+void tty_reset(void);
+void tty_putch(char c);
+void tty_puts(const char* str);
+void tty_puti(int32_t value);
+
 #endif

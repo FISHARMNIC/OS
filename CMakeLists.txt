@@ -69,6 +69,7 @@ target_compile_options(${KERNEL_TARGET} PRIVATE
     -Wall
     -Wextra
     -Werror
+    -Wno-unused-parameter
 )
 
 target_link_options(${KERNEL_TARGET} PRIVATE
