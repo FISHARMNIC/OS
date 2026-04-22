@@ -21,6 +21,8 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/nico/Documents/OS/kernel/main.c" "CMakeFiles/kernel.dir/kernel/main.c.obj" "gcc" "CMakeFiles/kernel.dir/kernel/main.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/boot/boot.c" "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/boot/paging.c" "CMakeFiles/kernel.dir/libs/src/boot/paging.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/paging.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/boot/privledge.c" "CMakeFiles/kernel.dir/libs/src/boot/privledge.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/privledge.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c" "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/init.c" "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/input/mouse.c" "CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/input/mouse.c.obj.d"

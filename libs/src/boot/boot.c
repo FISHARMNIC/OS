@@ -2,9 +2,12 @@
 #include <boot.h>
 #include <interrupts.h>
 #include <mouse.h>
+#include <paging.h>
 
 void postboot_init(multiboot_info_t* mbi)
 {
+    paging_init();
+
     // Setup default framebuffer
     graphics_init_fb(&graphics_fb_default, mbi);
     graphics_fb_active = &graphics_fb_default;

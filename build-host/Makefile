@@ -186,6 +186,54 @@ libs/src/boot/boot.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/boot.c.s
 .PHONY : libs/src/boot/boot.c.s
 
+libs/src/boot/paging.obj: libs/src/boot/paging.c.obj
+.PHONY : libs/src/boot/paging.obj
+
+# target to build an object file
+libs/src/boot/paging.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/paging.c.obj
+.PHONY : libs/src/boot/paging.c.obj
+
+libs/src/boot/paging.i: libs/src/boot/paging.c.i
+.PHONY : libs/src/boot/paging.i
+
+# target to preprocess a source file
+libs/src/boot/paging.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/paging.c.i
+.PHONY : libs/src/boot/paging.c.i
+
+libs/src/boot/paging.s: libs/src/boot/paging.c.s
+.PHONY : libs/src/boot/paging.s
+
+# target to generate assembly for a file
+libs/src/boot/paging.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/paging.c.s
+.PHONY : libs/src/boot/paging.c.s
+
+libs/src/boot/privledge.obj: libs/src/boot/privledge.c.obj
+.PHONY : libs/src/boot/privledge.obj
+
+# target to build an object file
+libs/src/boot/privledge.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/privledge.c.obj
+.PHONY : libs/src/boot/privledge.c.obj
+
+libs/src/boot/privledge.i: libs/src/boot/privledge.c.i
+.PHONY : libs/src/boot/privledge.i
+
+# target to preprocess a source file
+libs/src/boot/privledge.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/privledge.c.i
+.PHONY : libs/src/boot/privledge.c.i
+
+libs/src/boot/privledge.s: libs/src/boot/privledge.c.s
+.PHONY : libs/src/boot/privledge.s
+
+# target to generate assembly for a file
+libs/src/boot/privledge.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/privledge.c.s
+.PHONY : libs/src/boot/privledge.c.s
+
 libs/src/graphics/draw.obj: libs/src/graphics/draw.c.obj
 .PHONY : libs/src/graphics/draw.obj
 
@@ -322,6 +370,12 @@ help:
 	@echo "... libs/src/boot/boot.obj"
 	@echo "... libs/src/boot/boot.i"
 	@echo "... libs/src/boot/boot.s"
+	@echo "... libs/src/boot/paging.obj"
+	@echo "... libs/src/boot/paging.i"
+	@echo "... libs/src/boot/paging.s"
+	@echo "... libs/src/boot/privledge.obj"
+	@echo "... libs/src/boot/privledge.i"
+	@echo "... libs/src/boot/privledge.s"
 	@echo "... libs/src/graphics/draw.obj"
 	@echo "... libs/src/graphics/draw.i"
 	@echo "... libs/src/graphics/draw.s"

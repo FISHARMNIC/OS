@@ -39,14 +39,14 @@ static void mouse_handle_move(int8_t dx, int8_t dy)
 
     if (mouse_x < 0) {
         mouse_x = 0;
-    } else if (mouse_x >= (int32_t)graphics_fb_active->width - CHAR_WIDTH) {
-        mouse_x = (int32_t)graphics_fb_active->width - CHAR_WIDTH - 1;
+    } else if (mouse_x >= (int32_t)(graphics_fb_active->width - CHAR_WIDTH)) {
+        mouse_x = graphics_fb_active->width - CHAR_WIDTH - 1;
     }
 
     if (mouse_y < 0) {
         mouse_y = 0;
-    } else if (mouse_y >= (int32_t)graphics_fb_active->height - CHAR_HEIGHT) {
-        mouse_y = (int32_t)graphics_fb_active->height - CHAR_HEIGHT - 1;
+    } else if (mouse_y >= (int32_t)(graphics_fb_active->height - CHAR_HEIGHT)) {
+        mouse_y = graphics_fb_active->height - CHAR_HEIGHT - 1;
     }
 
     if (mouse_on_move_fn != NULLPTR)
@@ -108,12 +108,6 @@ static void mouse_wait(uint8_t a_type)
     }
 }
 
-static uint8_t mouse_read()
-{
-    mouse_wait(0);
-    return inb(MOUSE_PORT_1);
-}
-
 static void mouse_write(uint8_t a_write)
 {
     mouse_wait(1);
@@ -124,7 +118,8 @@ static void mouse_write(uint8_t a_write)
 
 mouse_existence_t mouse_detect()
 {
-    uint8_t tmp = mouse_read();
+    mouse_wait(0);
+    uint8_t tmp = inb(MOUSE_PORT_1);
 
     if (tmp != MOUSE_ACK)
         return NO_MOUSE;

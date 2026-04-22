@@ -34,7 +34,7 @@ stack_top:
 .global isr_exception_type
 isr_exception_type: .byte 0
 
-.global gdt_start, gdt_code, _CODE_SEG
+.global gdt_start, gdt_code, _CODE_SEG, _DATA_SEG, _USER_CODE_SEG, _USER_DATA_SEG
 gdt_start:
     .long 0x00000000
     .long 0x00000000
@@ -42,12 +42,22 @@ gdt_code:
     .byte 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x9A, 0xCF, 0x00
 gdt_data:
     .byte 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x92, 0xCF, 0x00
+gdt_user_code:
+    .byte 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFA, 0xCF, 0x00
+gdt_user_data:
+    .byte 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xF2, 0xCF, 0x00
 gdt_end:
 gdt_descriptor:
     .word gdt_end - gdt_start - 1
     .long gdt_start
 _CODE_SEG:
     .long gdt_code - gdt_start
+_DATA_SEG:
+    .long gdt_data - gdt_start
+_USER_CODE_SEG:
+    .long gdt_user_code - gdt_start
+_USER_DATA_SEG:
+    .long gdt_user_data - gdt_start
 
 .section .text
 .global _start
