@@ -34,8 +34,9 @@ typedef struct __attribute__((packed)) {
     uint8_t color_info[6];
 } multiboot_info_t;
 
-void postboot_init(multiboot_info_t* mbi);
+uint32_t postboot_init(multiboot_info_t* mbi);
 
 void terminal();
+void fattest();
 
 #endif

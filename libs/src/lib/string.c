@@ -20,3 +20,25 @@ uint32_t strcmp(const char* s1, const char* s2)
     }
     return *s1 - *s2;
 }
+
+void* memcpy(void* dest, const void* src, uint32_t size) {
+    
+    uint8_t* d = (uint8_t*)dest;
+    const uint8_t* s = (const uint8_t*)src;
+
+    for (uint32_t i = 0; i < size; i++) {
+        d[i] = s[i];
+    }
+
+    return dest;
+}
+
+void* memset(void* dest, const uint8_t src, uint32_t size) {
+    uint8_t* d = (uint8_t*)dest;
+
+    for (uint32_t i = 0; i < size; i++) {
+        d[i] = src;
+    }
+
+    return dest;
+}

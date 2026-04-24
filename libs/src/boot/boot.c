@@ -4,8 +4,10 @@
 #include <mouse.h>
 #include <paging.h>
 #include <keyboard.h>
+#include <fat.h>
+#include <disk.h>
 
-void postboot_init(multiboot_info_t* mbi)
+uint32_t postboot_init(multiboot_info_t* mbi)
 {
     paging_init();
 
@@ -39,5 +41,25 @@ void postboot_init(multiboot_info_t* mbi)
 
     interrupts_enable();
 
-    tty_puts("... Interrupts enabled\n");
+    tty_puts("... Interrupts enabled\n... Enabling disk\n");
+
+    uint32_t resp = ata_send_identify(NULLPTR); 
+    if(resp)
+    {
+        return 1;
+    }
+
+    tty_puts("... Disk Ready\n... Setting up FAT\n");
+
+    resp = fat32_init();
+    if (resp)
+    {
+        return 1;
+    }
+
+    tty_puts("... FAT Ready\n");
+
+
+
+    return 0;
 }

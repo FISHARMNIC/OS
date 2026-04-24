@@ -68,6 +68,11 @@ void tty_putch(char c)
         tty_newline();
         return;
     }
+    else if(c == '\t')
+    {
+        tty_puts("  ");
+        return;
+    }
     else if (c == '\b')
     {
         if (tty_x > 0)

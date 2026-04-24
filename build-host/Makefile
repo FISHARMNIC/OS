@@ -186,6 +186,30 @@ libs/src/boot/boot.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/boot.c.s
 .PHONY : libs/src/boot/boot.c.s
 
+libs/src/boot/fattest.obj: libs/src/boot/fattest.c.obj
+.PHONY : libs/src/boot/fattest.obj
+
+# target to build an object file
+libs/src/boot/fattest.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/fattest.c.obj
+.PHONY : libs/src/boot/fattest.c.obj
+
+libs/src/boot/fattest.i: libs/src/boot/fattest.c.i
+.PHONY : libs/src/boot/fattest.i
+
+# target to preprocess a source file
+libs/src/boot/fattest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/fattest.c.i
+.PHONY : libs/src/boot/fattest.c.i
+
+libs/src/boot/fattest.s: libs/src/boot/fattest.c.s
+.PHONY : libs/src/boot/fattest.s
+
+# target to generate assembly for a file
+libs/src/boot/fattest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/fattest.c.s
+.PHONY : libs/src/boot/fattest.c.s
+
 libs/src/boot/terminal.obj: libs/src/boot/terminal.c.obj
 .PHONY : libs/src/boot/terminal.obj
 
@@ -209,6 +233,78 @@ libs/src/boot/terminal.s: libs/src/boot/terminal.c.s
 libs/src/boot/terminal.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/terminal.c.s
 .PHONY : libs/src/boot/terminal.c.s
+
+libs/src/disk/ata.obj: libs/src/disk/ata.c.obj
+.PHONY : libs/src/disk/ata.obj
+
+# target to build an object file
+libs/src/disk/ata.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/ata.c.obj
+.PHONY : libs/src/disk/ata.c.obj
+
+libs/src/disk/ata.i: libs/src/disk/ata.c.i
+.PHONY : libs/src/disk/ata.i
+
+# target to preprocess a source file
+libs/src/disk/ata.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/ata.c.i
+.PHONY : libs/src/disk/ata.c.i
+
+libs/src/disk/ata.s: libs/src/disk/ata.c.s
+.PHONY : libs/src/disk/ata.s
+
+# target to generate assembly for a file
+libs/src/disk/ata.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/ata.c.s
+.PHONY : libs/src/disk/ata.c.s
+
+libs/src/disk/fat.obj: libs/src/disk/fat.c.obj
+.PHONY : libs/src/disk/fat.obj
+
+# target to build an object file
+libs/src/disk/fat.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/fat.c.obj
+.PHONY : libs/src/disk/fat.c.obj
+
+libs/src/disk/fat.i: libs/src/disk/fat.c.i
+.PHONY : libs/src/disk/fat.i
+
+# target to preprocess a source file
+libs/src/disk/fat.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/fat.c.i
+.PHONY : libs/src/disk/fat.c.i
+
+libs/src/disk/fat.s: libs/src/disk/fat.c.s
+.PHONY : libs/src/disk/fat.s
+
+# target to generate assembly for a file
+libs/src/disk/fat.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/fat.c.s
+.PHONY : libs/src/disk/fat.c.s
+
+libs/src/disk/files.obj: libs/src/disk/files.c.obj
+.PHONY : libs/src/disk/files.obj
+
+# target to build an object file
+libs/src/disk/files.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/files.c.obj
+.PHONY : libs/src/disk/files.c.obj
+
+libs/src/disk/files.i: libs/src/disk/files.c.i
+.PHONY : libs/src/disk/files.i
+
+# target to preprocess a source file
+libs/src/disk/files.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/files.c.i
+.PHONY : libs/src/disk/files.c.i
+
+libs/src/disk/files.s: libs/src/disk/files.c.s
+.PHONY : libs/src/disk/files.s
+
+# target to generate assembly for a file
+libs/src/disk/files.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/files.c.s
+.PHONY : libs/src/disk/files.c.s
 
 libs/src/graphics/draw.obj: libs/src/graphics/draw.c.obj
 .PHONY : libs/src/graphics/draw.obj
@@ -466,9 +562,21 @@ help:
 	@echo "... libs/src/boot/boot.obj"
 	@echo "... libs/src/boot/boot.i"
 	@echo "... libs/src/boot/boot.s"
+	@echo "... libs/src/boot/fattest.obj"
+	@echo "... libs/src/boot/fattest.i"
+	@echo "... libs/src/boot/fattest.s"
 	@echo "... libs/src/boot/terminal.obj"
 	@echo "... libs/src/boot/terminal.i"
 	@echo "... libs/src/boot/terminal.s"
+	@echo "... libs/src/disk/ata.obj"
+	@echo "... libs/src/disk/ata.i"
+	@echo "... libs/src/disk/ata.s"
+	@echo "... libs/src/disk/fat.obj"
+	@echo "... libs/src/disk/fat.i"
+	@echo "... libs/src/disk/fat.s"
+	@echo "... libs/src/disk/files.obj"
+	@echo "... libs/src/disk/files.i"
+	@echo "... libs/src/disk/files.s"
 	@echo "... libs/src/graphics/draw.obj"
 	@echo "... libs/src/graphics/draw.i"
 	@echo "... libs/src/graphics/draw.s"

@@ -6,9 +6,17 @@
 
 void kernel_entry(multiboot_info_t* mbi)
 {
-    postboot_init(mbi);
+    uint32_t pb_failiure = postboot_init(mbi);
+    if(pb_failiure)
+    {
+        tty_puts("-- POST BOOT FAILED --");
+        asm volatile("cli; hlt;");
+    }
 
     tty_puts("Booted!\n");
 
-    terminal();
+    // terminal();
+    fattest();
+
+    asm volatile("cli; hlt;");
 }

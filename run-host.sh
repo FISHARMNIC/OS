@@ -194,5 +194,11 @@ info "[3/4] FAT32 disk ready: ${DISK_IMG}"
 
 [[ "${NO_QEMU}" == "1" ]] && { info "[4/4] Skipping QEMU."; exit 0; }
 
+info "[4/4] FAT32 filesystem tree:"
+M mdir -/ z:/
+
 info "[4/4] Launching QEMU..."
-exec "${QEMU}" -machine pc -drive file="${DISK_IMG}",index=0,media=disk,format=raw
+exec "${QEMU}" \
+  -machine pc \
+  -drive file="${DISK_IMG}",index=0,media=disk,format=raw \
+  -display cocoa,zoom-to-fit=on

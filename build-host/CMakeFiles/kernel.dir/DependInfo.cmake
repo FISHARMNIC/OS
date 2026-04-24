@@ -21,7 +21,11 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/nico/Documents/OS/kernel/main.c" "CMakeFiles/kernel.dir/kernel/main.c.obj" "gcc" "CMakeFiles/kernel.dir/kernel/main.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/boot/boot.c" "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/boot.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/boot/fattest.c" "CMakeFiles/kernel.dir/libs/src/boot/fattest.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/fattest.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/boot/terminal.c" "CMakeFiles/kernel.dir/libs/src/boot/terminal.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/boot/terminal.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/disk/ata.c" "CMakeFiles/kernel.dir/libs/src/disk/ata.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/disk/ata.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/disk/fat.c" "CMakeFiles/kernel.dir/libs/src/disk/fat.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/disk/fat.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/disk/files.c" "CMakeFiles/kernel.dir/libs/src/disk/files.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/disk/files.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c" "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/init.c" "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/graphics/tty.c" "CMakeFiles/kernel.dir/libs/src/graphics/tty.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/graphics/tty.c.obj.d"
