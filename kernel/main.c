@@ -16,7 +16,8 @@ void kernel_entry(multiboot_info_t* mbi)
     tty_puts("Booted!\n");
 
     // terminal();
-    fattest();
+    // fattest();
+    elftest();
 
     asm volatile("cli; hlt;");
 }

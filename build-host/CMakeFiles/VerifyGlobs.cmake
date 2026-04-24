@@ -6,9 +6,11 @@ cmake_policy(SET CMP0009 NEW)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/Users/nico/Documents/OS/libs/src/*.c")
 set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/boot/boot.c"
+  "/Users/nico/Documents/OS/libs/src/boot/elftest.c"
   "/Users/nico/Documents/OS/libs/src/boot/fattest.c"
   "/Users/nico/Documents/OS/libs/src/boot/terminal.c"
   "/Users/nico/Documents/OS/libs/src/disk/ata.c"
+  "/Users/nico/Documents/OS/libs/src/disk/elf.c"
   "/Users/nico/Documents/OS/libs/src/disk/fat.c"
   "/Users/nico/Documents/OS/libs/src/disk/files.c"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c"
@@ -18,6 +20,8 @@ set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/input/mouse.c"
   "/Users/nico/Documents/OS/libs/src/interrupts/idt.c"
   "/Users/nico/Documents/OS/libs/src/interrupts/pic.c"
+  "/Users/nico/Documents/OS/libs/src/interrupts/syscalls.c"
+  "/Users/nico/Documents/OS/libs/src/interrupts/tss.c"
   "/Users/nico/Documents/OS/libs/src/lib/string.c"
   "/Users/nico/Documents/OS/libs/src/sys/paging.c"
   "/Users/nico/Documents/OS/libs/src/sys/privledge.c"

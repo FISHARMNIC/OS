@@ -6,6 +6,8 @@
 #include <keyboard.h>
 #include <fat.h>
 #include <disk.h>
+#include <syscalls.h>
+#include <tss.h>
 
 uint32_t postboot_init(multiboot_info_t* mbi)
 {
@@ -17,6 +19,7 @@ uint32_t postboot_init(multiboot_info_t* mbi)
 
     // Setup default context
     graphics_init_context(&graphics_context_default, &graphics_fb_default, _binary_FONT_F16_start, COLOR_WHITE, COLOR_BLACK);
+    
     tty_reset();
     tty_puts("... Paging and Graphics enabled\n");
 
@@ -26,6 +29,10 @@ uint32_t postboot_init(multiboot_info_t* mbi)
     idt_load_interrupt(IRQ_KEYBOARD, keyboard_handler);
 
     tty_puts("... IDT initialized\n");
+
+    tss_init();
+
+    tty_puts("... TSS initialized\n");
 
     // Move IRQs to vectors 32-47 and unmask needed lines.
     pic_remap();
@@ -39,9 +46,15 @@ uint32_t postboot_init(multiboot_info_t* mbi)
     mouse_init();
     keyboard_init();
 
-    interrupts_enable();
+    tty_puts("... Peripherals enabled\n");
+    
+    syscalls_init();  
+    
+    tty_puts("... Syscalled setup\n");
 
-    tty_puts("... Interrupts enabled\n... Enabling disk\n");
+    interrupts_enable();
+  
+    tty_puts("... Interrupts enabled\n");
 
     uint32_t resp = ata_send_identify(NULLPTR); 
     if(resp)
@@ -58,8 +71,6 @@ uint32_t postboot_init(multiboot_info_t* mbi)
     }
 
     tty_puts("... FAT Ready\n");
-
-
 
     return 0;
 }

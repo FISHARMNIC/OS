@@ -34,7 +34,7 @@ stack_top:
 .global isr_exception_type
 isr_exception_type: .byte 0
 
-.global gdt_start, gdt_code, _CODE_SEG, _DATA_SEG, _USER_CODE_SEG, _USER_DATA_SEG
+.global gdt_start, gdt_code, _CODE_SEG, _DATA_SEG, _USER_CODE_SEG, _USER_DATA_SEG, gdt_tss, stack_top
 gdt_start:
     .long 0x00000000
     .long 0x00000000
@@ -46,6 +46,13 @@ gdt_user_code:
     .byte 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFA, 0xCF, 0x00
 gdt_user_data:
     .byte 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xF2, 0xCF, 0x00
+gdt_tss:
+    .word 0x0067        // limit = sizeof(tss)-1
+    .word 0x0000        // base bits 0-15 — fill at runtime
+    .byte 0x00          // base 16-23
+    .byte 0x89          // access: present, DPL=0, TSS32 available
+    .byte 0x00          // granularity
+    .byte 0x00          // base 24-31 
 gdt_end:
 gdt_descriptor:
     .word gdt_end - gdt_start - 1
@@ -204,6 +211,14 @@ isr_stub_table:
     .long isr_stub_48
     .long isr_stub_49
     .long isr_stub_50
+
+.global syscall_stub
+syscall_stub:
+    cli
+    pushal
+    call syscall_dispatch
+    popal
+    iret
 
 _start:
     lgdt gdt_descriptor

@@ -186,6 +186,30 @@ libs/src/boot/boot.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/boot.c.s
 .PHONY : libs/src/boot/boot.c.s
 
+libs/src/boot/elftest.obj: libs/src/boot/elftest.c.obj
+.PHONY : libs/src/boot/elftest.obj
+
+# target to build an object file
+libs/src/boot/elftest.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/elftest.c.obj
+.PHONY : libs/src/boot/elftest.c.obj
+
+libs/src/boot/elftest.i: libs/src/boot/elftest.c.i
+.PHONY : libs/src/boot/elftest.i
+
+# target to preprocess a source file
+libs/src/boot/elftest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/elftest.c.i
+.PHONY : libs/src/boot/elftest.c.i
+
+libs/src/boot/elftest.s: libs/src/boot/elftest.c.s
+.PHONY : libs/src/boot/elftest.s
+
+# target to generate assembly for a file
+libs/src/boot/elftest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/boot/elftest.c.s
+.PHONY : libs/src/boot/elftest.c.s
+
 libs/src/boot/fattest.obj: libs/src/boot/fattest.c.obj
 .PHONY : libs/src/boot/fattest.obj
 
@@ -257,6 +281,30 @@ libs/src/disk/ata.s: libs/src/disk/ata.c.s
 libs/src/disk/ata.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/ata.c.s
 .PHONY : libs/src/disk/ata.c.s
+
+libs/src/disk/elf.obj: libs/src/disk/elf.c.obj
+.PHONY : libs/src/disk/elf.obj
+
+# target to build an object file
+libs/src/disk/elf.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/elf.c.obj
+.PHONY : libs/src/disk/elf.c.obj
+
+libs/src/disk/elf.i: libs/src/disk/elf.c.i
+.PHONY : libs/src/disk/elf.i
+
+# target to preprocess a source file
+libs/src/disk/elf.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/elf.c.i
+.PHONY : libs/src/disk/elf.c.i
+
+libs/src/disk/elf.s: libs/src/disk/elf.c.s
+.PHONY : libs/src/disk/elf.s
+
+# target to generate assembly for a file
+libs/src/disk/elf.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/disk/elf.c.s
+.PHONY : libs/src/disk/elf.c.s
 
 libs/src/disk/fat.obj: libs/src/disk/fat.c.obj
 .PHONY : libs/src/disk/fat.obj
@@ -474,6 +522,54 @@ libs/src/interrupts/pic.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/pic.c.s
 .PHONY : libs/src/interrupts/pic.c.s
 
+libs/src/interrupts/syscalls.obj: libs/src/interrupts/syscalls.c.obj
+.PHONY : libs/src/interrupts/syscalls.obj
+
+# target to build an object file
+libs/src/interrupts/syscalls.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/syscalls.c.obj
+.PHONY : libs/src/interrupts/syscalls.c.obj
+
+libs/src/interrupts/syscalls.i: libs/src/interrupts/syscalls.c.i
+.PHONY : libs/src/interrupts/syscalls.i
+
+# target to preprocess a source file
+libs/src/interrupts/syscalls.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/syscalls.c.i
+.PHONY : libs/src/interrupts/syscalls.c.i
+
+libs/src/interrupts/syscalls.s: libs/src/interrupts/syscalls.c.s
+.PHONY : libs/src/interrupts/syscalls.s
+
+# target to generate assembly for a file
+libs/src/interrupts/syscalls.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/syscalls.c.s
+.PHONY : libs/src/interrupts/syscalls.c.s
+
+libs/src/interrupts/tss.obj: libs/src/interrupts/tss.c.obj
+.PHONY : libs/src/interrupts/tss.obj
+
+# target to build an object file
+libs/src/interrupts/tss.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/tss.c.obj
+.PHONY : libs/src/interrupts/tss.c.obj
+
+libs/src/interrupts/tss.i: libs/src/interrupts/tss.c.i
+.PHONY : libs/src/interrupts/tss.i
+
+# target to preprocess a source file
+libs/src/interrupts/tss.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/tss.c.i
+.PHONY : libs/src/interrupts/tss.c.i
+
+libs/src/interrupts/tss.s: libs/src/interrupts/tss.c.s
+.PHONY : libs/src/interrupts/tss.s
+
+# target to generate assembly for a file
+libs/src/interrupts/tss.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/interrupts/tss.c.s
+.PHONY : libs/src/interrupts/tss.c.s
+
 libs/src/lib/string.obj: libs/src/lib/string.c.obj
 .PHONY : libs/src/lib/string.obj
 
@@ -562,6 +658,9 @@ help:
 	@echo "... libs/src/boot/boot.obj"
 	@echo "... libs/src/boot/boot.i"
 	@echo "... libs/src/boot/boot.s"
+	@echo "... libs/src/boot/elftest.obj"
+	@echo "... libs/src/boot/elftest.i"
+	@echo "... libs/src/boot/elftest.s"
 	@echo "... libs/src/boot/fattest.obj"
 	@echo "... libs/src/boot/fattest.i"
 	@echo "... libs/src/boot/fattest.s"
@@ -571,6 +670,9 @@ help:
 	@echo "... libs/src/disk/ata.obj"
 	@echo "... libs/src/disk/ata.i"
 	@echo "... libs/src/disk/ata.s"
+	@echo "... libs/src/disk/elf.obj"
+	@echo "... libs/src/disk/elf.i"
+	@echo "... libs/src/disk/elf.s"
 	@echo "... libs/src/disk/fat.obj"
 	@echo "... libs/src/disk/fat.i"
 	@echo "... libs/src/disk/fat.s"
@@ -598,6 +700,12 @@ help:
 	@echo "... libs/src/interrupts/pic.obj"
 	@echo "... libs/src/interrupts/pic.i"
 	@echo "... libs/src/interrupts/pic.s"
+	@echo "... libs/src/interrupts/syscalls.obj"
+	@echo "... libs/src/interrupts/syscalls.i"
+	@echo "... libs/src/interrupts/syscalls.s"
+	@echo "... libs/src/interrupts/tss.obj"
+	@echo "... libs/src/interrupts/tss.i"
+	@echo "... libs/src/interrupts/tss.s"
 	@echo "... libs/src/lib/string.obj"
 	@echo "... libs/src/lib/string.i"
 	@echo "... libs/src/lib/string.s"

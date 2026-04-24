@@ -60,6 +60,7 @@ enum {
 void idt_load_stubs(void);
 void idt_load_interrupt(uint8_t irq, interrupt_fn_t isr);
 void idt_set_gate(uint8_t vector, void *isr, uint8_t flags);
+void idt_set_gate_user(uint8_t vector, void *isr);
 
 void interrupts_enable(void);
 void interrupts_disable(void);

@@ -37,6 +37,8 @@ typedef struct __attribute__((packed)) {
 uint32_t postboot_init(multiboot_info_t* mbi);
 
 void terminal();
+
 void fattest();
+void elftest();
 
 #endif

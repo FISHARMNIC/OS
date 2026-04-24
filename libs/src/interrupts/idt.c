@@ -1,4 +1,5 @@
 #include <interrupts.h>
+#include <graphics.h>
 
 uint8_t _interrupts_enabled_ = 1;
 
@@ -22,6 +23,11 @@ void idt_set_gate(uint8_t vector, void *isr, uint8_t flags)
     descriptor->reserved = 0;
     descriptor->attributes = flags;
     descriptor->isr_high = ((uint32_t)isr >> 16) & 0xFFFFU;
+}
+
+void idt_set_gate_user(uint8_t vector, void *isr)
+{
+    idt_set_gate(vector, isr, 0xEE);  // DPL=3
 }
 
 void idt_load_stubs(void)
@@ -63,6 +69,10 @@ void interrupts_exception_handler(void)
     _interrupts_enabled_ = 0;
     (void)regs;
     interrupts_disable();
+
+    tty_reset();
+    tty_printf("====================================\n====================================\n======[FATAL EXCEPTION] Number %d======\n====================================\n====================================\n", isr_exception_type);
+
     __asm__ volatile("hlt");
 }
 
@@ -80,6 +90,8 @@ void interrupts_irq_handler(void)
     }
 
     irq = (uint8_t)(vector - OFFSET_PIC1);
+
+    tty_printf("[IRQ] Fired %d\n", irq);
 
     if (irq < IRQ_LINE_COUNT && idt_customs[irq] != 0) {
         idt_customs[irq](regs);
