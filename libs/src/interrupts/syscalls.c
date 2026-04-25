@@ -13,7 +13,7 @@ void syscall_create(interrupt_fn_t fn, uint32_t index)
 
 static void _syscall_puts(regs32_t registers)
 {
-    tty_printf("%s", (char*) registers.SYSCALL_PARAM_1);
+    tty_printf("%s", (char *)registers.SYSCALL_PARAM_1);
 }
 
 static void _syscall_puti(regs32_t registers)
@@ -29,9 +29,9 @@ static void _syscall_exit(regs32_t registers)
 
 static void _syscall_file_find(regs32_t registers)
 {
-    fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
-    char* name =  (char*) registers.SYSCALL_PARAM_2;
-    uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_3;
+    fd_t *fd = (fd_t *)registers.SYSCALL_PARAM_1;
+    char *name = (char *)registers.SYSCALL_PARAM_2;
+    uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_3;
 
     // tty_printf("(KERN) fd at: %d\n", fd);
 
@@ -40,17 +40,29 @@ static void _syscall_file_find(regs32_t registers)
     *resp = file_find(fd, name);
 
     // tty_printf("RESP %s %d\n", fd->name.name, fd->entry.fileSizeBytes);
-
 }
 
 static void _syscall_file_read(regs32_t registers)
 {
-    fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
-    uint8_t* buffer =  (uint8_t*) registers.SYSCALL_PARAM_2;
-    uint32_t size =  (uint32_t) registers.SYSCALL_PARAM_3;
-    uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
+    fd_t *fd = (fd_t *)registers.SYSCALL_PARAM_1;
+    uint8_t *buffer = (uint8_t *)registers.SYSCALL_PARAM_2;
+    uint32_t size = (uint32_t)registers.SYSCALL_PARAM_3;
+    uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_4;
 
     *resp = file_read(fd, buffer, size);
+
+    // tty_printf("READ %d BYTES %s\n", size, buffer);
+}
+
+static void _syscall_file_ls(regs32_t registers)
+{
+    fd_t *fd_arr = (fd_t *)registers.SYSCALL_PARAM_1;
+    uint32_t size = (uint32_t)registers.SYSCALL_PARAM_2;
+    fd_t *fd = (fd_t *)registers.SYSCALL_PARAM_3;
+    uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_4;
+
+    // tty_printf("\tLS SYSCALL, CLUSTER %d\n", fd->cluster);
+    *resp = files_ls(fd_arr, size, fd->cluster);
 
     // tty_printf("READ %d BYTES %s\n", size, buffer);
 }
@@ -88,6 +100,7 @@ void syscalls_init()
 
     syscall_create(_syscall_file_find, SYSCALL_FILE_FIND);
     syscall_create(_syscall_file_read, SYSCALL_FILE_READ);
-    
-    idt_set_gate_user(SYSCALLS_IDT_ENTRY, (void*) syscall_stub);
+    syscall_create(_syscall_file_ls, SYSCALL_FILE_LS);
+
+    idt_set_gate_user(SYSCALLS_IDT_ENTRY, (void *)syscall_stub);
 }

@@ -181,6 +181,7 @@ M mcopy "${ROOT_DIR}/boot/grub.cfg"               z:/boot/grub/grub.cfg
 M mcopy "${ROOT_DIR}/boot/FONT.F16"               z:/boot/FONT.F16
 M mcopy "${ROOT_DIR}/userspace/gen/bin/test.elf"  z:/test/test.elf
 M mcopy "${ROOT_DIR}/userspace/gen/bin/filetest.elf"  z:/test/file.elf
+M mcopy "${ROOT_DIR}/userspace/gen/bin/lst.elf"  z:/test/lst.elf
 M mcopy "${ROOT_DIR}/userspace/gen/bin/hello.txt" z:/test/hello.txt
 M mcopy "${ROOT_DIR}/userspace/gen/bin/hello.txt" z:/dir1/dir1A/hello.txt
 
