@@ -15,6 +15,7 @@ set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/disk/files.c"
   "/Users/nico/Documents/OS/libs/src/graphics/draw.c"
   "/Users/nico/Documents/OS/libs/src/graphics/init.c"
+  "/Users/nico/Documents/OS/libs/src/graphics/shapes.c"
   "/Users/nico/Documents/OS/libs/src/graphics/tty.c"
   "/Users/nico/Documents/OS/libs/src/input/keyboard.c"
   "/Users/nico/Documents/OS/libs/src/input/mouse.c"

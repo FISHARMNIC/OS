@@ -1,10 +1,8 @@
 #include <graphics.h>
 #include <boot.h>
 
-void graphics_draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_context_t* ctx)
+void graphics_draw_glyph(const uint8_t* glyph, uint32_t x, uint32_t y, graphics_context_t* ctx)
 {
-    const uint8_t *glyph = ctx->font + (character * CHAR_HEIGHT);
-
     const uint8_t bpp = ctx->fb->bpp;
     const uint32_t pitch = ctx->fb->pitch;
     const uint32_t width = ctx->fb->width;
@@ -34,6 +32,13 @@ void graphics_draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_cont
             }
         }
     }
+}
+
+void graphics_draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_context_t* ctx)
+{
+    const uint8_t *glyph = ctx->font + (character * CHAR_HEIGHT);
+
+    graphics_draw_glyph(glyph, x, y, ctx);
 }
 
 void graphics_draw_string(char* string, uint32_t x, uint32_t y, graphics_context_t* ctx)

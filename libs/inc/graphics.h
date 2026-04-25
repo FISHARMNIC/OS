@@ -50,7 +50,9 @@ void graphics_init_fb(framebuffer_t* fb, multiboot_info_t* mbi);
  */
 void graphics_init_context(graphics_context_t* context, framebuffer_t* fb, const uint8_t* font, uint32_t color_fg, uint32_t color_bg);
 
+void graphics_draw_glyph(const uint8_t* glyph, uint32_t x, uint32_t y, graphics_context_t* ctx);
 void graphics_draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_context_t* ctx);
+
 void graphics_draw_string(char* string, uint32_t x, uint32_t y, graphics_context_t* ctx);
 
 void tty_clear(void);
@@ -58,7 +60,9 @@ void tty_reset(void);
 void tty_putch(char c);
 void tty_puts(const char* str);
 void tty_puti(int32_t value);
-
 void tty_printf(const char *str, ...);
+
+void graphics_get_buffer(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t* saveBuffer, graphics_context_t* ctx);
+void graphics_draw_buffer(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t* saveBuffer, graphics_context_t* ctx);
 
 #endif

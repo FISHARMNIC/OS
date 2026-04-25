@@ -22,6 +22,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/kernel.dir/libs/src/graphics/draw.c.obj.d"
   "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj"
   "CMakeFiles/kernel.dir/libs/src/graphics/init.c.obj.d"
+  "CMakeFiles/kernel.dir/libs/src/graphics/shapes.c.obj"
+  "CMakeFiles/kernel.dir/libs/src/graphics/shapes.c.obj.d"
   "CMakeFiles/kernel.dir/libs/src/graphics/tty.c.obj"
   "CMakeFiles/kernel.dir/libs/src/graphics/tty.c.obj.d"
   "CMakeFiles/kernel.dir/libs/src/input/keyboard.c.obj"

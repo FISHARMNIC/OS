@@ -402,6 +402,30 @@ libs/src/graphics/init.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/init.c.s
 .PHONY : libs/src/graphics/init.c.s
 
+libs/src/graphics/shapes.obj: libs/src/graphics/shapes.c.obj
+.PHONY : libs/src/graphics/shapes.obj
+
+# target to build an object file
+libs/src/graphics/shapes.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/shapes.c.obj
+.PHONY : libs/src/graphics/shapes.c.obj
+
+libs/src/graphics/shapes.i: libs/src/graphics/shapes.c.i
+.PHONY : libs/src/graphics/shapes.i
+
+# target to preprocess a source file
+libs/src/graphics/shapes.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/shapes.c.i
+.PHONY : libs/src/graphics/shapes.c.i
+
+libs/src/graphics/shapes.s: libs/src/graphics/shapes.c.s
+.PHONY : libs/src/graphics/shapes.s
+
+# target to generate assembly for a file
+libs/src/graphics/shapes.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/graphics/shapes.c.s
+.PHONY : libs/src/graphics/shapes.c.s
+
 libs/src/graphics/tty.obj: libs/src/graphics/tty.c.obj
 .PHONY : libs/src/graphics/tty.obj
 
@@ -709,6 +733,9 @@ help:
 	@echo "... libs/src/graphics/init.obj"
 	@echo "... libs/src/graphics/init.i"
 	@echo "... libs/src/graphics/init.s"
+	@echo "... libs/src/graphics/shapes.obj"
+	@echo "... libs/src/graphics/shapes.i"
+	@echo "... libs/src/graphics/shapes.s"
 	@echo "... libs/src/graphics/tty.obj"
 	@echo "... libs/src/graphics/tty.i"
 	@echo "... libs/src/graphics/tty.s"

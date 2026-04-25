@@ -103,13 +103,13 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
             out->data_size = ph->memsz; // memsz covers BSS too
         }
 
-        tty_printf("[ELF] ph->vaddr   = %d\n", ph->vaddr);
-        tty_printf("[ELF] ph->offset  = %d\n", ph->offset);
-        tty_printf("[ELF] ph->filesz  = %d\n", ph->filesz);
-        tty_printf("[ELF] copying from file+%d to %d\n", ph->offset, ph->vaddr);
+        // tty_printf("[ELF] ph->vaddr   = %d\n", ph->vaddr);
+        // tty_printf("[ELF] ph->offset  = %d\n", ph->offset);
+        // tty_printf("[ELF] ph->filesz  = %d\n", ph->filesz);
+        // tty_printf("[ELF] copying from file+%d to %d\n", ph->offset, ph->vaddr);
 
-        uint8_t *dst = (uint8_t *)ph->vaddr;
-        tty_printf("[ELF] bytes at entry: %d %d %d %d\n", dst[0], dst[1], dst[2], dst[3]);
+        // uint8_t *dst = (uint8_t *)ph->vaddr;
+        // tty_printf("[ELF] bytes at entry: %d %d %d %d\n", dst[0], dst[1], dst[2], dst[3]);
     }
 
     tty_puts("[ELF] Loaded!\n");
@@ -127,6 +127,8 @@ void elf_unload(const elf_section_offsets_t *info)
 
         if (ph->type != PT_LOAD || ph->memsz == 0)
             continue;
+
+        tty_printf("\t[ELF] Revoking user privledges at [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
 
         paging_clear_user_range(ph->vaddr, ph->memsz);
     }
@@ -180,14 +182,15 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
     }
     else
     {
-        tty_printf("[ELF] Longjmp return\n");
+        tty_puts("[ELF] Longjmp return\n");
         elf_unload(&elf_info);
-        tty_printf("[ELF] Unloaded!\n");
+        tty_puts("[ELF] Unloaded!\n");
         
         interrupts_enable();
 
         if (ret)
         {
+            tty_printf("[ELF] Calling return function at %d\n", (uint32_t)ret);
             ret();
         }
         else
