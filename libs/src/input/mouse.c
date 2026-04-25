@@ -18,22 +18,22 @@ event_on_click_fn *mouse_on_click_fn = NULLPTR;
 event_on_move_fn *mouse_on_move_fn = NULLPTR;
 
 static const uint8_t mouse_glyph[] = {
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00000000,
-    0b00000000,
     0b10000000,
     0b11000000,
     0b11100000,
     0b11110000,
     0b11111000,
     0b11111100,
-    0b00011000,
-    0b00001100,
-    0b00000110
+    0b11111110,
+    0b11111100,
+    0b11111000,
+    0b11111000,
+    0b11101100,
+    0b11101100,
+    0b10000110,
+    0b00000110,
+    0b00000011,
+    0b00000011
 };
 
 static void mouse_render()

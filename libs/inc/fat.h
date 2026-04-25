@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <disk.h>
+#include <stdbool.h>
 
 #define FAT_BAD_CLUSTER 0x0FFFFFF7
 
@@ -101,14 +102,6 @@ typedef struct
     char lastChars[4];
 } FAT_longFileName_t;
 
-typedef struct
-{
-    char* name;
-    uint32_t size;
-    uint32_t isDir;
-    FAT_entry_t info;
-} FAT_entryInfo;
-
 typedef enum
 {
     FILE_ERROR,
@@ -119,9 +112,20 @@ typedef enum
 
 typedef struct __attribute__((packed))
 {
-    char name[(10 + 12 + 4)]; // @todo support for chained lfn
-    char _null;
-} FAT_file_info_t;
+    char name[256]; // @todo maybe do a dynamic malloc if long file name, and stick to fixed if short (malloc regardless)
+    uint8_t name_len;
+    uint8_t extension_len;
+    char* extension_begin;
+    bool directory;
+} FAT_filename_info_t;
+
+typedef struct
+{
+    uint32_t size;
+    FAT_filename_info_t name;
+    FAT_entry_t entry;
+    uint32_t cluster;
+} FAT_file_info;
 
 uint32_t bpb_init(bpb_raw_t* bpb_info, FAT_info_t* FAT_info);
 
@@ -145,12 +149,19 @@ uint32_t fat32_get_entry_offset(uint32_t cluster);
 uint32_t fat32_next_cluster(ata_rw_data_t dest_sector_buff, uint32_t cluster);
 uint32_t fat32_cluster_set_info();
 
-FAT_read_entry_resp_t fat32_read_entry_info(FAT_file_info_t* resp, FAT_entry_t* info);
-uint32_t fat32_load_cluster(ata_rw_data_t dest_buffer[], uint32_t cluster);
+FAT_read_entry_resp_t fat32_read_entry_info(FAT_filename_info_t* resp, FAT_entry_t* info);
+void fat32_load_sector(ata_rw_data_t dest_buffer, uint32_t sector);
 
 uint32_t fat32_first_sector_of_cluster(uint32_t cluster);
 uint8_t fat32_get_sec_per_clus();
 
 uint32_t fat32_entry_cluster(FAT_entry_t* entry);
+
+void __fat32_walk_dir(uint32_t start_cluster, uint32_t depth);
+
+/**
+ * @param entry Loads info into this
+ */
+FAT_read_entry_resp_t fat32_find_file(FAT_entry_t* entry, uint32_t start_cluster, char* name, char* extension, bool recursive);
 
 #endif
