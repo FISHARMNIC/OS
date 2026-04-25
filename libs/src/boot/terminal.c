@@ -7,7 +7,7 @@ static const char *prompt = "> ";
 
 void drawch(uint8_t c)
 {
-    if(c == KEY_BACKSPACE)
+    if (c == KEY_BACKSPACE)
     {
         tty_putch('\b');
     }
@@ -19,14 +19,31 @@ void drawch(uint8_t c)
 
 static bool terminal_builtin_command(const char *cmd)
 {
-    if (strcmp(cmd, "clear") == 0)
+    if(strcmp(cmd, "help") == 0)
+    {
+        tty_puts("Commands:\n\tclear\n\telftest\n\tfattest\n");
+        return true;
+    }
+    else if (strcmp(cmd, "clear") == 0)
     {
         tty_clear();
         return true;
     }
-    return false;
+    else if (strcmp(cmd, "elftest") == 0)
+    {
+        elftest(terminal);
+        return true;
+    }
+    else if (strcmp(cmd, "fattest") == 0)
+    {
+        fattest();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
-
 
 void terminal()
 {
@@ -39,7 +56,7 @@ void terminal()
         keyboard_gets(buff, sizeof(buff));
         tty_printf("\nGot: %s\n", buff);
 
-        if(!terminal_builtin_command(buff))
+        if (!terminal_builtin_command(buff))
         {
             tty_puts("Unknown command\n");
         }

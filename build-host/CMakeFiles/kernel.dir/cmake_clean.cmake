@@ -42,6 +42,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/kernel.dir/libs/src/sys/paging.c.obj.d"
   "CMakeFiles/kernel.dir/libs/src/sys/privledge.c.obj"
   "CMakeFiles/kernel.dir/libs/src/sys/privledge.c.obj.d"
+  "CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.obj"
+  "CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.obj.d"
   "FONT.F16.o"
   "compiled/MyOS.bin"
   "compiled/MyOS.pdb"

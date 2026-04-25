@@ -2,6 +2,9 @@
 #include <elf.h>
 #include <sys/string.h>
 #include <graphics.h>
+#include <cpu.h>
+#include <tss.h>
+#include <interrupts.h>
 
 static elf_error_t elf_validate(const elf_header_t *hdr)
 {
@@ -131,6 +134,10 @@ void elf_unload(const elf_section_offsets_t *info)
 
 static void elf_jump_user(uint32_t entry, uint32_t stack_top)
 {
+    uint32_t esp;
+    __asm__ volatile("mov %%esp, %0" : "=r"(esp));
+    tss_set_esp0(esp);
+
     __asm__ volatile(
         "mov $0x23, %%ax    \n"
         "mov %%ax,  %%ds    \n"
@@ -149,7 +156,7 @@ static void elf_jump_user(uint32_t entry, uint32_t stack_top)
         : "eax");
 }
 
-elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size)
+elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size, iret_return_fn_t ret)
 {
     elf_section_offsets_t elf_info;
 
@@ -167,7 +174,29 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
 
     tty_printf("[ELF] Jumping to userspace at %d\n", elf_info.entry_fileOff);
 
-    elf_jump_user(elf_info.entry_fileOff, stack_top);
+    if (setjmp(kernel_return_ctx) == 0)
+    {
+        elf_jump_user(elf_info.entry_fileOff, stack_top);
+    }
+    else
+    {
+        tty_printf("[ELF] Longjmp return\n");
+        elf_unload(&elf_info);
+        tty_printf("[ELF] Unloaded!\n");
+        
+        interrupts_enable();
+
+        if (ret)
+        {
+            ret();
+        }
+        else
+        {
+            asm volatile("cli; hlt");
+        }
+
+        return ELF_OK;
+    }
 
     return ELF_OK;
 }

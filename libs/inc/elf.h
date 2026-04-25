@@ -2,6 +2,7 @@
 #define ELF_H
 
 #include <stdint.h>
+#include <os_setjmp.h>
 
 // three structs from linux foundation
 typedef struct
@@ -145,6 +146,6 @@ typedef enum
 
 elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_offsets_t *out);
 void elf_unload(const elf_section_offsets_t *info);
-elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t* user_stack, uint32_t user_stack_size);
+elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size, iret_return_fn_t ret);
 
 #endif

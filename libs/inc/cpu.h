@@ -2,6 +2,7 @@
 #define CPU_H
 
 #include <stdint.h>
+#include <os_setjmp.h>
 
 typedef struct
 {
@@ -11,4 +12,6 @@ typedef struct
 } regs32_t;
 
 #define NULLPTR ((void*)0)
+
+
 #endif

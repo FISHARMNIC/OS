@@ -1,4 +1,5 @@
 #include <privledge.h>
+#include <cpu.h>
 
 extern uint32_t _USER_CODE_SEG;
 extern uint32_t _USER_DATA_SEG;

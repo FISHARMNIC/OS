@@ -2,6 +2,7 @@
 #define BOOT_H
 
 #include <stdint.h>
+#include <os_setjmp.h>
 
 typedef struct __attribute__((packed)) {
     uint32_t flags;
@@ -39,6 +40,6 @@ uint32_t postboot_init(multiboot_info_t* mbi);
 void terminal();
 
 void fattest();
-void elftest();
+void elftest(iret_return_fn_t ret);
 
 #endif

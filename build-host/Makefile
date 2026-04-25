@@ -642,6 +642,30 @@ libs/src/sys/privledge.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/privledge.c.s
 .PHONY : libs/src/sys/privledge.c.s
 
+libs/src/sys/setjmp.obj: libs/src/sys/setjmp.c.obj
+.PHONY : libs/src/sys/setjmp.obj
+
+# target to build an object file
+libs/src/sys/setjmp.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.obj
+.PHONY : libs/src/sys/setjmp.c.obj
+
+libs/src/sys/setjmp.i: libs/src/sys/setjmp.c.i
+.PHONY : libs/src/sys/setjmp.i
+
+# target to preprocess a source file
+libs/src/sys/setjmp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.i
+.PHONY : libs/src/sys/setjmp.c.i
+
+libs/src/sys/setjmp.s: libs/src/sys/setjmp.c.s
+.PHONY : libs/src/sys/setjmp.s
+
+# target to generate assembly for a file
+libs/src/sys/setjmp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kernel.dir/build.make CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.s
+.PHONY : libs/src/sys/setjmp.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -715,6 +739,9 @@ help:
 	@echo "... libs/src/sys/privledge.obj"
 	@echo "... libs/src/sys/privledge.i"
 	@echo "... libs/src/sys/privledge.s"
+	@echo "... libs/src/sys/setjmp.obj"
+	@echo "... libs/src/sys/setjmp.i"
+	@echo "... libs/src/sys/setjmp.s"
 .PHONY : help
 
 

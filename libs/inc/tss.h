@@ -26,5 +26,6 @@ extern uint8_t gdt_tss[];
 extern uint8_t* stack_top;
 
 void tss_init();
+void tss_set_esp0(uint32_t esp);
 
 #endif

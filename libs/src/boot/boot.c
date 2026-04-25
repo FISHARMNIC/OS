@@ -8,6 +8,7 @@
 #include <disk.h>
 #include <syscalls.h>
 #include <tss.h>
+#include <os_setjmp.h>
 
 uint32_t postboot_init(multiboot_info_t* mbi)
 {

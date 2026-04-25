@@ -6,4 +6,5 @@ CMakeFiles/kernel.dir/libs/src/disk/fat.c.obj: \
  /Users/nico/Documents/OS/libs/inc/fat.h \
  /Users/nico/Documents/OS/libs/inc/graphics.h \
  /Users/nico/Documents/OS/libs/inc/boot.h \
+ /Users/nico/Documents/OS/libs/inc/os_setjmp.h \
  /Users/nico/Documents/OS/libs/inc/sys/string.h

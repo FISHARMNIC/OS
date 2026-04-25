@@ -25,6 +25,7 @@ set(OLD_GLOB
   "/Users/nico/Documents/OS/libs/src/lib/string.c"
   "/Users/nico/Documents/OS/libs/src/sys/paging.c"
   "/Users/nico/Documents/OS/libs/src/sys/privledge.c"
+  "/Users/nico/Documents/OS/libs/src/sys/setjmp.c"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

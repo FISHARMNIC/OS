@@ -4,6 +4,11 @@
 
 static tss_t tss;
 
+void tss_set_esp0(uint32_t esp)
+{
+    tss.esp0 = esp;
+}
+
 void tss_init()
 {
     uint32_t base = (uint32_t)&tss;

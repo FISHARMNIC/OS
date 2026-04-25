@@ -40,6 +40,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/nico/Documents/OS/libs/src/lib/string.c" "CMakeFiles/kernel.dir/libs/src/lib/string.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/lib/string.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/sys/paging.c" "CMakeFiles/kernel.dir/libs/src/sys/paging.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/sys/paging.c.obj.d"
   "/Users/nico/Documents/OS/libs/src/sys/privledge.c" "CMakeFiles/kernel.dir/libs/src/sys/privledge.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/sys/privledge.c.obj.d"
+  "/Users/nico/Documents/OS/libs/src/sys/setjmp.c" "CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.obj" "gcc" "CMakeFiles/kernel.dir/libs/src/sys/setjmp.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

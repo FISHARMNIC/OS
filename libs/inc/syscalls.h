@@ -6,8 +6,12 @@
 #define SYSCALLS_IDT_ENTRY 49
 #define SYSCALLS_IRQ_ENTRY SYSCALLS_IDT_ENTRY - 32
 
-#define SYSCALL_PUTS 0
-#define SYSCALL_PUTI 1
+typedef enum 
+{
+    SYSCALL_PUTS, 
+    SYSCALL_PUTI,
+    SYSCALL_EXIT
+} syscalls_t;
 
 #define STR1(x)  #x
 #define STR(x)  STR1(x)

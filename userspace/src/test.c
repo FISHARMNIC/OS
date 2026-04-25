@@ -2,9 +2,9 @@
 
 char* s = "Hello World";
 
-void _start(void)
+int main(void)
 {
-
     SYSCALL(SYSCALL_PUTS, s);
-    while (1) {};
+
+    return 0;
 }

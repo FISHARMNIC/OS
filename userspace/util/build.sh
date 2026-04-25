@@ -12,6 +12,7 @@ i686-elf-gcc \
     -m32 -nostdlib -static -ffreestanding \
     -T $LDSCRIPT \
     -o $ELFDIR \
-    $D/../src/$FNAME.c
+    $D/../src/$FNAME.c \
+    $D/../lib/main.c
 
 xxd -i $ELFDIR > $HDIR

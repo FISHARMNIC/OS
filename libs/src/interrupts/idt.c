@@ -7,6 +7,36 @@ static __attribute__((aligned(0x10))) idt_entry_t idt[IDT_MAX_DESCRIPTORS];
 static interrupt_fn_t idt_customs[IRQ_LINE_COUNT];
 static idtr_t idtr;
 
+// from osdev
+static char *cpu_exceptions[30] = {
+    "Division Error",
+    "Debug",
+    "Non-maskable Interrupt",
+    "Breakpoint",
+    "Overflow",
+    "Bound Range Exceeded",
+    "Invalid Opcode",
+    "Device Not Available",
+    "Double Fault",
+    "Coprocessor Segment Overrun",
+    "Invalid TSS",
+    "Segment Not Present",
+    "Stack-Segment Fault",
+    "General Protection Fault",
+    "Page Fault",
+    "Reserved",
+    "x87 Floating-Point Exception",
+    "Alignment Check",
+    "Machine Check",
+    "SIMD Floating-Point Exception",
+    "Virtualization Exception",
+    "Control Protection Exception",
+    "Reserved",
+    "Hypervisor Injection Exception",
+    "VMM Communication Exception",
+    "Security Exception"
+};
+
 void idt_load_interrupt(uint8_t irq, interrupt_fn_t isr)
 {
     if (irq < IRQ_LINE_COUNT) {
@@ -70,8 +100,8 @@ void interrupts_exception_handler(void)
     (void)regs;
     interrupts_disable();
 
-    tty_reset();
-    tty_printf("====================================\n====================================\n======[FATAL EXCEPTION] Number %d======\n====================================\n====================================\n", isr_exception_type);
+    tty_clear();
+    tty_printf("====================================\n====================================\n======[FATAL EXCEPTION] [%d] is : '%s' ======\n====================================\n====================================\n", isr_exception_type, cpu_exceptions[isr_exception_type]);
 
     __asm__ volatile("hlt");
 }
@@ -91,7 +121,7 @@ void interrupts_irq_handler(void)
 
     irq = (uint8_t)(vector - OFFSET_PIC1);
 
-    tty_printf("[IRQ] Fired %d\n", irq);
+    // tty_printf("[IRQ] Fired %d\n", irq);
 
     if (irq < IRQ_LINE_COUNT && idt_customs[irq] != 0) {
         idt_customs[irq](regs);
