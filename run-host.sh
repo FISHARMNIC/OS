@@ -173,13 +173,15 @@ M mformat -F -v MYOS z:
 M mmd z:/boot
 M mmd z:/boot/grub
 M mmd z:/test
+M mmd z:/dir1
+M mmd z:/dir1/dir1A
 
 M mcopy "${KERNEL_BIN}"                           z:/boot/MyOS.bin
 M mcopy "${ROOT_DIR}/boot/grub.cfg"               z:/boot/grub/grub.cfg
 M mcopy "${ROOT_DIR}/boot/FONT.F16"               z:/boot/FONT.F16
 M mcopy "${ROOT_DIR}/userspace/gen/bin/test.elf"  z:/test/test.elf
 M mcopy "${ROOT_DIR}/userspace/gen/bin/hello.txt" z:/test/hello.txt
-
+M mcopy "${ROOT_DIR}/userspace/gen/bin/hello.txt" z:/dir1/dir1A/hello.txt
 
 # Build GRUB core image
 CORE_IMG="${COMPILED}/core.img"

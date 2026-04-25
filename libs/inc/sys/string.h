@@ -8,5 +8,6 @@ uint32_t strcmp(const char* s1, const char* s2);
 
 void* memcpy(void* dest, const void* src, uint32_t size);
 void* memset(void* dest, const uint8_t src, uint32_t size);
+char *strchr(const char *s, char c);
 
 #endif

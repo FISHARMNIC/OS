@@ -40,20 +40,20 @@ static bool terminal_builtin_command(const char *cmd)
         fattest();
         return true;
     }
-    else if (strcmp(cmd, "touchtest") == 0)
-    {
-        FAT_file_info_t info;
-        FAT_read_entry_resp_t resp = fat32_find_file(&info, fat32_get_root(), "HELLO", "TXT", true);
+    // else if (strcmp(cmd, "touchtest") == 0)
+    // {
+    //     FAT_file_info_t info;
+    //     FAT_read_entry_resp_t resp = fat32_find_file(&info, fat32_get_root(), "HELLO", "TXT", true);
 
-        if (resp == FILE_FOUND)
-        {
-            tty_puts("Found file\n");
-            uint8_t buffer[info.entry.fileSizeBytes];
-            fat32_load_file(&info, buffer, info.entry.fileSizeBytes);
-            tty_printf("Read [%d]: %s\n", info.entry.fileSizeBytes, buffer);
-        }
-        return true;
-    }
+    //     if (resp == FILE_FOUND)
+    //     {
+    //         tty_puts("Found file\n");
+    //         uint8_t buffer[info.entry.fileSizeBytes];
+    //         fat32_load_file(&info, buffer, info.entry.fileSizeBytes);
+    //         tty_printf("Read [%d]: %s\n", info.entry.fileSizeBytes, buffer);
+    //     }
+    //     return true;
+    // }
     else
     {
         return false;

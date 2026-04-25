@@ -157,9 +157,8 @@ uint8_t fat32_get_sec_per_clus();
 
 uint32_t fat32_entry_cluster(FAT_entry_t* entry);
 
-void __fat32_walk_dir(uint32_t start_cluster, uint32_t depth);
-
 /**
+ * @warning FILENAME MUST BE UPPERCASE
  * @param info Loads info into this
  */
 FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t* info, uint32_t start_cluster, char* name, char* extension, bool recursive);

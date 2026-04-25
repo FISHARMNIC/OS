@@ -1,23 +1,26 @@
 #include <boot.h>
 #include <fat.h>
 #include <graphics.h>
+#include <files.h>
 
 void fattest()
 {
     tty_clear();
-    // fat32_walk_dir(fat32_get_root(), 0);
-    FAT_file_info_t info;
-    FAT_read_entry_resp_t resp = fat32_find_file(&info, fat32_get_root(), "TEST", "TXT", true);
-    
-    if(resp == FILE_FOUND)
+   
+    fd_t fd;
+
+    uint32_t err = file_find(&fd, "DIR1/DIR1A/HELLO.TXT");
+    if(err)
     {
-        tty_puts("Found file\n");
-        uint8_t buffer[info.entry.fileSizeBytes];
-        fat32_load_file(&info, buffer, info.entry.fileSizeBytes);
-        tty_printf("Read [%d]: %s\n", info.entry.fileSizeBytes, buffer);
+        tty_printf("[ERROR] Could Not find\n");
     }
     else
     {
-        tty_puts("[ERROR] File not found\n");
+        uint32_t size = file_size(&fd);
+        uint8_t buffer[size];
+
+        file_read(&fd, buffer, size);
+
+        tty_printf("Read: '%s'\n", buffer);
     }
 }
