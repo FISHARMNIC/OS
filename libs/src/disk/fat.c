@@ -134,7 +134,7 @@ static void fat32_parse_name(FAT_filename_info_t *resp)
     {
         i++;
     }
-    resp->extension_begin = &(resp->name[i]);
+    resp->extension_begin = i;
 
     uint32_t len = 0;
     while (resp->name[i] != ' ' && i < 255)
@@ -152,12 +152,12 @@ FAT_read_entry_resp_t fat32_read_entry_info(FAT_filename_info_t *resp, FAT_entry
     {
         if (FAT_ENTRY_IS_END(info->fileName))
         {
-            tty_puts("\t[FAT] end\n");
+            // tty_puts("\t[FAT] end\n");
             return FILE_END;
         }
         else
         {
-            tty_puts("\t[FAT] unused\n");
+            // tty_puts("\t[FAT] unused\n");
             return FILE_UNUSED;
         }
     }

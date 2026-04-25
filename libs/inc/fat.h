@@ -115,17 +115,17 @@ typedef struct __attribute__((packed))
     char name[256]; // @todo maybe do a dynamic malloc if long file name, and stick to fixed if short (malloc regardless)
     uint8_t name_len;
     uint8_t extension_len;
-    char* extension_begin;
+    uint32_t extension_begin;
     bool directory;
 } FAT_filename_info_t;
 
 typedef struct
 {
-    uint32_t size;
+    // uint32_t size;
     FAT_filename_info_t name;
     FAT_entry_t entry;
     uint32_t cluster;
-} FAT_file_info;
+} FAT_file_info_t;
 
 uint32_t bpb_init(bpb_raw_t* bpb_info, FAT_info_t* FAT_info);
 
@@ -160,8 +160,10 @@ uint32_t fat32_entry_cluster(FAT_entry_t* entry);
 void __fat32_walk_dir(uint32_t start_cluster, uint32_t depth);
 
 /**
- * @param entry Loads info into this
+ * @param info Loads info into this
  */
-FAT_read_entry_resp_t fat32_find_file(FAT_entry_t* entry, uint32_t start_cluster, char* name, char* extension, bool recursive);
+FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t* info, uint32_t start_cluster, char* name, char* extension, bool recursive);
+
+uint32_t fat32_load_file(FAT_file_info_t* info, uint8_t* buffer, uint32_t max_size);
 
 #endif

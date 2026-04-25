@@ -2,6 +2,7 @@
 #include <keyboard.h>
 #include <sys/string.h>
 #include <stdbool.h>
+#include <fat.h>
 
 static const char *prompt = "> ";
 
@@ -19,7 +20,7 @@ void drawch(uint8_t c)
 
 static bool terminal_builtin_command(const char *cmd)
 {
-    if(strcmp(cmd, "help") == 0)
+    if (strcmp(cmd, "help") == 0)
     {
         tty_puts("Commands:\n\tclear\n\telftest\n\tfattest\n");
         return true;
@@ -37,6 +38,20 @@ static bool terminal_builtin_command(const char *cmd)
     else if (strcmp(cmd, "fattest") == 0)
     {
         fattest();
+        return true;
+    }
+    else if (strcmp(cmd, "touchtest") == 0)
+    {
+        FAT_file_info_t info;
+        FAT_read_entry_resp_t resp = fat32_find_file(&info, fat32_get_root(), "HELLO", "TXT", true);
+
+        if (resp == FILE_FOUND)
+        {
+            tty_puts("Found file\n");
+            uint8_t buffer[info.entry.fileSizeBytes];
+            fat32_load_file(&info, buffer, info.entry.fileSizeBytes);
+            tty_printf("Read [%d]: %s\n", info.entry.fileSizeBytes, buffer);
+        }
         return true;
     }
     else
