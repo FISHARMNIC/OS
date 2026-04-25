@@ -109,9 +109,13 @@ static bool terminal_builtin_command(const char *cmd, char *save)
     else if (strcmp(cmd, "ls") == 0)
     {
         char *dir = strtok_r(NULLPTR, " ", &save);
+
+        fd_t infos[20];
+        int32_t amt = 0;
+
         if (dir == NULLPTR)
         {
-            files_ls(fat32_get_root());
+            amt = files_ls(infos, 20, fat32_get_root());
         }
         else
         {
@@ -122,12 +126,32 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             if (err)
             {
                 tty_printf("[ERROR] File '%s' not found\n", dir);
+                return true;
             }
             else
             {
-                files_ls(fd.cluster);
+                amt = files_ls(infos, 20, fd.cluster);
             }
         }
+
+        if(amt == -LS_ERROR_MAX_SIZE)
+        {
+            amt = 20;
+        }
+
+        tty_printf("Listing [%d] first files:\n", amt);
+        
+        if(amt < 0)
+        {
+            tty_printf("[ERROR] LS got %d\n", amt);
+            return true;
+        }
+        
+        for(int32_t i = 0; i < amt; i++)
+        {
+            tty_printf("%s\n", infos[i].name.name);
+        }
+
         return true;
     }
     else

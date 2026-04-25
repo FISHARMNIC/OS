@@ -144,9 +144,10 @@ void tty_printf(const char *str, ...)
     va_list args;
     va_start(args, str);
 
-    uint32_t len = strlen(str);
     bool fmtspec = false;
-    for (uint32_t i = 0; i < len; i++)
+
+    uint32_t i = 0;
+    while (str[i] != 0)
     {
         const char ch = str[i];
         if (fmtspec)
@@ -175,6 +176,7 @@ void tty_printf(const char *str, ...)
         {
             tty_putch(ch);
         }
+        i++;
     }
 
     va_end(args);

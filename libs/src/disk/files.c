@@ -94,7 +94,7 @@ uint32_t file_read(fd_t *info, uint8_t *buffer, uint32_t size)
 }
 
 // @todo should return/write a list of fd_t
-void files_ls(uint32_t start_cluster)
+int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
 {
     ata_rw_data_t fat_buffer;
     ata_rw_data_t sector_buffer;
@@ -104,8 +104,10 @@ void files_ls(uint32_t start_cluster)
     if (!FAT_CLUSTER_IS_VALID(cluster))
     {
         tty_printf("Invalid directory start cluster: %d\n", cluster);
-        return;
+        return -LS_ERROR_CLUSTER;
     }
+
+    uint32_t n = 0;
 
     while (1)
     {
@@ -123,7 +125,7 @@ void files_ls(uint32_t start_cluster)
 
                 if (FAT_ENTRY_IS_END(entry->fileName))
                 {
-                    return;
+                    return n;
                 }
 
                 if (FAT_ENTRY_IS_FREE(entry->fileName))
@@ -144,22 +146,37 @@ void files_ls(uint32_t start_cluster)
                     continue;
                 }
 
-                if(info.directory)
+
+                if(n >= max_size)
                 {
-                    tty_printf("%s/\n", info.name);
+                    return -LS_ERROR_MAX_SIZE;
                 }
-                else
-                {
-                    tty_printf("%s.%s\n", info.name, info.name + info.extension_begin);
-                }
+
+                infos[n].name = info;
+                infos[n].cluster = cluster;
+                infos[n].entry = *entry;
+
+                n++;
+
+
+                // if(info.directory)
+                // {
+                //     tty_printf("%s/\n", info.name);
+                // }
+                // else
+                // {
+                //     tty_printf("%s.%s\n", info.name, info.name + info.extension_begin);
+                // }
             }
         }
 
         uint32_t next = fat32_next_cluster(fat_buffer, cluster);
 
         if (FAT_CLUSTER_IS_EOF(next) || !FAT_CLUSTER_IS_VALID(next))
-            return;
+            return n;
 
         cluster = next;
     }
+
+    return n;
 }

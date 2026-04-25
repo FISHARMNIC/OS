@@ -10,13 +10,27 @@ typedef enum
 {
     SYSCALL_PUTS, 
     SYSCALL_PUTI,
-    SYSCALL_EXIT
+    SYSCALL_EXIT,
+    SYSCALL_FILE_FIND,
+    SYSCALL_FILE_READ
 } syscalls_t;
 
 #define STR1(x)  #x
 #define STR(x)  STR1(x)
 
-#define SYSCALL(num, data) __asm__ volatile("mov %0, %%eax; mov %1, %%esi;int $"STR(SYSCALLS_IDT_ENTRY)";" : : "r"(num), "r"((data)) : "eax", "esi")
+#define SYSCALL_PARAM_1 esi
+#define SYSCALL_PARAM_2 edi
+#define SYSCALL_PARAM_3 edx
+#define SYSCALL_PARAM_4 ecx
+
+#define SYSCALL_PARAM_1_ "S"  // esi
+#define SYSCALL_PARAM_2_ "D"  // edi
+#define SYSCALL_PARAM_3_ "d"  // edx
+#define SYSCALL_PARAM_4_ "c"  // edx
+
+#define SYSCALL(num, data)                              __asm__ volatile ("int $" STR(SYSCALLS_IDT_ENTRY) : : "a"(num), SYSCALL_PARAM_1_ (data) : "memory")
+#define SYSCALL_3PARAM(num, data1, data2, data3)        __asm__ volatile ("int $" STR(SYSCALLS_IDT_ENTRY) : : "a"(num), SYSCALL_PARAM_1_ (data1), SYSCALL_PARAM_2_ (data2), SYSCALL_PARAM_3_ (data3) : "memory")
+#define SYSCALL_4PARAM(num, data1, data2, data3, data4) __asm__ volatile ("int $" STR(SYSCALLS_IDT_ENTRY) : : "a"(num), SYSCALL_PARAM_1_ (data1), SYSCALL_PARAM_2_ (data2), SYSCALL_PARAM_3_ (data3), SYSCALL_PARAM_4_ (data4) : "memory")
 
 void syscall_create(interrupt_fn_t fn, uint32_t index);
 void syscalls_init();

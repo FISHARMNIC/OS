@@ -1,10 +1,8 @@
-#include <syscalls.h>
-
-char* s = "Hello World";
+#include <userspace/stdio.h>
 
 int main(void)
 {
-    SYSCALL(SYSCALL_PUTS, s);
+    puts("Hello World\n");
 
     return 0;
 }

@@ -7,7 +7,7 @@ void fattest()
 {
     tty_clear();
 
-    files_ls(fat32_get_root());
+    // files_ls(fat32_get_root());
    
     // fd_t fd;
 
