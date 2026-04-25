@@ -270,6 +270,13 @@ FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t *info, uint32_t start_clus
     uint8_t sec_per_clus = fat32_get_sec_per_clus();
     uint32_t cluster = start_cluster;
 
+    if(name == NULLPTR)
+    {
+        info->cluster = start_cluster; // @todo !important load other info too?
+        return FILE_FOUND;
+        // fat32_load_sector(sector_buffer, fat32_first_sector_of_cluster(fat32_get_root()));
+    }
+
     if (!FAT_CLUSTER_IS_VALID(cluster))
     {
         tty_printf("Invalid directory start cluster: %d\n", cluster);

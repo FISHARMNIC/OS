@@ -33,6 +33,6 @@ void elftest(iret_return_fn_t ret)
 
         tty_printf("Read [%d]\n", size);
 
-        elf_exec(buffer, size, user_stack, user_stack_size, ret);
+        // elf_exec(buffer, size, user_stack, user_stack_size, ret);
     }
 }

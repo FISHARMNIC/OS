@@ -62,7 +62,7 @@ static void _syscall_file_ls(regs32_t registers)
     uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_4;
 
     // tty_printf("\tLS SYSCALL, CLUSTER %d\n", fd->cluster);
-    *resp = files_ls(fd_arr, size, fd->cluster);
+    *resp = files_ls(fd_arr, size, fd == NULLPTR ? 0 : fd->cluster);
 
     // tty_printf("READ %d BYTES %s\n", size, buffer);
 }
