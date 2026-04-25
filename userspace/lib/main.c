@@ -1,9 +1,9 @@
 #include <syscalls.h>
 
-extern int main();
+extern int main(int argc, char *argv[]);
 
-void _start()
+void _start(int argc, char *argv[])
 {
-    int ret = main();
+    int ret = main(argc, argv);
     SYSCALL(SYSCALL_EXIT, ret);
 }

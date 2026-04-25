@@ -25,6 +25,12 @@ uint32_t file_find(fd_t *fd, char *name)
 {
     // tty_printf("SCANNING %s\n", name);
 
+    if(name == NULLPTR)
+    {
+        fat32_find_file(fd, 0, NULLPTR, NULLPTR, false);
+        return 0;
+    }
+
     uint32_t len = strlen(name) + 1;
 
     char buffer[len];
@@ -100,6 +106,11 @@ int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
     ata_rw_data_t sector_buffer;
     uint8_t sec_per_clus = fat32_get_sec_per_clus();
     uint32_t cluster = start_cluster;
+
+    if(start_cluster == 0) // @todo maybe not the best way to approach ls from root? If something else calls expecting 0 to fail this breaks
+    {
+        cluster = fat32_get_root();
+    }
 
     if (!FAT_CLUSTER_IS_VALID(cluster))
     {

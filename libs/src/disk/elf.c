@@ -6,6 +6,8 @@
 #include <tss.h>
 #include <interrupts.h>
 
+// extern uint8_t stack_top[];
+
 static elf_error_t elf_validate(const elf_header_t *hdr)
 {
     if (hdr->ident[EI_MAG0] != ELFMAG0 ||
@@ -129,17 +131,49 @@ void elf_unload(const elf_section_offsets_t *info)
             continue;
 
         // tty_printf("\t[ELF] Revoking user privledges at [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
+        // tty_printf("[DEBUG] font at: %d\n", _binary_FONT_F16_start);
 
         paging_clear_user_range(ph->vaddr, ph->memsz);
-        memset((void*)ph->vaddr, 0, ph->memsz);
+        memset((void *)ph->vaddr, 0, ph->memsz);
     }
 }
 
-static void elf_jump_user(uint32_t entry, uint32_t stack_top)
+static void elf_jump_user(uint32_t entry, uint32_t user_stack_top, uint32_t argc, char **argv)
 {
     uint32_t esp;
     __asm__ volatile("mov %%esp, %0" : "=r"(esp));
     tss_set_esp0(esp);
+
+    uint8_t *ustack = (uint8_t *)user_stack_top;
+
+    // load each string into stack (for argv to reference)
+    uint32_t arg_ptrs[argc];
+    for (int32_t i = argc - 1; i >= 0; i--)
+    {
+        uint32_t len = strlen(argv[i]) + 1; // include null
+
+        ustack -= len;
+
+        memcpy(ustack, argv[i], len); // load string into user stack
+
+        arg_ptrs[i] = (uint32_t)ustack; // save pointer to user string
+    }
+
+    uint32_t *ustack32 = (uint32_t *)((uint32_t)ustack & ~3); // align 4 for argv pointers
+
+    *(--ustack32) = 0; // null terminator for end of argv
+    for (int32_t i = argc - 1; i >= 0; i--)
+    {
+        *(--ustack32) = arg_ptrs[i]; // load pointer to string that was just made
+    }
+
+    uint32_t argv_ptr = (uint32_t)ustack32; // argv (pointer to start of string pointers)
+
+    *(--ustack32) = argv_ptr;       // argv
+    *(--ustack32) = (uint32_t)argc; // argc
+    *(--ustack32) = 0;              // fake return address (syscall exit handles return)
+
+    user_stack_top = (uint32_t)ustack32;
 
     __asm__ volatile(
         "mov $0x23, %%ax    \n"
@@ -155,11 +189,11 @@ static void elf_jump_user(uint32_t entry, uint32_t stack_top)
         "push %0       \n" // EIP
         "iret          \n"
         :
-        : "r"(entry), "r"(stack_top)
+        : "r"(entry), "r"(user_stack_top)
         : "eax");
 }
 
-elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size, iret_return_fn_t ret)
+elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size, uint32_t argc, char** argv)
 {
     elf_section_offsets_t elf_info;
 
@@ -169,9 +203,9 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
         return err;
     }
 
-    uint32_t stack_top = (uint32_t)user_stack + user_stack_size;
+    uint32_t user_stack_top = (uint32_t)user_stack + user_stack_size;
 
-    // tty_printf("[ELF] Giving stack access on [%d - %d]\n", user_stack, stack_top);
+    // tty_printf("[ELF] Giving stack access on [%d - %d]\n", user_stack, user_stack_top);
 
     paging_set_user_range((uint32_t)user_stack, user_stack_size);
 
@@ -179,25 +213,26 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
 
     if (setjmp(kernel_return_ctx) == 0)
     {
-        elf_jump_user(elf_info.entry_fileOff, stack_top);
+        elf_jump_user(elf_info.entry_fileOff, user_stack_top, argc, argv);
     }
     else
     {
         // tty_puts("[ELF] Longjmp return\n");
         elf_unload(&elf_info);
         // tty_puts("[ELF] Unloaded!\n");
-        
-        interrupts_enable();
 
-        if (ret)
-        {
-            // tty_printf("[ELF] Calling return function at %d\n", (uint32_t)ret);
-            ret();
-        }
-        else
-        {
-            asm volatile("cli; hlt");
-        }
+        interrupts_enable();
+        tss_set_esp0((uint32_t)stack_top);
+
+        // if (ret)
+        // {
+        //     // tty_printf("[ELF] Calling return function at %d\n", (uint32_t)ret);
+        //     // ret();
+        // }
+        // else
+        // {
+        //     asm volatile("cli; hlt");
+        // }
 
         return ELF_OK;
     }

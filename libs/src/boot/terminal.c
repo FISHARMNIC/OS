@@ -109,7 +109,25 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             uint8_t buffer[size];
             file_read(&fd, buffer, size);
 
-            elf_exec(buffer, size, user_stack_, user_stack_size, terminal);
+            char* args[10]; // @todo make this dynamic or do some better way
+
+            uint32_t i = 0;
+
+            while(i < 10)
+            {
+                char *arg = strtok_r(NULLPTR, " ", &save);
+                if (arg == NULLPTR)
+                {
+                    break;
+                }
+                else
+                {
+                    args[i] = arg;
+                }
+                i++;
+            }
+
+            elf_exec(buffer, size, user_stack_, user_stack_size, i, args);
         }
 
         return true;
