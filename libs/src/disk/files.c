@@ -164,7 +164,7 @@ int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
                 }
 
                 infos[n].name = info;
-                infos[n].cluster = cluster;
+                infos[n].cluster = fat32_entry_cluster(entry);
                 infos[n].entry = *entry;
 
                 n++;

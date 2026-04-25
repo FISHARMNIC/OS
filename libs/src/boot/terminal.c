@@ -23,6 +23,55 @@ void drawch(uint8_t c)
     }
 }
 
+static bool terminal_bin_cmd(char *cmd, char *save)
+{
+    static fd_t infos[20];
+    fd_t bin;
+    file_find(&bin, "BIN");
+
+    str_toupper(cmd);
+
+    uint32_t count = files_ls(infos, 20, bin.cluster);
+
+    for (uint32_t i = 0; i < count; i++)
+    {
+        FAT_filename_info_t name = infos[i].name;
+
+        if (!name.directory && strcmp(name.name + name.extension_begin, "ELF") == 0 && strcmp(cmd, name.name) == 0)
+        {
+
+            uint32_t size = file_size(&infos[i]);
+            uint8_t buffer[size];
+            file_read(&infos[i], buffer, size);
+
+            char *args[10]; // @todo make this dynamic or do some better way
+
+            i = 0;
+
+            while (i < 10)
+            {
+                char *arg = strtok_r(NULLPTR, " ", &save);
+                if (arg == NULLPTR)
+                {
+                    break;
+                }
+                else
+                {
+                    // tty_printf("ARG %s\n", arg);
+                    args[i] = arg;
+                }
+                i++;
+            }
+
+            elf_exec(buffer, size, user_stack_, user_stack_size, i, args);
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 static bool terminal_builtin_command(const char *cmd, char *save)
 {
     /*
@@ -31,7 +80,9 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
     if (strcmp(cmd, "help") == 0)
     {
-        tty_puts("Commands:\n\tclear\n\tls\n\ttouch\n\texec\nTesting:\n\telftest\n\tfattest\n");
+        tty_puts("Built in commands:\n\tclear\n\texec\n");
+        tty_puts("BIN commands:\n");
+        terminal_bin_cmd("LS", "BIN");
         return true;
     }
     else if (strcmp(cmd, "clear") == 0)
@@ -39,48 +90,16 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         tty_clear();
         return true;
     }
-    else if (strcmp(cmd, "elftest") == 0)
-    {
-        elftest(terminal);
-        return true;
-    }
-    else if (strcmp(cmd, "fattest") == 0)
-    {
-        fattest();
-        return true;
-    }
-    else if (strcmp(cmd, "touch") == 0)
-    {
-        char *dir = strtok_r(NULLPTR, " ", &save);
-        if (dir == NULLPTR)
-        {
-            tty_printf("[USAGE] touch path/to/file.txt\n", dir);
-            return true;
-        }
-
-        str_toupper(dir);
-
-        fd_t fd;
-        uint32_t err = file_find(&fd, dir);
-
-        if (err)
-        {
-            tty_printf("[ERROR] Directory/file '%s' not found\n", dir);
-        }
-        else if (fd.name.directory)
-        {
-            tty_printf("[ERROR] '%s' is a directory, not a file\n", dir);
-        }
-        else
-        {
-            uint32_t size = file_size(&fd);
-            uint8_t buffer[size];
-            file_read(&fd, buffer, size);
-            tty_printf("%s\n", buffer);
-        }
-
-        return true;
-    }
+    // else if (strcmp(cmd, "elftest") == 0)
+    // {
+    //     elftest(terminal);
+    //     return true;
+    // }
+    // else if (strcmp(cmd, "fattest") == 0)
+    // {
+    //     fattest();
+    //     return true;
+    // }
     else if (strcmp(cmd, "exec") == 0)
     {
         char *dir = strtok_r(NULLPTR, " ", &save);
@@ -109,11 +128,11 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             uint8_t buffer[size];
             file_read(&fd, buffer, size);
 
-            char* args[10]; // @todo make this dynamic or do some better way
+            char *args[10]; // @todo make this dynamic or do some better way
 
             uint32_t i = 0;
 
-            while(i < 10)
+            while (i < 10)
             {
                 char *arg = strtok_r(NULLPTR, " ", &save);
                 if (arg == NULLPTR)
@@ -132,6 +151,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
         return true;
     }
+    /*
     else if (strcmp(cmd, "ls") == 0)
     {
         char *dir = strtok_r(NULLPTR, " ", &save);
@@ -195,6 +215,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
         return true;
     }
+    */
     else
     {
         return false;
@@ -225,7 +246,11 @@ void terminal()
         }
         else if (resp != NULLPTR)
         {
-            tty_printf("Unknown command '%s'. Run 'help' for a list of commands\n", resp);
+            valid = terminal_bin_cmd(resp, save);
+            if (!valid)
+            {
+                tty_printf("Unknown command '%s'. Run 'help' for a list of commands\n", resp);
+            }
         }
     }
 }
