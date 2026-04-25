@@ -131,6 +131,7 @@ void elf_unload(const elf_section_offsets_t *info)
         // tty_printf("\t[ELF] Revoking user privledges at [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
 
         paging_clear_user_range(ph->vaddr, ph->memsz);
+        memset((void*)ph->vaddr, 0, ph->memsz);
     }
 }
 

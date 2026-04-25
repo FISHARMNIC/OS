@@ -65,7 +65,11 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
         if (err)
         {
-            tty_printf("[ERROR] File '%s' not found\n", dir);
+            tty_printf("[ERROR] Directory/file '%s' not found\n", dir);
+        }
+        else if (fd.name.directory)
+        {
+            tty_printf("[ERROR] '%s' is a directory, not a file\n", dir);
         }
         else
         {
@@ -94,6 +98,10 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         if (err)
         {
             tty_printf("[ERROR] File '%s' not found\n", dir);
+        }
+        else if (fd.name.directory)
+        {
+            tty_printf("[ERROR] '%s' is a directory, not a file\n", dir);
         }
         else
         {
@@ -128,28 +136,43 @@ static bool terminal_builtin_command(const char *cmd, char *save)
                 tty_printf("[ERROR] File '%s' not found\n", dir);
                 return true;
             }
+            else if (!fd.name.directory)
+            {
+                tty_printf("[ERROR] '%s' is a file, not a directory\n", dir);
+            }
             else
             {
                 amt = files_ls(infos, 20, fd.cluster);
             }
         }
 
-        if(amt == -LS_ERROR_MAX_SIZE)
+        if (amt == -LS_ERROR_MAX_SIZE)
         {
             amt = 20;
         }
 
         tty_printf("Listing [%d] first files:\n", amt);
-        
-        if(amt < 0)
+
+        if (amt < 0)
         {
             tty_printf("[ERROR] LS got %d\n", amt);
             return true;
         }
-        
-        for(int32_t i = 0; i < amt; i++)
+
+        for (int32_t i = 0; i < amt; i++)
         {
-            tty_printf("%s\n", infos[i].name.name);
+            FAT_filename_info_t info = infos[i].name;
+
+            if (info.extension_len == 0)
+            {
+                tty_printf("%s/\n", info.name);
+            }
+            else
+            {
+                tty_printf("%s.%s\n", info.name, info.name + info.extension_begin);
+            }
+
+            // tty_printf("%d %d %s.%s\n", info.name_len, info.extension_len, info.name, info.name + info.extension_begin);
         }
 
         return true;
@@ -182,9 +205,9 @@ void terminal()
         {
             // tty_putch('\n');
         }
-        else if(resp != NULLPTR)
+        else if (resp != NULLPTR)
         {
-            tty_printf("Unknown command '%s'\n", resp);
+            tty_printf("Unknown command '%s'. Run 'help' for a list of commands\n", resp);
         }
     }
 }

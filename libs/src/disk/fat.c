@@ -121,31 +121,64 @@ void fat32_load_sector(ata_rw_data_t dest_buffer, uint32_t sector)
 
 static void fat32_parse_name(FAT_filename_info_t *resp)
 {
+    // Handle . and .. directory entries
+    if (resp->name[0] == '.')
+    {
+        resp->name_len = (resp->name[1] == '.') ? 2 : 1;
+        resp->name[resp->name_len] = '\0';
+        resp->extension_begin = resp->name_len + 1;
+        resp->name[resp->extension_begin] = '\0';
+        resp->extension_len = 0;
+        return;
+    }
+
     uint32_t i = 0;
-    while (resp->name[i] != ' ' && i < 255)
+
+    if (/* long filename — contains a dot */ strchr(resp->name, '.') != 0)
     {
-        i++;
+        // Long filename format: "HELLO.TXT"
+        while (i < 255 && resp->name[i] != '.' && resp->name[i] != '\0')
+            i++;
+
+        resp->name_len = i;
+        resp->name[i] = '\0';   // null terminate name
+        i++;                     // skip dot
+
+        // Copy extension to just after the null terminator
+        resp->extension_begin = i;
+        uint32_t len = 0;
+        while (i < 255 && resp->name[i] != '\0' && resp->name[i] != ' ')
+        {
+            i++;
+            len++;
+        }
+        resp->name[i] = '\0';
+        resp->extension_len = len;
     }
-
-    resp->name_len = i;
-    resp->name[i] = 0;
-
-    i++;
-
-    while (resp->name[i] == ' ' && i < 255)
+    else
     {
-        i++;
-    }
-    resp->extension_begin = i;
+        // Short 8.3 format: "HELLO   TXT"
+        while (i < 255 && resp->name[i] != ' ' && resp->name[i] != '\0')
+            i++;
 
-    uint32_t len = 0;
-    while (resp->name[i] != ' ' && i < 255)
-    {
+        resp->name_len = i;
+        resp->name[i] = '\0';   // null terminate name
+
+        // Skip padding spaces
         i++;
-        len++;
+        while (i < 255 && resp->name[i] == ' ')
+            i++;
+
+        resp->extension_begin = i;
+        uint32_t len = 0;
+        while (i < 255 && resp->name[i] != ' ' && resp->name[i] != '\0')
+        {
+            i++;
+            len++;
+        }
+        resp->name[i] = '\0';
+        resp->extension_len = len;
     }
-    resp->extension_len = len;
-    resp->name[i] = 0;
 }
 
 FAT_read_entry_resp_t fat32_read_entry_info(FAT_filename_info_t *resp, FAT_entry_t *info)
@@ -280,7 +313,8 @@ FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t *info, uint32_t start_clus
                     if (strcmp(name, curr_info.name) == 0)
                     {
                         // tty_printf("MATCH NAME\n");
-                        uint32_t curr_extension_len = strlen(curr_info.name + curr_info.extension_begin); // @todo fix extension_len
+                        // uint32_t curr_extension_len = strlen(curr_info.name + curr_info.extension_begin); // @todo fix extension_len
+                        uint32_t curr_extension_len = curr_info.extension_len;
 
                         if ((extension == NULLPTR && curr_extension_len == 0) || (strcmp(extension, curr_info.name + curr_info.extension_begin) == 0))
                         {

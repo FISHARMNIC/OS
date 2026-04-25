@@ -1,48 +1,18 @@
-# Minimal OS Build (CMake)
+# NicoOS
 
-This project mirrors the `boot + kernel` flow from `FISHARMNIC/osWIP`, but replaces shell build scripts with CMake.
+`./run-host.sh`
 
-## What is included
+## Working
+* Interrupts
+    * mouse
+    * keyboard
+    * syscalls
+* Filesystem
+* Userspace
+    * stdio syscalls
+    * fs syscalls
+* elf execution in userspace
 
-- Multiboot-compatible entry (`boot/boot.S`)
-- Linker script (`boot/linker.ld`)
-- GRUB config (`boot/grub.cfg`)
-- Minimal `kernel_entry` in C (`kernel/main.c`)
-- CMake targets for kernel binary, ISO image, and QEMU run
-
-## Build
-
-```sh
-cmake -S . -B build
-cmake --build build
-```
-
-That produces:
-
-- `build/compiled/MyOS.bin`
-
-## Optional targets
-
-If `grub-mkrescue` is installed:
-
-```sh
-cmake --build build --target iso
-```
-
-If `qemu-system-i386` is installed too:
-
-```sh
-cmake --build build --target run
-```
-
-## Toolchain notes
-
-By default, CMake looks for `i686-elf-gcc`.
-
-If you want to override the compiler prefix:
-
-```sh
-cmake -S . -B build -DCROSS_COMPILE=<prefix>
-```
-
-Example: `-DCROSS_COMPILE=i686-elf-`
+## Issues
+* Running `exec` twice causes memory corruption
+* First line in terminal will have '%' appended to the start
