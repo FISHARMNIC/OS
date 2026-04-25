@@ -92,3 +92,74 @@ uint32_t file_read(fd_t *info, uint8_t *buffer, uint32_t size)
 {
     return fat32_load_file(info, buffer, size);
 }
+
+// @todo should return/write a list of fd_t
+void files_ls(uint32_t start_cluster)
+{
+    ata_rw_data_t fat_buffer;
+    ata_rw_data_t sector_buffer;
+    uint8_t sec_per_clus = fat32_get_sec_per_clus();
+    uint32_t cluster = start_cluster;
+
+    if (!FAT_CLUSTER_IS_VALID(cluster))
+    {
+        tty_printf("Invalid directory start cluster: %d\n", cluster);
+        return;
+    }
+
+    while (1)
+    {
+        uint32_t first_sector = fat32_first_sector_of_cluster(cluster);
+
+        for (uint32_t sec = 0; sec < sec_per_clus; sec++)
+        {
+            fat32_load_sector(sector_buffer, first_sector + sec);
+
+            FAT_entry_t *entries = (FAT_entry_t *)sector_buffer;
+
+            for (uint32_t i = 0; i < 16; i++)
+            {
+                FAT_entry_t *entry = &entries[i];
+
+                if (FAT_ENTRY_IS_END(entry->fileName))
+                {
+                    return;
+                }
+
+                if (FAT_ENTRY_IS_FREE(entry->fileName))
+                {
+                    continue;
+                }
+
+                if (entry->attributes == FAT_ENTRY_ATTR_LONG_NAME)
+                {
+                    continue;
+                }
+
+                FAT_filename_info_t info;
+                FAT_read_entry_resp_t resp = fat32_read_entry_info(&info, entry);
+
+                if (resp != FILE_FOUND)
+                {
+                    continue;
+                }
+
+                if(info.directory)
+                {
+                    tty_printf("%s/\n", info.name);
+                }
+                else
+                {
+                    tty_printf("%s.%s\n", info.name, info.name + info.extension_begin);
+                }
+            }
+        }
+
+        uint32_t next = fat32_next_cluster(fat_buffer, cluster);
+
+        if (FAT_CLUSTER_IS_EOF(next) || !FAT_CLUSTER_IS_VALID(next))
+            return;
+
+        cluster = next;
+    }
+}

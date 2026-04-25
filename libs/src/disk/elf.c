@@ -66,7 +66,7 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
 
     for (uint16_t i = 0; i < hdr->phnum; i++)
     {
-        tty_printf("[ELF] Loading program header %d : %d\n", i, hdr->phnum);
+        // tty_printf("[ELF] Loading program header %d : %d\n", i, hdr->phnum);
 
         const elf_ph_t *ph = elf_get_ph(file_bytes, hdr, i);
 
@@ -76,7 +76,7 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
         if (ph->memsz == 0)
             continue;
 
-        tty_printf("\t[ELF] Moving offset into virt addr\n");
+        // tty_printf("\t[ELF] Moving offset into virt addr\n");
 
         // File into virt addr
         memcpy((void *)ph->vaddr, file_bytes + ph->offset, ph->filesz);
@@ -87,7 +87,7 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
             memset((void *)(ph->vaddr + ph->filesz), 0, ph->memsz - ph->filesz);
         }
 
-        tty_printf("\t[ELF] Giving user permissions [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
+        // tty_printf("\t[ELF] Giving user permissions [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
 
         // Set user
         paging_set_user_range(ph->vaddr, ph->memsz);
@@ -112,7 +112,7 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
         // tty_printf("[ELF] bytes at entry: %d %d %d %d\n", dst[0], dst[1], dst[2], dst[3]);
     }
 
-    tty_puts("[ELF] Loaded!\n");
+    // tty_puts("[ELF] Loaded!\n");
 
     return ELF_OK;
 }
@@ -128,7 +128,7 @@ void elf_unload(const elf_section_offsets_t *info)
         if (ph->type != PT_LOAD || ph->memsz == 0)
             continue;
 
-        tty_printf("\t[ELF] Revoking user privledges at [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
+        // tty_printf("\t[ELF] Revoking user privledges at [%d - %d]\n", ph->vaddr, ph->vaddr + ph->memsz);
 
         paging_clear_user_range(ph->vaddr, ph->memsz);
     }
@@ -170,11 +170,11 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
 
     uint32_t stack_top = (uint32_t)user_stack + user_stack_size;
 
-    tty_printf("[ELF] Giving stack access on [%d - %d]\n", user_stack, stack_top);
+    // tty_printf("[ELF] Giving stack access on [%d - %d]\n", user_stack, stack_top);
 
     paging_set_user_range((uint32_t)user_stack, user_stack_size);
 
-    tty_printf("[ELF] Jumping to userspace at %d\n", elf_info.entry_fileOff);
+    // tty_printf("[ELF] Jumping to userspace at %d\n", elf_info.entry_fileOff);
 
     if (setjmp(kernel_return_ctx) == 0)
     {
@@ -182,15 +182,15 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
     }
     else
     {
-        tty_puts("[ELF] Longjmp return\n");
+        // tty_puts("[ELF] Longjmp return\n");
         elf_unload(&elf_info);
-        tty_puts("[ELF] Unloaded!\n");
+        // tty_puts("[ELF] Unloaded!\n");
         
         interrupts_enable();
 
         if (ret)
         {
-            tty_printf("[ELF] Calling return function at %d\n", (uint32_t)ret);
+            // tty_printf("[ELF] Calling return function at %d\n", (uint32_t)ret);
             ret();
         }
         else

@@ -210,7 +210,7 @@ uint32_t fat32_entry_cluster(FAT_entry_t *entry)
     return ((uint32_t)entry->clusNumHigh << 16) | entry->clusNumLow;
 }
 
-static uint8_t fat_entry_is_dot(FAT_entry_t *entry)
+uint8_t fat_entry_is_dot(FAT_entry_t *entry)
 {
     char n0 = entry->fileName[0];
     char n1 = entry->fileName[1];
@@ -280,7 +280,7 @@ FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t *info, uint32_t start_clus
                     if (strcmp(name, curr_info.name) == 0)
                     {
                         // tty_printf("MATCH NAME\n");
-                        uint32_t curr_extension_len = strlen(curr_info.name + curr_info.extension_begin);
+                        uint32_t curr_extension_len = strlen(curr_info.name + curr_info.extension_begin); // @todo fix extension_len
 
                         if ((extension == NULLPTR && curr_extension_len == 0) || (strcmp(extension, curr_info.name + curr_info.extension_begin) == 0))
                         {

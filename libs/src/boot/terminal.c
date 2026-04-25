@@ -11,7 +11,6 @@ static const char *prompt = "> ";
 #define user_stack_size 4096
 uint8_t user_stack_[user_stack_size] __attribute__((aligned(user_stack_size)));
 
-
 void drawch(uint8_t c)
 {
     if (c == KEY_BACKSPACE)
@@ -32,7 +31,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
     if (strcmp(cmd, "help") == 0)
     {
-        tty_puts("Commands:\n\tclear\n\ttouch\n\texec\n\telftest\n\tfattest\n");
+        tty_puts("Commands:\n\tclear\n\tls\n\ttouch\n\texec\nTesting:\n\telftest\n\tfattest\n");
         return true;
     }
     else if (strcmp(cmd, "clear") == 0)
@@ -53,6 +52,12 @@ static bool terminal_builtin_command(const char *cmd, char *save)
     else if (strcmp(cmd, "touch") == 0)
     {
         char *dir = strtok_r(NULLPTR, " ", &save);
+        if (dir == NULLPTR)
+        {
+            tty_printf("[USAGE] touch path/to/file.txt\n", dir);
+            return true;
+        }
+
         str_toupper(dir);
 
         fd_t fd;
@@ -75,6 +80,12 @@ static bool terminal_builtin_command(const char *cmd, char *save)
     else if (strcmp(cmd, "exec") == 0)
     {
         char *dir = strtok_r(NULLPTR, " ", &save);
+        if (dir == NULLPTR)
+        {
+            tty_printf("[USAGE] exec path/to/file.elf\n", dir);
+            return true;
+        }
+
         str_toupper(dir);
 
         fd_t fd;
@@ -93,6 +104,30 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             elf_exec(buffer, size, user_stack_, user_stack_size, terminal);
         }
 
+        return true;
+    }
+    else if (strcmp(cmd, "ls") == 0)
+    {
+        char *dir = strtok_r(NULLPTR, " ", &save);
+        if (dir == NULLPTR)
+        {
+            files_ls(fat32_get_root());
+        }
+        else
+        {
+            str_toupper(dir);
+
+            fd_t fd;
+            uint32_t err = file_find(&fd, dir);
+            if (err)
+            {
+                tty_printf("[ERROR] File '%s' not found\n", dir);
+            }
+            else
+            {
+                files_ls(fd.cluster);
+            }
+        }
         return true;
     }
     else
@@ -121,9 +156,9 @@ void terminal()
 
         if (valid)
         {
-            tty_putch('\n');
+            // tty_putch('\n');
         }
-        else
+        else if(resp != NULLPTR)
         {
             tty_printf("Unknown command '%s'\n", resp);
         }

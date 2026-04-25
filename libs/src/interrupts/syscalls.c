@@ -29,7 +29,7 @@ static void _syscall_exit(regs32_t registers)
 
 void syscall_dispatch(regs32_t r)
 {
-    tty_printf("[SYSCALL] called! eax=%d\n", r.eax);
+    // tty_printf("[SYSCALL] called! eax=%d\n", r.eax);
     (syscalls[r.eax])(r);
 }
 

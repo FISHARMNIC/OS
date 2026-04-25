@@ -12,4 +12,6 @@ uint32_t file_find(fd_t *fd, char *name);
 uint32_t file_size(fd_t *info);
 uint32_t file_read(fd_t *info, uint8_t *buffer, uint32_t size);
 
+void files_ls(uint32_t start_cluster);
+
 #endif

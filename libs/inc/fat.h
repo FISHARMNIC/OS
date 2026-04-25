@@ -165,4 +165,6 @@ FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t* info, uint32_t start_clus
 
 uint32_t fat32_load_file(FAT_file_info_t* info, uint8_t* buffer, uint32_t max_size);
 
+uint8_t fat_entry_is_dot(FAT_entry_t *entry);
+
 #endif
