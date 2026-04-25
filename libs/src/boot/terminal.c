@@ -90,16 +90,6 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         tty_clear();
         return true;
     }
-    // else if (strcmp(cmd, "elftest") == 0)
-    // {
-    //     elftest(terminal);
-    //     return true;
-    // }
-    // else if (strcmp(cmd, "fattest") == 0)
-    // {
-    //     fattest();
-    //     return true;
-    // }
     else if (strcmp(cmd, "exec") == 0)
     {
         char *dir = strtok_r(NULLPTR, " ", &save);
@@ -151,71 +141,6 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
         return true;
     }
-    /*
-    else if (strcmp(cmd, "ls") == 0)
-    {
-        char *dir = strtok_r(NULLPTR, " ", &save);
-
-        fd_t infos[20];
-        int32_t amt = 0;
-
-        if (dir == NULLPTR)
-        {
-            amt = files_ls(infos, 20, fat32_get_root());
-        }
-        else
-        {
-            str_toupper(dir);
-
-            fd_t fd;
-            uint32_t err = file_find(&fd, dir);
-            if (err)
-            {
-                tty_printf("[ERROR] File '%s' not found\n", dir);
-                return true;
-            }
-            else if (!fd.name.directory)
-            {
-                tty_printf("[ERROR] '%s' is a file, not a directory\n", dir);
-            }
-            else
-            {
-                amt = files_ls(infos, 20, fd.cluster);
-            }
-        }
-
-        if (amt == -LS_ERROR_MAX_SIZE)
-        {
-            amt = 20;
-        }
-
-        tty_printf("Listing [%d] first files:\n", amt);
-
-        if (amt < 0)
-        {
-            tty_printf("[ERROR] LS got %d\n", amt);
-            return true;
-        }
-
-        for (int32_t i = 0; i < amt; i++)
-        {
-            FAT_filename_info_t info = infos[i].name;
-
-            if (info.extension_len == 0)
-            {
-                tty_printf("%s/\n", info.name);
-            }
-            else
-            {
-                tty_printf("%s.%s\n", info.name, info.name + info.extension_begin);
-            }
-
-            // tty_printf("%d %d %s.%s\n", info.name_len, info.extension_len, info.name, info.name + info.extension_begin);
-        }
-
-        return true;
-    }
-    */
     else
     {
         return false;
