@@ -3,6 +3,7 @@
 #include <cpu.h>
 #include <graphics.h>
 
+// @todo replace with use of strtok_r
 static char *find_next(char *ptr, char find) // replaces slash will null and returns next section
 {
     char *nextptr = NULLPTR;

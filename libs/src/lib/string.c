@@ -62,3 +62,70 @@ char *strchr(const char *s, char c)
     } while (*(s++));
     return NULLPTR;
 }
+
+
+char *strtok_r(char *str, const char *delim, char **saveptr)
+{
+    if (str == NULLPTR)
+        str = *saveptr;
+
+    if (str == NULLPTR)
+        return NULLPTR;
+
+    // skip leading delimiters
+    while (*str)
+    {
+        int is_delim = 0;
+
+        for (const char *d = delim; *d; d++)
+        {
+            if (*str == *d)
+            {
+                is_delim = 1;
+                break;
+            }
+        }
+
+        if (!is_delim)
+            break;
+
+        str++;
+    }
+
+    if (*str == '\0')
+    {
+        *saveptr = NULLPTR;
+        return NULLPTR;
+    }
+
+    char *token = str;
+
+    while (*str)
+    {
+        for (const char *d = delim; *d; d++)
+        {
+            if (*str == *d)
+            {
+                *str = '\0';
+                *saveptr = str + 1;
+                return token;
+            }
+        }
+        str++;
+    }
+
+    *saveptr = NULLPTR;
+    return token;
+}
+
+void str_toupper(char *s)
+{
+    if (!s) return;
+
+    while (*s)
+    {
+        if (*s >= 'a' && *s <= 'z')
+            *s -= ('a' - 'A');
+        s++;
+    }
+}
