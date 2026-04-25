@@ -175,15 +175,19 @@ M mmd z:/boot/grub
 M mmd z:/test
 M mmd z:/dir1
 M mmd z:/dir1/dir1A
+M mmd z:/bin
 
 M mcopy "${KERNEL_BIN}"                           z:/boot/MyOS.bin
 M mcopy "${ROOT_DIR}/boot/grub.cfg"               z:/boot/grub/grub.cfg
 M mcopy "${ROOT_DIR}/boot/FONT.F16"               z:/boot/FONT.F16
 M mcopy "${ROOT_DIR}/userspace/gen/bin/test.elf"  z:/test/test.elf
 M mcopy "${ROOT_DIR}/userspace/gen/bin/filetest.elf"  z:/test/file.elf
-M mcopy "${ROOT_DIR}/userspace/gen/bin/lst.elf"  z:/test/lst.elf
+
 M mcopy "${ROOT_DIR}/userspace/gen/bin/hello.txt" z:/test/hello.txt
 M mcopy "${ROOT_DIR}/userspace/gen/bin/hello.txt" z:/dir1/dir1A/hello.txt
+
+M mcopy "${ROOT_DIR}/userspace/gen/bin/lst.elf"  z:/bin/ls.elf
+M mcopy "${ROOT_DIR}/userspace/gen/bin/touch.elf"  z:/bin/touch.elf
 
 # Build GRUB core image
 CORE_IMG="${COMPILED}/core.img"
