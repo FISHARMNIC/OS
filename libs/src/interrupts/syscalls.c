@@ -2,6 +2,7 @@
 #include <graphics.h>
 #include <cpu.h>
 #include <files.h>
+#include <elf.h>
 
 static interrupt_fn_t syscalls[256];
 
@@ -32,7 +33,14 @@ static void _syscall_file_find(regs32_t registers)
     char* name =  (char*) registers.SYSCALL_PARAM_2;
     uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_3;
 
+    // tty_printf("(KERN) fd at: %d\n", fd);
+
+    // tty_printf("LOADING IN POINTERS %d %d %d\n", fd, name, resp);
+
     *resp = file_find(fd, name);
+
+    // tty_printf("RESP %s %d\n", fd->name.name, fd->entry.fileSizeBytes);
+
 }
 
 static void _syscall_file_read(regs32_t registers)
@@ -43,7 +51,28 @@ static void _syscall_file_read(regs32_t registers)
     uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
     *resp = file_read(fd, buffer, size);
+
+    // tty_printf("READ %d BYTES %s\n", size, buffer);
 }
+
+// @todo should just be simpler, pass directory only and should somehow setjmp here
+/*
+static void _syscall_spawn(regs32_t registers)
+{
+    fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
+    uint8_t* buffer =  (uint8_t*) registers.SYSCALL_PARAM_2;
+    uint32_t size =  (uint32_t) registers.SYSCALL_PARAM_3;
+    uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
+
+    *resp = file_read(fd, buffer, size);
+    if(resp == 0)
+    {
+        return;
+    }
+
+    elf_exec(buffer, )
+}
+*/
 
 void syscall_dispatch(regs32_t r)
 {

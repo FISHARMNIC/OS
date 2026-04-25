@@ -14,14 +14,11 @@ int main()
     else
     {
         uint32_t size = fsize(&fd);
+        uint8_t buffer[size];
 
-        printf("File size: %d\n", size);
-
-        // uint8_t buffer[size];
-
-        // fread(&fd, buffer, size);
-
-        // puts(buffer);
+        uint32_t bytes_read = fread(&fd, buffer, size);
+        
+        printf("File contents[%d]: '%s'\n", bytes_read, buffer);
     }
 
     return 0;
