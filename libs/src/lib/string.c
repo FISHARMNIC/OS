@@ -140,5 +140,7 @@ char* strcat(char* dest, char* extra)
         *(dest++) = *(extra++);
     }
 
+    *dest = 0;
+
     return dest;
 }
