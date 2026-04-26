@@ -3,6 +3,9 @@
 #include <cpu.h>
 #include <graphics.h>
 
+char pwd_temp[PWD_SIZE];
+char pwd[PWD_SIZE];
+
 // @todo replace with use of strtok_r
 static char *find_next(char *ptr, char find) // replaces slash will null and returns next section
 {
@@ -30,6 +33,25 @@ uint32_t file_find(fd_t *fd, char *name)
         fat32_find_file(fd, 0, NULLPTR, NULLPTR, false);
         return 0;
     }
+
+    if(name[0] == '/')
+    {
+        name = name+1;
+    }
+    else
+    {
+        memcpy(pwd_temp, pwd, PWD_SIZE);
+        strcat(pwd_temp, "/");
+        strcat(pwd_temp, name);
+        name = pwd_temp; // @todo bound check
+    }
+
+    if(name[0] == '/')
+    {
+        name = name+1;
+    }
+
+    // tty_printf("\t\tFINDING %s\n", name);
 
     uint32_t len = strlen(name) + 1;
 

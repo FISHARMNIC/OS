@@ -8,18 +8,13 @@
 
 static const char *prompt = "> ";
 
-#define PWD_SIZE 100
-
-char pwd_last[PWD_SIZE];
-char pwd[PWD_SIZE];
-
 void drawch(uint8_t c)
 {
     static uint32_t n = 0;
 
     if (c == KEY_BACKSPACE)
     {
-        if(n > 0)
+        if (n > 0)
         {
             tty_putch('\b');
         }
@@ -39,7 +34,14 @@ static bool terminal_bin_cmd(char *cmd, char *save)
 {
     static fd_t infos[20];
     fd_t bin;
-    file_find(&bin, "BIN");
+
+    uint32_t err = file_find(&bin, "/BIN");
+
+    if (err)
+    {
+        tty_puts("[ERROR] /BIN does not exist!\n");
+        return false;
+    }
 
     str_toupper(cmd);
 
@@ -160,7 +162,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
         // @todo do bounds check on pwd size
         char *dir = strtok_r(NULLPTR, " ", &save);
-        if(dir == NULLPTR)
+        if (dir == NULLPTR)
         {
             tty_printf("[USAGE] cd path\n");
         }
@@ -168,29 +170,53 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         {
             str_toupper(dir);
 
-            memcpy(pwd_last, pwd, PWD_SIZE);
+            char temp[PWD_SIZE];
 
-            if(pwd[0] != 0 && pwd[strlen(pwd) - 1] != '/')
-            {
-                strcat(pwd, "/");
-            }
-            strcat(pwd, dir);
+            memcpy(temp, pwd, PWD_SIZE); // use temp
 
-            fd_t fd;
-            uint32_t err = file_find(&fd, pwd);
-            if(err)
+            if (dir[0] == '/') // from root
             {
-                tty_printf("[ERROR] Path [%s] does not exist\n", pwd);
-                memcpy(pwd, pwd_last, PWD_SIZE);
+                if(dir[1] == 0)
+                {
+                    fd_t fd;
+                    file_find(&fd, NULLPTR);
+                    memcpy(pwd, "/\0", 2);
+                    tty_printf("pwd: %s\n", pwd);
+                    return true;
+                }
+                else
+                {
+                memcpy(temp, dir, strlen(dir) + 1); // @todo cleanup
+                }
             }
             else
             {
-                tty_printf("pwd: %s\n", pwd);
+                if (temp[0] != 0 && temp[strlen(temp) - 1] != '/') // append slash befor new dir
+                {
+                    strcat(temp, "/");
+                }
+
+                strcat(temp, dir);
+            }
+
+            tty_printf("DIR IS %s\n", temp);
+
+            fd_t fd;
+            uint32_t err = file_find(&fd, temp);
+            if (err || !fd.name.directory)
+            {
+                tty_printf("[ERROR] Path [%s] does not exist\n", temp);
+                // memcpy(pwd, saved, PWD_SIZE); // copy back on fail
+            }
+            else
+            {
+                memcpy(pwd, temp, PWD_SIZE); // success, use it
+                tty_printf("pwd: %s\n", pwd);   
             }
         }
         return true;
     }
-    else if(strcmp(cmd, "pwd") == 0)
+    else if (strcmp(cmd, "pwd") == 0)
     {
         tty_printf("pwd: %s\n", pwd);
         return true;
