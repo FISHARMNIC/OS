@@ -136,7 +136,7 @@ If number = 0, then it was correct
 
 typedef enum
 {
-    ELF_OK,
+    ELF_OK = 1,
     ELF_ERR_MAGIC,
     ELF_ERR_CLASS,
     ELF_ERR_TYPE,
@@ -144,9 +144,18 @@ typedef enum
     ELF_ERR_NOPHDR,
 } elf_error_t;
 
+typedef struct
+{
+    uint8_t* buffer;
+    uint32_t size;
+} elf_loaded_file_t;
+
+#define user_stack_size 4096
+extern uint8_t user_stack_glob[user_stack_size] __attribute__((aligned(user_stack_size)));
+
 elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_offsets_t *out);
 void elf_unload(const elf_section_offsets_t *info);
-elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size, uint32_t argc, char** argv);
+elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t stack_size, uint32_t argc, char** argv);
 
 
 #endif

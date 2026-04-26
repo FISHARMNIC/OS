@@ -25,7 +25,7 @@ uint32_t file_find(fd_t *fd, char *name)
 {
     // tty_printf("SCANNING %s\n", name);
 
-    if(name == NULLPTR)
+    if (name == NULLPTR)
     {
         fat32_find_file(fd, 0, NULLPTR, NULLPTR, false);
         return 0;
@@ -48,7 +48,7 @@ uint32_t file_find(fd_t *fd, char *name)
             // tty_printf("END %d %d\n", (uint32_t)(ptr - buffer), len);
             break; // on to file now
         }
-        // tty_printf("Looking for: %s\n", ptr);
+        // tty_printf("\tLooking for: %s\n", ptr);
 
         FAT_read_entry_resp_t resp = fat32_find_file(fd, cluster, ptr, NULLPTR, false);
         if (resp != FILE_FOUND)
@@ -58,14 +58,32 @@ uint32_t file_find(fd_t *fd, char *name)
         }
 
         cluster = fd->cluster;
+        // tty_printf("\tIn Cluster: %d\n", cluster);
         ptr = nextptr;
     }
 
-    char *nextptr = find_next(ptr, '.');
+    FAT_read_entry_resp_t resp;
 
-    // tty_printf("Now onto file '%s'.'%s'\n", ptr, nextptr == NULLPTR ? "NONE" : nextptr);
+    if (*ptr == '.') // ../ and ./
+    {
+        if (ptr[1] == '.')
+        {
+            resp = fat32_find_file(fd, cluster, "..", NULLPTR, false);
+        }
+        else
+        {
+            resp = fat32_find_file(fd, cluster, ".", NULLPTR, false);
+        }
+    }
+    else
+    {
 
-    FAT_read_entry_resp_t resp = fat32_find_file(fd, cluster, ptr, nextptr, false);
+        char *nextptr = find_next(ptr, '.');
+
+        // tty_printf("Now onto file '%s'.'%s'\n", ptr, nextptr == NULLPTR ? "NONE" : nextptr);
+
+        resp = fat32_find_file(fd, cluster, ptr, nextptr, false);
+    }
 
     if (resp == FILE_FOUND)
     {
@@ -107,7 +125,7 @@ int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
     uint8_t sec_per_clus = fat32_get_sec_per_clus();
     uint32_t cluster = start_cluster;
 
-    if(start_cluster == 0) // @todo maybe not the best way to approach ls from root? If something else calls expecting 0 to fail this breaks
+    if (start_cluster == 0) // @todo maybe not the best way to approach ls from root? If something else calls expecting 0 to fail this breaks
     {
         cluster = fat32_get_root();
     }
@@ -157,8 +175,7 @@ int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
                     continue;
                 }
 
-
-                if(n >= max_size)
+                if (n >= max_size)
                 {
                     return -LS_ERROR_MAX_SIZE;
                 }
@@ -168,7 +185,6 @@ int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
                 infos[n].entry = *entry;
 
                 n++;
-
 
                 // if(info.directory)
                 // {

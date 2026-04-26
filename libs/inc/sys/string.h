@@ -11,5 +11,6 @@ void* memset(void* dest, const uint8_t src, uint32_t size);
 char *strchr(const char *s, char c);
 char *strtok_r(char *str, const char *delim, char **saveptr);
 void str_toupper(char *s);
+char* strcat(char* dest, char* extra);
 
 #endif

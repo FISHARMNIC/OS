@@ -8,6 +8,8 @@
 
 // extern uint8_t stack_top[];
 
+uint8_t user_stack_glob[user_stack_size] __attribute__((aligned(user_stack_size)));
+
 static elf_error_t elf_validate(const elf_header_t *hdr)
 {
     if (hdr->ident[EI_MAG0] != ELFMAG0 ||
@@ -193,7 +195,7 @@ static void elf_jump_user(uint32_t entry, uint32_t user_stack_top, uint32_t argc
         : "eax");
 }
 
-elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t user_stack_size, uint32_t argc, char** argv)
+elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t stack_size, uint32_t argc, char** argv)
 {
     elf_section_offsets_t elf_info;
 
@@ -203,11 +205,11 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
         return err;
     }
 
-    uint32_t user_stack_top = (uint32_t)user_stack + user_stack_size;
+    uint32_t user_stack_top = (uint32_t)user_stack + stack_size;
 
     // tty_printf("[ELF] Giving stack access on [%d - %d]\n", user_stack, user_stack_top);
 
-    paging_set_user_range((uint32_t)user_stack, user_stack_size);
+    paging_set_user_range((uint32_t)user_stack, stack_size);
 
     // tty_printf("[ELF] Jumping to userspace at %d\n", elf_info.entry_fileOff);
 

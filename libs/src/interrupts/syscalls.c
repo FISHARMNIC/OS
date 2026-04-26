@@ -69,22 +69,28 @@ static void _syscall_file_ls(regs32_t registers)
 
 // @todo should just be simpler, pass directory only and should somehow setjmp here
 
-// static void _syscall_spawn(regs32_t registers)
-// {
-//     fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
-//     uint8_t* buffer =  (uint8_t*) registers.SYSCALL_PARAM_2;
-//     uint32_t size =  (uint32_t) registers.SYSCALL_PARAM_3;
-//     uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
+static void _syscall_exec(regs32_t registers) // @todo fix, page faults
+{
+    // fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
+    // uint32_t argc =  (uint32_t) registers.SYSCALL_PARAM_2;
+    // char** argv =  (char**) registers.SYSCALL_PARAM_3;
+    // uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
-//     *resp = file_read(fd, buffer, size);
-//     if(resp == 0)
-//     {
-//         return;
-//     }
+    // uint32_t size = file_size(fd);
+    // uint8_t buffer[size];
 
-//     elf_exec(buffer, )
-// }
+    // // tty_printf("File size %d\n", size);
 
+    // *resp = file_read(fd, buffer, size);
+    // if(resp == 0)
+    // {
+    //     return;
+    // }
+
+    // static uint8_t ustack[user_stack_size] __attribute__((aligned(user_stack_size)));
+
+    // *resp = elf_exec(buffer, size, user_stack_glob, user_stack_size, argc, argv);
+}
 
 void syscall_dispatch(regs32_t r)
 {
@@ -101,6 +107,8 @@ void syscalls_init()
     syscall_create(_syscall_file_find, SYSCALL_FILE_FIND);
     syscall_create(_syscall_file_read, SYSCALL_FILE_READ);
     syscall_create(_syscall_file_ls, SYSCALL_FILE_LS);
+
+    syscall_create(_syscall_exec, SYSCALL_EXEC);
 
     idt_set_gate_user(SYSCALLS_IDT_ENTRY, (void *)syscall_stub);
 }
