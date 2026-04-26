@@ -68,23 +68,23 @@ static void _syscall_file_ls(regs32_t registers)
 }
 
 // @todo should just be simpler, pass directory only and should somehow setjmp here
-/*
-static void _syscall_spawn(regs32_t registers)
-{
-    fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
-    uint8_t* buffer =  (uint8_t*) registers.SYSCALL_PARAM_2;
-    uint32_t size =  (uint32_t) registers.SYSCALL_PARAM_3;
-    uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
-    *resp = file_read(fd, buffer, size);
-    if(resp == 0)
-    {
-        return;
-    }
+// static void _syscall_spawn(regs32_t registers)
+// {
+//     fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
+//     uint8_t* buffer =  (uint8_t*) registers.SYSCALL_PARAM_2;
+//     uint32_t size =  (uint32_t) registers.SYSCALL_PARAM_3;
+//     uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
-    elf_exec(buffer, )
-}
-*/
+//     *resp = file_read(fd, buffer, size);
+//     if(resp == 0)
+//     {
+//         return;
+//     }
+
+//     elf_exec(buffer, )
+// }
+
 
 void syscall_dispatch(regs32_t r)
 {

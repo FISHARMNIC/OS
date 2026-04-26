@@ -13,13 +13,23 @@ uint8_t user_stack_[user_stack_size] __attribute__((aligned(user_stack_size)));
 
 void drawch(uint8_t c)
 {
+    static uint32_t n = 0;
+
     if (c == KEY_BACKSPACE)
     {
-        tty_putch('\b');
+        if(n > 0)
+        {
+            tty_putch('\b');
+        }
     }
     else if (c != KEY_ENTER)
     {
         tty_putch(keyboard_keycode_to_char(c));
+        n++;
+    }
+    else
+    {
+        n = 0;
     }
 }
 
