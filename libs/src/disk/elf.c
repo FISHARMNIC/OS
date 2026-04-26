@@ -48,7 +48,7 @@ static const elf_ph_t *elf_get_ph(const uint8_t *file, const elf_header_t *hdr, 
  */
 elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_offsets_t *out)
 {
-    tty_printf("[ELF] Loading file at %d, size %d\n", (uint32_t)file_bytes, file_size);
+    // tty_printf("[ELF] Loading file at %d, size %d\n", (uint32_t)file_bytes, file_size);
 
     const elf_header_t *hdr = (const elf_header_t *)file_bytes;
     elf_error_t err = elf_validate(hdr);
