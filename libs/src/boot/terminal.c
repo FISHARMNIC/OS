@@ -104,57 +104,6 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         tty_clear();
         return true;
     }
-    else if (strcmp(cmd, "exec") == 0)
-    {
-        char *dir = strtok_r(NULLPTR, " ", &save);
-        if (dir == NULLPTR)
-        {
-            tty_printf("[USAGE] exec path/to/file.elf\n", dir);
-            return true;
-        }
-
-        str_toupper(dir);
-
-        fd_t fd;
-        uint32_t err = file_find(&fd, dir);
-
-        if (err)
-        {
-            tty_printf("[ERROR] File '%s' not found\n", dir);
-        }
-        else if (fd.name.directory)
-        {
-            tty_printf("[ERROR] '%s' is a directory, not a file\n", dir);
-        }
-        else
-        {
-            uint32_t size = file_size(&fd);
-            uint8_t buffer[size];
-            file_read(&fd, buffer, size);
-
-            char *args[10]; // @todo make this dynamic or do some better way
-
-            uint32_t i = 0;
-
-            while (i < 10)
-            {
-                char *arg = strtok_r(NULLPTR, " ", &save);
-                if (arg == NULLPTR)
-                {
-                    break;
-                }
-                else
-                {
-                    args[i] = arg;
-                }
-                i++;
-            }
-
-            elf_exec(buffer, size, user_stack_glob, user_stack_size, i, args);
-        }
-
-        return true;
-    }
     else if (strcmp(cmd, "cd") == 0)
     {
         // @todo ../ still appends to pwd string and just makes it longer until overflow + slowdown. Make it remove last if ../

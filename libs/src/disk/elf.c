@@ -8,6 +8,12 @@
 
 // extern uint8_t stack_top[];
 
+uint8_t  exec_pending      = 0;
+uint8_t *exec_pending_file = 0;
+uint32_t exec_pending_size = 0;
+uint32_t exec_pending_argc = 0;
+char   **exec_pending_argv = 0;
+
 uint8_t user_stack_glob[user_stack_size] __attribute__((aligned(user_stack_size)));
 
 static elf_error_t elf_validate(const elf_header_t *hdr)
@@ -67,6 +73,8 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
     out->text_size = 0;
     out->data_offset = 0;
     out->data_size = 0;
+
+    // paging_set_user_range((uint32_t)user_stack_glob, user_stack_size);
 
     for (uint16_t i = 0; i < hdr->phnum; i++)
     {
@@ -221,6 +229,7 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
     {
         // tty_puts("[ELF] Longjmp return\n");
         elf_unload(&elf_info);
+        paging_clear_user_range((uint32_t)user_stack_glob, user_stack_size);
         // tty_puts("[ELF] Unloaded!\n");
 
         interrupts_enable();
@@ -235,6 +244,16 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
         // {
         //     asm volatile("cli; hlt");
         // }
+
+        if (exec_pending)
+    {
+        exec_pending = 0;
+        elf_exec(exec_pending_file, exec_pending_size,
+                 user_stack, user_stack_size,
+                 exec_pending_argc, exec_pending_argv);
+        return ELF_OK;
+    }
+
 
         return ELF_OK;
     }

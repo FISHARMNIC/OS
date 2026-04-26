@@ -157,5 +157,10 @@ elf_error_t elf_load(const uint8_t *file_bytes, uint32_t file_size, elf_section_
 void elf_unload(const elf_section_offsets_t *info);
 elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t stack_size, uint32_t argc, char** argv);
 
+extern uint8_t  exec_pending;
+extern uint8_t *exec_pending_file;
+extern uint32_t exec_pending_size;
+extern uint32_t exec_pending_argc;
+extern char   **exec_pending_argv;
 
 #endif
