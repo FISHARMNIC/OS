@@ -8,8 +8,10 @@
 
 static const char *prompt = "> ";
 
-#define user_stack_size 4096
-uint8_t user_stack_[user_stack_size] __attribute__((aligned(user_stack_size)));
+#define PWD_SIZE 100
+
+char pwd_last[PWD_SIZE];
+char pwd[PWD_SIZE];
 
 void drawch(uint8_t c)
 {
@@ -73,7 +75,7 @@ static bool terminal_bin_cmd(char *cmd, char *save)
                 i++;
             }
 
-            elf_exec(buffer, size, user_stack_, user_stack_size, i, args);
+            elf_exec(buffer, size, user_stack_glob, user_stack_size, i, args);
 
             return true;
         }
@@ -146,9 +148,51 @@ static bool terminal_builtin_command(const char *cmd, char *save)
                 i++;
             }
 
-            elf_exec(buffer, size, user_stack_, user_stack_size, i, args);
+            elf_exec(buffer, size, user_stack_glob, user_stack_size, i, args);
         }
 
+        return true;
+    }
+    else if (strcmp(cmd, "cd") == 0)
+    {
+        // @todo ../ still appends to pwd string and just makes it longer until overflow + slowdown. Make it remove last if ../
+        // @todo similar for ./
+
+        // @todo do bounds check on pwd size
+        char *dir = strtok_r(NULLPTR, " ", &save);
+        if(dir == NULLPTR)
+        {
+            tty_printf("[USAGE] cd path\n");
+        }
+        else
+        {
+            str_toupper(dir);
+
+            memcpy(pwd_last, pwd, PWD_SIZE);
+
+            if(pwd[0] != 0 && pwd[strlen(pwd) - 1] != '/')
+            {
+                strcat(pwd, "/");
+            }
+            strcat(pwd, dir);
+
+            fd_t fd;
+            uint32_t err = file_find(&fd, pwd);
+            if(err)
+            {
+                tty_printf("[ERROR] Path [%s] does not exist\n", pwd);
+                memcpy(pwd, pwd_last, PWD_SIZE);
+            }
+            else
+            {
+                tty_printf("pwd: %s\n", pwd);
+            }
+        }
+        return true;
+    }
+    else if(strcmp(cmd, "pwd") == 0)
+    {
+        tty_printf("pwd: %s\n", pwd);
         return true;
     }
     else

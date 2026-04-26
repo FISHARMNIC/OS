@@ -13,7 +13,9 @@ typedef enum
     SYSCALL_EXIT,
     SYSCALL_FILE_FIND,
     SYSCALL_FILE_READ,
-    SYSCALL_FILE_LS
+    SYSCALL_FILE_LS,
+
+    SYSCALL_EXEC
 } syscalls_t;
 
 #define STR1(x)  #x

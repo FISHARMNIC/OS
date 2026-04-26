@@ -129,3 +129,16 @@ void str_toupper(char *s)
         s++;
     }
 }
+
+char* strcat(char* dest, char* extra)
+{
+    while(*(dest++) != 0);
+    dest--;
+
+    while(*extra != 0)
+    {
+        *(dest++) = *(extra++);
+    }
+
+    return dest;
+}

@@ -276,6 +276,12 @@ FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t *info, uint32_t start_clus
         return FILE_FOUND;
         // fat32_load_sector(sector_buffer, fat32_first_sector_of_cluster(fat32_get_root()));
     }
+    
+    if (start_cluster == 0) // @todo maybe not the best way to approach ls from root? If something else calls expecting 0 to fail this breaks
+    {
+        info->cluster = fat32_get_root();
+        return FILE_FOUND;
+    }
 
     if (!FAT_CLUSTER_IS_VALID(cluster))
     {
@@ -316,16 +322,16 @@ FAT_read_entry_resp_t fat32_find_file(FAT_file_info_t *info, uint32_t start_clus
                 }
                 else
                 {
-                    // tty_printf("Comparing %s %s %d\n", name, curr_info.name);
+                    // tty_printf("\t\tComparing %s %s %d\n", name, curr_info.name);
                     if (strcmp(name, curr_info.name) == 0)
                     {
-                        // tty_printf("MATCH NAME\n");
+                        // tty_printf("\tMATCH NAME\n");
                         // uint32_t curr_extension_len = strlen(curr_info.name + curr_info.extension_begin); // @todo fix extension_len
                         uint32_t curr_extension_len = curr_info.extension_len;
 
                         if ((extension == NULLPTR && curr_extension_len == 0) || (strcmp(extension, curr_info.name + curr_info.extension_begin) == 0))
                         {
-                            // tty_printf("---FOUND '%s'---\n", name);
+                            // tty_printf("\t\t---FOUND '%s' %d %d---\n", name, entry, fat32_entry_cluster(entry));
                             // info->cluster = cluster;
                             info->cluster = fat32_entry_cluster(entry);
                             info->name = curr_info;
