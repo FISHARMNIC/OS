@@ -71,23 +71,32 @@ static void _syscall_file_ls(regs32_t registers)
 
 static void _syscall_exec(regs32_t registers) // @todo fix, page faults
 {
-    // fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
-    // uint32_t argc =  (uint32_t) registers.SYSCALL_PARAM_2;
-    // char** argv =  (char**) registers.SYSCALL_PARAM_3;
-    // uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
+    fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
+    uint32_t argc =  (uint32_t) registers.SYSCALL_PARAM_2;
+    char** argv =  (char**) registers.SYSCALL_PARAM_3;
+    uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
-    // uint32_t size = file_size(fd);
-    // uint8_t buffer[size];
+    uint32_t size = file_size(fd);
+    uint8_t buffer[size];
 
-    // // tty_printf("File size %d\n", size);
+    // tty_printf("File size %d\n", size);
 
-    // *resp = file_read(fd, buffer, size);
-    // if(resp == 0)
-    // {
-    //     return;
-    // }
+    *resp = file_read(fd, buffer, size);
+    if(resp == 0)
+    {
+        return;
+    }
 
     // static uint8_t ustack[user_stack_size] __attribute__((aligned(user_stack_size)));
+
+    exec_pending_file   = buffer;
+    exec_pending_size   = size;
+    exec_pending_argc   = argc;
+    exec_pending_argv   = argv;
+    exec_pending        = 1;
+
+    // exit current process — longjmp back to elf_exec's setjmp
+    longjmp(kernel_return_ctx, 1);
 
     // *resp = elf_exec(buffer, size, user_stack_glob, user_stack_size, argc, argv);
 }

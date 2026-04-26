@@ -34,17 +34,17 @@ uint32_t file_find(fd_t *fd, char *name)
         return 0;
     }
 
-    if(name[0] == '/')
-    {
-        name = name+1;
-    }
-    else
-    {
-        memcpy(pwd_temp, pwd, PWD_SIZE);
-        strcat(pwd_temp, "/");
-        strcat(pwd_temp, name);
-        name = pwd_temp; // @todo bound check
-    }
+    // if(name[0] == '/')
+    // {
+    //     name = name+1;
+    // }
+    // else
+    // {
+    //     memcpy(pwd_temp, pwd, PWD_SIZE);
+    //     strcat(pwd_temp, "/");
+    //     strcat(pwd_temp, name);
+    //     name = pwd_temp; // @todo bound check
+    // }
 
     if(name[0] == '/')
     {
