@@ -1,8 +1,8 @@
 # NicoOS
 
-`./run-host.sh`
+<img width="907" height="740" alt="Screenshot 2026-04-29 at 2 37 29 PM" src="https://github.com/user-attachments/assets/63c04e63-b64c-4bdd-bd4d-be0700259fb2" />
 
-<img width="907" height="740" alt="Screenshot 2026-04-29 at 2 35 57 PM" src="https://github.com/user-attachments/assets/f9d59eff-4be5-49b9-a76b-b087eb14fd9f" />
+`./run-host.sh`
 
 ## Working
 * Interrupts
