@@ -2,8 +2,7 @@
 
 `./run-host.sh`
 
-<img width="665" height="559" alt="Screenshot 2026-04-25 at 11 24 12 AM" src="https://github.com/user-attachments/assets/1ecc7212-c09b-40fc-b2d7-7e88bf98875e" />
-
+<img width="907" height="740" alt="Screenshot 2026-04-29 at 2 35 57 PM" src="https://github.com/user-attachments/assets/f9d59eff-4be5-49b9-a76b-b087eb14fd9f" />
 
 ## Working
 * Interrupts
