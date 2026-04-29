@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 {
     if (argc == 0)
     {
-        printf("[USAGE] touch path/to/file.txt\n");
+        printf("[USAGE] cat path/to/file.txt\n");
     }
     else
     {

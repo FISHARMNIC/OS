@@ -73,5 +73,7 @@ uint32_t postboot_init(multiboot_info_t* mbi)
 
     tty_puts("... FAT Ready\n");
 
+    keyboard_init();
+
     return 0;
 }

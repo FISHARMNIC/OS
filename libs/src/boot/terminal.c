@@ -6,7 +6,34 @@
 #include <files.h>
 #include <elf.h>
 
-static const char *prompt = "> ";
+#define PROMPT "> "
+
+#define MAX_INPUT_SIZE 100
+
+#define HISTORY_SIZE 10
+
+typedef struct circ_entry {
+    char str[MAX_INPUT_SIZE];
+    struct circ_entry* next;
+} circ_entry_t;
+
+circ_entry_t history[HISTORY_SIZE];
+circ_entry_t* history_wp = history;
+circ_entry_t* history_rp = history;
+
+void terminal_init()
+{
+    history_wp = history;
+    history_rp = history;   
+    
+    uint32_t i = 0;
+    for(; i < HISTORY_SIZE - 1; i++)
+    {
+        history[i].next = &history[i + 1];
+    }
+    history[i].next = &history[0];
+}
+
 
 void drawch(uint8_t c)
 {
@@ -104,6 +131,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         tty_clear();
         return true;
     }
+    /*
     else if (strcmp(cmd, "cd") == 0)
     {
         // @todo ../ still appends to pwd string and just makes it longer until overflow + slowdown. Make it remove last if ../
@@ -165,6 +193,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         }
         return true;
     }
+        */
     else if (strcmp(cmd, "pwd") == 0)
     {
         tty_printf("pwd: %s\n", pwd);
@@ -177,14 +206,16 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 }
 
 void terminal()
-{
+{  
+    terminal_init();
+
     keyboard_on_press_fn = drawch;
 
-    char buff[100];
+    char buff[MAX_INPUT_SIZE];
     while (1)
     {
-        tty_puts(prompt);
-        keyboard_gets(buff, sizeof(buff));
+        tty_puts(PROMPT);
+        keyboard_gets(buff, MAX_INPUT_SIZE);
         // tty_printf("\nGot: %s\n", buff);
 
         char *save;

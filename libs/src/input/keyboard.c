@@ -1,6 +1,7 @@
 #include <keyboard.h>
 #include <cpu.h>
 #include <ports.h>
+#include <graphics.h>
 
 static volatile uint8_t keyboard_sc = 0; // can't cache in keyboard_getch
 volatile event_on_key_fn keyboard_on_press_fn = NULLPTR;
@@ -8,6 +9,9 @@ static const char KEYSET[128] = "`^1234567890-=\b\tqwertyuiop[]\\ asdfghjkl;'\n 
 
 void keyboard_init()
 {
+    // while (keyboard_sc >= KEYCODE_RISING)
+    //     ;
+    keyboard_sc = KEYCODE_RISING;
     // keyboard_get_keycode(); // load out first char
 }
 
