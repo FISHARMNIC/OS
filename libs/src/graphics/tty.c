@@ -6,17 +6,17 @@
 static uint32_t tty_x = 0;
 static uint32_t tty_y = 0;
 
-static uint32_t tty_cols(void)
+uint32_t tty_cols()
 {
     return graphics_fb_active->width / CHAR_WIDTH;
 }
 
-static uint32_t tty_rows(void)
+uint32_t tty_rows()
 {
     return graphics_fb_active->height / CHAR_HEIGHT;
 }
 
-void tty_clear(void)
+void tty_clear()
 {
     const uint8_t bpp = graphics_fb_active->bpp;
     const uint32_t width = graphics_fb_active->width;
@@ -78,6 +78,11 @@ void tty_putch(char c)
         if (tty_x > 0)
         {
             tty_x--;
+        }
+        else
+        {
+            tty_y--;
+            tty_x = tty_cols() - 1;
         }
         graphics_draw_char((uint8_t)' ', tty_x * CHAR_WIDTH, tty_y * CHAR_HEIGHT, &graphics_context_default);
         return;

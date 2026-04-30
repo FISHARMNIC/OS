@@ -58,8 +58,11 @@ void graphics_draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_cont
 
 void graphics_draw_string(char *string, uint32_t x, uint32_t y, graphics_context_t *ctx);
 
-void tty_clear(void);
-void tty_reset(void);
+uint32_t tty_cols(void);
+uint32_t tty_rows(void);
+
+void tty_clear();
+void tty_reset();
 void tty_putch(char c);
 void tty_puts(const char *str);
 void tty_puti(int32_t value);

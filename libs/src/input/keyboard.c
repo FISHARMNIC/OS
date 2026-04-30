@@ -2,6 +2,8 @@
 #include <cpu.h>
 #include <ports.h>
 #include <graphics.h>
+#include <stdbool.h>
+#include <sys/string.h>
 
 static volatile uint8_t keyboard_sc = 0; // can't cache in keyboard_getch
 volatile event_on_key_fn keyboard_on_press_fn = NULLPTR;
@@ -53,14 +55,18 @@ char keyboard_getch()
     return keyboard_keycode_to_char(ret);
 }
 
-void keyboard_gets(char *buffer, uint32_t len)
+void keyboard_gets(volatile char *buffer, uint32_t len)
 {
     // event_on_key_fn onk = keyboard_on_press_fn; // destroy event handler to prioritize stdio
     // keyboard_on_press_fn = NULLPTR;
 
+    memset((void*) buffer, 0, len);
+
     uint32_t index = 0;
 
     char got = 0;
+
+    // bool possible_external_influence = false;
 
     while ((got = keyboard_get_keycode()) != KEY_ENTER)
     {
@@ -78,8 +84,9 @@ void keyboard_gets(char *buffer, uint32_t len)
             buffer[index] = ' ';
             index++;
         }
-        else
+        else if(got != KEY_UP && !KEY_IS_ARROW(got))
         {
+            // possible_external_influence = true;
             buffer[index] = keyboard_keycode_to_char(got);
             index++;
         }
@@ -90,7 +97,12 @@ void keyboard_gets(char *buffer, uint32_t len)
         }
     }
 
-    buffer[index] = 0;
+    // if(possible_external_influence)
+    // {
+    //     index = strlen(buffer);
+    // }
+
+    // buffer[index] = 0;
 
     // keyboard_on_press_fn = onk;
     return;
