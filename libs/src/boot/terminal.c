@@ -9,31 +9,39 @@
 #define PROMPT "> "
 
 #define MAX_INPUT_SIZE 100
-
 #define HISTORY_SIZE 10
 
-typedef struct circ_entry {
+static volatile char buff[MAX_INPUT_SIZE];
+
+typedef struct circ_entry
+{
     char str[MAX_INPUT_SIZE];
-    struct circ_entry* next;
+    struct circ_entry *next;
+    struct circ_entry *prev;
 } circ_entry_t;
 
 circ_entry_t history[HISTORY_SIZE];
-circ_entry_t* history_wp = history;
-circ_entry_t* history_rp = history;
+circ_entry_t *history_wp = history;
+circ_entry_t *history_rp = history;
 
 void terminal_init()
 {
     history_wp = history;
-    history_rp = history;   
-    
-    uint32_t i = 0;
-    for(; i < HISTORY_SIZE - 1; i++)
+    history_rp = history;
+
+    history[0].prev = &history[HISTORY_SIZE - 1];
+    history[0].next = &history[1];
+
+    uint32_t i = 1;
+    for (; i < HISTORY_SIZE - 1; i++)
     {
+        history[i].prev = &history[i - 1];
         history[i].next = &history[i + 1];
     }
+
+    history[i].prev = &history[i - 1];
     history[i].next = &history[0];
 }
-
 
 void drawch(uint8_t c)
 {
@@ -44,6 +52,29 @@ void drawch(uint8_t c)
         if (n > 0)
         {
             tty_putch('\b');
+        }
+    }
+    else if (KEY_IS_ARROW(c))
+    {
+        if (c == KEY_UP || c == KEY_DOWN)
+        {
+            uint32_t len = history_rp == history_wp ? strlen((char *)buff) : strlen(history_rp->str);
+            for (uint32_t i = 0; i < len; i++)
+            {
+                tty_putch('\b');
+            }
+
+            if (c == KEY_UP)
+            {
+                history_rp = history_rp->prev;
+            }
+            else if (c == KEY_DOWN && history_rp != history_wp)
+            {
+                history_rp = history_rp->next;
+            }
+
+            tty_printf("%s", history_rp->str);
+            memcpy((void *)buff, history_rp->str, MAX_INPUT_SIZE);
         }
     }
     else if (c != KEY_ENTER)
@@ -188,7 +219,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             else
             {
                 memcpy(pwd, temp, PWD_SIZE); // success, use it
-                tty_printf("pwd: %s\n", pwd);   
+                tty_printf("pwd: %s\n", pwd);
             }
         }
         return true;
@@ -206,20 +237,25 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 }
 
 void terminal()
-{  
+{
     terminal_init();
 
     keyboard_on_press_fn = drawch;
 
-    char buff[MAX_INPUT_SIZE];
     while (1)
     {
         tty_puts(PROMPT);
         keyboard_gets(buff, MAX_INPUT_SIZE);
+
+        memcpy(history_wp->str, (void *)buff, MAX_INPUT_SIZE);
+
+        history_wp = history_wp->next;
+        history_rp = history_wp;
+
         // tty_printf("\nGot: %s\n", buff);
 
         char *save;
-        char *resp = strtok_r(buff, " ", &save);
+        char *resp = strtok_r((void *)buff, " ", &save);
 
         tty_putch('\n');
 

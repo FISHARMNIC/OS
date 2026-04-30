@@ -86,6 +86,8 @@
 
 #define KEYCODE_RISING 128
 
+#define KEY_IS_ARROW(k) ((k) == KEY_UP || (k) == KEY_RIGHT || (k) == KEY_DOWN || (k) == KEY_LEFT)
+
 typedef void (*event_on_key_fn)(uint8_t);
 
 extern volatile event_on_key_fn keyboard_on_press_fn;
@@ -94,7 +96,7 @@ void keyboard_init();
 void keyboard_handler(regs32_t r);
 uint8_t keyboard_get_keycode();
 char keyboard_getch();
-void keyboard_gets(char *buffer, uint32_t len);
+void keyboard_gets(volatile char *buffer, uint32_t len);
 char keyboard_keycode_to_char(uint8_t keycode);
 
 #endif
