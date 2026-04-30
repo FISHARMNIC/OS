@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-18a4946ddf878497d0f869e0e460560a FONT.F16.o
