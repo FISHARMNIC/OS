@@ -2,3 +2,4 @@ build/
 *.iso
 *.bin
 build-host/
+.DS_Store
