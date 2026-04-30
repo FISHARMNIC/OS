@@ -1,4 +1,0 @@
-/Users/nico/Documents/OS/build-orb/CMakeFiles/kernel.dir
-/Users/nico/Documents/OS/build-orb/CMakeFiles/iso.dir
-/Users/nico/Documents/OS/build-orb/CMakeFiles/edit_cache.dir
-/Users/nico/Documents/OS/build-orb/CMakeFiles/rebuild_cache.dir

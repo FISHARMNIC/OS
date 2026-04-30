@@ -1,1 +1,0 @@
-/usr/local/bin/i686-elf-gcc -m32 -no-pie -nostdlib -nostartfiles -nodefaultlibs -Wl,-T,/Users/nico/Documents/OS/boot/linker.ld -Wl,--build-id=none CMakeFiles/kernel.dir/boot/boot.S.o CMakeFiles/kernel.dir/kernel/main.c.o -o compiled/MyOS.bin
