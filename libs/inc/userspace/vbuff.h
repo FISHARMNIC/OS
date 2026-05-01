@@ -16,7 +16,7 @@ static inline void vbuff_dispose(framebuffer_t *s)
 
 static inline void put_pixel(uint32_t x, uint32_t y, uint32_t color, framebuffer_t *fb) // @todo move this to actual function
 {
-    if ((uint32_t)x >= fb->width || (uint32_t)y >= fb->height)
+    if (x >= fb->width || y >= fb->height)
     {
         return;
     }
