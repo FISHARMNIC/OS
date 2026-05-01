@@ -5,6 +5,8 @@
 #include <elf.h>
 #include <sys/kmalloc.h>
 #include <paging.h>
+#include <keyboard.h>
+#include <mouse.h>
 
 static interrupt_fn_t syscalls[256];
 
@@ -132,6 +134,15 @@ static void _syscall_dispvbuff(regs32_t registers)
         info->pitch * info->height
     );
 }
+
+// static keyboard_on_press_fn l
+// static void _syscall_attachints(regs32_t registers)
+// {
+//     interrupt_fn_t* info = (framebuffer_t*)registers.SYSCALL_PARAM_1;
+
+
+// }
+
 
 void syscall_dispatch(regs32_t r)
 {
