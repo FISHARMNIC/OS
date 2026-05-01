@@ -1,9 +1,8 @@
 # NicoOS
 
+<img width="907" height="740" alt="Screenshot 2026-04-29 at 2 37 29 PM" src="https://github.com/user-attachments/assets/63c04e63-b64c-4bdd-bd4d-be0700259fb2" />
+
 `./run-host.sh`
-
-<img width="665" height="559" alt="Screenshot 2026-04-25 at 11 24 12 AM" src="https://github.com/user-attachments/assets/1ecc7212-c09b-40fc-b2d7-7e88bf98875e" />
-
 
 ## Working
 * Interrupts
@@ -15,7 +14,3 @@
     * stdio syscalls
     * fs syscalls
 * elf execution in userspace
-
-## Issues
-* Running `exec` twice causes memory corruption
-* First line in terminal will have '%' appended to the start
