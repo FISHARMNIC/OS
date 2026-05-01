@@ -4,6 +4,7 @@
 #include <graphics.h>
 #include <stdbool.h>
 #include <sys/string.h>
+#include <events.h>
 
 static volatile uint8_t keyboard_sc = 0; // can't cache in keyboard_getch
 volatile event_on_key_fn keyboard_on_press_fn = NULLPTR;
@@ -20,9 +21,9 @@ void keyboard_init()
 void keyboard_handler(regs32_t r)
 {
     keyboard_sc = inb(KEYBOARD_PORT);
-    if ((keyboard_sc < KEYCODE_RISING) && (keyboard_on_press_fn != NULLPTR))
+    if (keyboard_sc < KEYCODE_RISING)
     {
-        (keyboard_on_press_fn)(keyboard_sc);
+        FOREACH(event_keyboard_functions, event_keyboard_functions_last, keyboard_sc);
     }
 }
 

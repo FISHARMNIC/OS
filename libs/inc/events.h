@@ -8,13 +8,13 @@
 #define MOVE_FUNCTIONS_SIZE 8
 #define KB_FUNCTIONS_SIZE 8
 
-extern volatile event_on_click_fn click_functions[CLICK_FUNCTIONS_SIZE];
-extern volatile event_on_move_fn move_functions[MOVE_FUNCTIONS_SIZE];
-extern volatile event_on_key_fn keyboard_functions[KB_FUNCTIONS_SIZE];
+extern volatile event_on_click_fn event_click_functions[CLICK_FUNCTIONS_SIZE];
+extern volatile event_on_move_fn event_move_functions[MOVE_FUNCTIONS_SIZE];
+extern volatile event_on_key_fn event_keyboard_functions[KB_FUNCTIONS_SIZE];
 
-extern uint32_t click_functions_last;
-extern uint32_t move_functions_last;
-extern uint32_t keyboard_functions_last;
+extern uint32_t event_click_functions_last;
+extern uint32_t event_move_functions_last;
+extern uint32_t event_keyboard_functions_last;
 
 #define ADD_HANDLER_PROTO(name, type) int32_t event_##name##_add_handler(type fn)
 #define REMOVE_HANDLER_PROTO(name, type) int32_t event_##name##_remove_handler(type fn, uint32_t index)

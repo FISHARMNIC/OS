@@ -6,6 +6,7 @@
 #include <files.h>
 #include <elf.h>
 #include <sys/kmalloc.h>
+#include <events.h>
 
 #define PROMPT "> "
 
@@ -252,7 +253,8 @@ void terminal()
 {
     terminal_init();
 
-    keyboard_on_press_fn = drawch;
+    // keyboard_on_press_fn = drawch;
+    event_keyboard_add_handler(drawch);
 
     while (1)
     {

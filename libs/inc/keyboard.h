@@ -90,7 +90,7 @@
 
 typedef void (*event_on_key_fn)(uint8_t);
 
-extern volatile event_on_key_fn keyboard_on_press_fn;
+// extern volatile event_on_key_fn keyboard_on_press_fn;
 
 void keyboard_init();
 void keyboard_handler(regs32_t r);
