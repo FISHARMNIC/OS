@@ -23,8 +23,8 @@
 typedef void (*event_on_click_fn)(int32_t, int32_t, int8_t);
 typedef void (*event_on_move_fn)(int32_t, int32_t);
 
-extern event_on_click_fn mouse_on_click_fn;
-extern event_on_move_fn mouse_on_move_fn;
+// extern event_on_click_fn mouse_on_click_fn;
+// extern event_on_move_fn mouse_on_move_fn;
 
 typedef struct
 {
