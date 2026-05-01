@@ -1,12 +1,10 @@
-userspace should not directly expose kernel includes since most of those will cause faults
+backspace doesnt work after using arrows for terminal history
 
-give framebuffer user access and syscall to get mapped fb ptr
+there should be a fdirsize syscall for fls -> just does same as ls but just a counter
 
-backspace doesnt work after usng arrows for terminal history
+argv should be the same as unix -> I think argv[0] is path, 1 is exec name, 2 is argument 0, etc
 
-there should be a fdirsize syscall for fls
-
-argv should be the same as unix -> i think argv[0] is path, 1 is exec name, 2 is argument 0, etc
+fat32 lfn parsing still broken (i.e. eventsss.elf -> eventssself.) and lfn chaining not implemented at al
 
 test malloc implementation and implement a real break
     -> then add a user malloc somehow? should probably be more than mapping a kmalloc to ring3, that could be unsafe?

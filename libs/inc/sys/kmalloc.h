@@ -33,7 +33,7 @@ uint32_t mem_heapsize(void);
 /* 
  * Maximum heap size in bytes 
  */
-#define MAX_HEAP (30000)
+#define MAX_HEAP (1024 * 1024 * 10)
 
 #define NULL ((void*) 0)
 

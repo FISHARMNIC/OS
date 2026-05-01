@@ -36,7 +36,7 @@ static inline handle_t user_events_add_keyboard(event_on_key_fn key_event)
     return handle;
 }
 
-static inline mouse_ev_handles_t user_events_remove(handle_t click, handle_t move, handle_t key)
+static inline void user_events_remove(handle_t click, handle_t move, handle_t key)
 {
     SYSCALL_3PARAM(SYSCALL_HAND_REMOVE, click, move, key);
 }

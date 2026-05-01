@@ -1,6 +1,6 @@
 #include <userspace/vbuff.h>
 
-int main(int argc, char *argv[])
+int main()
 {
     framebuffer_t fb;
 

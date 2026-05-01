@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
         str_toupper(argv[0]);
         uint32_t err = ffind(&fd, argv[0]);
 
-        if (err)
+        if (err || fd.name.directory)
         {
             printf("[ERROR] Invalid file\n");
         }

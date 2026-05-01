@@ -75,7 +75,7 @@ grub_tool() {
 # build kernel
 
 cd "${ROOT_DIR}"
-info "[1/4] Building kernel..."
+info "[1/5] Building kernel..."
 cmake -S . -B "${BUILD_DIR}" --fresh -DCROSS_COMPILE="${CROSS}"
 cmake --build "${BUILD_DIR}" --target kernel
 
@@ -89,6 +89,9 @@ fi
 
 mkdir -p "${COMPILED}"
 
+info "[2/5] Building userspace..."
+make -C "${ROOT_DIR}/userspace" CROSS_COMPILE="${CROSS}"
+
 # iso mode
 
 if [[ "${MODE}" == "iso" ]]; then
@@ -96,7 +99,7 @@ if [[ "${MODE}" == "iso" ]]; then
     [[ -n "${GRUB_MKRESCUE}" ]] || die "i686-elf-grub-mkrescue not found — brew install i686-elf-grub"
     need_cmd xorriso "brew install xorriso"
 
-    info "[2/4] Building ISO..."
+    info "[3/5] Building ISO..."
     rm -rf "${ISO_ROOT}"
     mkdir -p "${ISO_ROOT}/boot/grub"
     cp "${KERNEL_BIN}"             "${ISO_ROOT}/boot/MyOS.bin"
@@ -105,9 +108,9 @@ if [[ "${MODE}" == "iso" ]]; then
     "${GRUB_MKRESCUE}" -o "${ISO_PATH}" "${ISO_ROOT}"
     [[ -f "${ISO_PATH}" ]] || die "ISO not found at ${ISO_PATH}"
 
-    info "[3/4] ISO ready: ${ISO_PATH}"
-    [[ "${NO_QEMU}" == "1" ]] && { info "[4/4] Skipping QEMU (NO_QEMU=1)."; exit 0; }
-    info "[4/4] Launching QEMU..."
+    info "[4/5] ISO ready: ${ISO_PATH}"
+    [[ "${NO_QEMU}" == "1" ]] && { info "[5/5] Skipping QEMU (NO_QEMU=1)."; exit 0; }
+    info "[5/5] Launching QEMU..."
     exec "${QEMU}" -machine pc -drive file="${ISO_PATH}",index=0,media=disk,format=raw
 fi
 
@@ -128,7 +131,7 @@ done < <(find /opt/homebrew /usr/local -name "boot.img" -path "*/i386-pc/*" 2>/d
          | xargs -I{} dirname {} | sort -u)
 [[ -n "${GRUB_I386_LIB}" ]] || die "GRUB i386-pc lib not found — brew install i686-elf-grub"
 
-info "[2/4] Building FAT32 disk image..."
+info "[3/5] Building FAT32 disk image..."
 
 PART_OFFSET=1048576   # 1 MiB (sector 2048)
 PART_START_LBA=2048
@@ -208,14 +211,14 @@ dd if="${GRUB_I386_LIB}/boot.img" of="${DISK_IMG}" bs=1   count=440 conv=notrunc
 dd if="${CORE_IMG}"               of="${DISK_IMG}" bs=512 seek=1    conv=notrunc 2>/dev/null
 
 [[ -f "${DISK_IMG}" ]] || die "disk image not found at ${DISK_IMG}"
-info "[3/4] FAT32 disk ready: ${DISK_IMG}"
+info "[4/5] FAT32 disk ready: ${DISK_IMG}"
 
-[[ "${NO_QEMU}" == "1" ]] && { info "[4/4] Skipping QEMU."; exit 0; }
+[[ "${NO_QEMU}" == "1" ]] && { info "[5/5] Skipping QEMU."; exit 0; }
 
-info "[4/4] FAT32 filesystem tree:"
-M mdir -/ z:/
+# info "[5/5] FAT32 filesystem tree:"
+# M mdir -/ z:/
 
-info "[4/4] Launching QEMU..."
+info "[5/5] Launching QEMU..."
 exec "${QEMU}" \
   -machine pc \
   -drive file="${DISK_IMG}",index=0,media=disk,format=raw \
