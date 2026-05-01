@@ -9,6 +9,7 @@
 #include <syscalls.h>
 #include <tss.h>
 #include <os_setjmp.h>
+#include <sys/kmalloc.h>
 
 uint32_t postboot_init(multiboot_info_t* mbi)
 {
@@ -72,6 +73,11 @@ uint32_t postboot_init(multiboot_info_t* mbi)
     }
 
     tty_puts("... FAT Ready\n");
+
+    mem_init();
+    mm_init();
+
+    tty_puts("... Kmalloc Ready\n");
 
     keyboard_init();
 

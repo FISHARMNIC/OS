@@ -20,8 +20,8 @@ uint32_t file_read(fd_t *info, uint8_t *buffer, uint32_t size);
 
 int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster);
 
-#define PWD_SIZE 100
-extern char pwd_temp[PWD_SIZE];
-extern char pwd[PWD_SIZE];
+// #define PWD_SIZE 100
+// extern char pwd_temp[PWD_SIZE];
+// extern char pwd[PWD_SIZE];
 
 #endif
