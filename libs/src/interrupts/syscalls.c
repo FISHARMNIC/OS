@@ -70,6 +70,11 @@ static void _syscall_file_ls(regs32_t registers)
     // tty_printf("READ %d BYTES %s\n", size, buffer);
 }
 
+// @todo
+// static void _syscall_file_dirsize(regs32_t registers)
+// {
+// }
+
 // @todo should just be simpler, pass directory only and should somehow setjmp here
 
 static void _syscall_exec(regs32_t registers) // @todo fix, page faults

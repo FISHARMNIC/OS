@@ -167,7 +167,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
     {
         tty_puts("Built in commands:\n\tclear\n\texec\n");
         tty_puts("BIN commands:\n");
-        terminal_bin_cmd("LS", "BIN");
+        terminal_bin_cmd("LS", "BIN f");
         return true;
     }
     else if (strcmp(cmd, "clear") == 0)

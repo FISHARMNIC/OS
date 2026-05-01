@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
     printf("\tExiting\n");
 
-    user_events_remove(HANDLE_NONE, HANDLE_NONE, handle);
+    // user_events_remove(HANDLE_NONE, HANDLE_NONE, handle);
 
     return 0;
 }
