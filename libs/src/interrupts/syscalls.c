@@ -4,6 +4,7 @@
 #include <files.h>
 #include <elf.h>
 #include <sys/kmalloc.h>
+#include <paging.h>
 
 static interrupt_fn_t syscalls[256];
 
@@ -110,6 +111,28 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
     // *resp = elf_exec(buffer, size, user_stack_glob, user_stack_size, argc, argv);
 }
 
+static void _syscall_getvbuff(regs32_t registers)
+{
+    framebuffer_t* info = (framebuffer_t*)registers.SYSCALL_PARAM_1;
+
+    paging_set_user_range(
+        graphics_fb_active->addr,
+        graphics_fb_active->pitch * graphics_fb_active->height
+    );
+
+    *info = *graphics_fb_active;
+}
+
+static void _syscall_dispvbuff(regs32_t registers)
+{
+    framebuffer_t* info = (framebuffer_t*)registers.SYSCALL_PARAM_1;
+
+    paging_clear_user_range(
+        info->addr,
+        info->pitch * info->height
+    );
+}
+
 void syscall_dispatch(regs32_t r)
 {
     // tty_printf("[SYSCALL] called! eax=%d\n", r.eax);
@@ -127,6 +150,9 @@ void syscalls_init()
     syscall_create(_syscall_file_ls, SYSCALL_FILE_LS);
 
     syscall_create(_syscall_exec, SYSCALL_EXEC);
+
+    syscall_create(_syscall_getvbuff, SYSCALL_VBUFF);
+    syscall_create(_syscall_dispvbuff, SYSCALL_DISPOSEVBUFF);
 
     idt_set_gate_user(SYSCALLS_IDT_ENTRY, (void *)syscall_stub);
 }

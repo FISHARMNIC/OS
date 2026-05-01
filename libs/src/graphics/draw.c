@@ -7,7 +7,7 @@ void graphics_draw_glyph(const uint8_t* glyph, uint32_t x, uint32_t y, graphics_
     const uint32_t pitch = ctx->fb->pitch;
     const uint32_t width = ctx->fb->width;
     const uint32_t height = ctx->fb->height;
-    const uint32_t addr = graphics_fb_active->addr;
+    const uint32_t addr = ctx->fb->addr;
 
     const uint32_t color_fg = ctx->color_fg;
     const uint32_t color_bg = ctx->color_bg;

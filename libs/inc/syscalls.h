@@ -15,7 +15,10 @@ typedef enum
     SYSCALL_FILE_READ,
     SYSCALL_FILE_LS,
 
-    SYSCALL_EXEC
+    SYSCALL_EXEC,
+    SYSCALL_VBUFF,
+    SYSCALL_DISPOSEVBUFF,
+    
 } syscalls_t;
 
 #define STR1(x)  #x
