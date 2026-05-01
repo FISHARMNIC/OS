@@ -5,6 +5,7 @@
 #include <fat.h>
 #include <files.h>
 #include <elf.h>
+#include <sys/kmalloc.h>
 
 #define PROMPT "> "
 
@@ -113,7 +114,9 @@ static bool terminal_bin_cmd(char *cmd, char *save)
         {
 
             uint32_t size = file_size(&infos[i]);
+            // uint8_t* buffer =
             uint8_t buffer[size];
+             
             file_read(&infos[i], buffer, size);
 
             char *args[10]; // @todo make this dynamic or do some better way
@@ -223,13 +226,13 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             }
         }
         return true;
-    }
-        */
+    }    
     else if (strcmp(cmd, "pwd") == 0)
     {
         tty_printf("pwd: %s\n", pwd);
         return true;
     }
+    */
     else
     {
         return false;

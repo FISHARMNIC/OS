@@ -3,8 +3,8 @@
 #include <cpu.h>
 #include <graphics.h>
 
-char pwd_temp[PWD_SIZE];
-char pwd[PWD_SIZE];
+// char pwd_temp[PWD_SIZE];
+// char pwd[PWD_SIZE];
 
 // @todo replace with use of strtok_r
 static char *find_next(char *ptr, char find) // replaces slash will null and returns next section
