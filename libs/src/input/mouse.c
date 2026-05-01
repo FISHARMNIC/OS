@@ -2,6 +2,7 @@
 #include <ports.h>
 #include <mouse.h>
 #include <cpu.h>
+#include <events.h>
 
 static char mouse_cycle = 0;
 static mouse_packet_t mouse_byte;
@@ -14,8 +15,8 @@ static uint32_t saveBuffer[CHAR_HEIGHT * CHAR_WIDTH + (CHAR_WIDTH * SAFE_BUFFER_
 
 static volatile int8_t mouse_edgeType = 0;
 
-event_on_click_fn *mouse_on_click_fn = NULLPTR;
-event_on_move_fn *mouse_on_move_fn = NULLPTR;
+event_on_click_fn mouse_on_click_fn = NULLPTR;
+event_on_move_fn mouse_on_move_fn = NULLPTR;
 
 static const uint8_t mouse_glyph[] = {
     0b10000000,
@@ -50,6 +51,7 @@ static void mouse_handle_click(uint8_t data)
     {
         mouse_edgeType = mouse_down > 0;
         mouse_on_click_fn(mouse_x, mouse_y, mouse_edgeType);
+        // FOREACH(click_functions, click_functions_last, mouse_x, mouse_y, mouse_edgeType)
     }
 }
 
