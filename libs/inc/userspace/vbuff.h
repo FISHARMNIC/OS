@@ -1,3 +1,6 @@
+#ifndef USER_VBUFF_H
+#define USER_VBUFF_H
+
 #include <syscalls.h>
 #include <graphics.h>
 
@@ -31,3 +34,5 @@ static inline void put_pixel(uint32_t x, uint32_t y, uint32_t color, framebuffer
         ((uint16_t *)row)[x] = (uint16_t)color;
     }
 }
+
+#endif

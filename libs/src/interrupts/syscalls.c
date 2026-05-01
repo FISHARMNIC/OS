@@ -5,8 +5,7 @@
 #include <elf.h>
 #include <sys/kmalloc.h>
 #include <paging.h>
-#include <keyboard.h>
-#include <mouse.h>
+#include <events.h>
 
 static interrupt_fn_t syscalls[256];
 
@@ -75,16 +74,16 @@ static void _syscall_file_ls(regs32_t registers)
 
 static void _syscall_exec(regs32_t registers) // @todo fix, page faults
 {
-    fd_t* fd = (fd_t*) registers.SYSCALL_PARAM_1;
-    uint32_t argc =  (uint32_t) registers.SYSCALL_PARAM_2;
-    char** argv =  (char**) registers.SYSCALL_PARAM_3;
-    uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
+    fd_t *fd = (fd_t *)registers.SYSCALL_PARAM_1;
+    uint32_t argc = (uint32_t)registers.SYSCALL_PARAM_2;
+    char **argv = (char **)registers.SYSCALL_PARAM_3;
+    uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_4;
 
     uint32_t size = file_size(fd);
     // uint8_t buffer[size]; // @todo kmalloc AND MAKE SURE FREE -> maybe needs to be done in elf part
-    uint8_t* buffer = kmalloc(size);
+    uint8_t *buffer = kmalloc(size);
 
-    if(buffer == NULLPTR)
+    if (buffer == NULLPTR)
     {
         tty_printf("[ERROR] Malloc Failiure\n");
         return;
@@ -93,18 +92,18 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
     // tty_printf("File size %d\n", size);
 
     *resp = file_read(fd, buffer, size);
-    if(resp == 0)
+    if (resp == 0)
     {
         return;
     }
 
     // static uint8_t ustack[user_stack_size] __attribute__((aligned(user_stack_size)));
 
-    exec_pending_file   = buffer;
-    exec_pending_size   = size;
-    exec_pending_argc   = argc;
-    exec_pending_argv   = argv;
-    exec_pending        = 1;
+    exec_pending_file = buffer;
+    exec_pending_size = size;
+    exec_pending_argc = argc;
+    exec_pending_argv = argv;
+    exec_pending = 1;
     exec_free_buffer = true;
 
     // exit current process — longjmp back to elf_exec's setjmp
@@ -115,34 +114,57 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
 
 static void _syscall_getvbuff(regs32_t registers)
 {
-    framebuffer_t* info = (framebuffer_t*)registers.SYSCALL_PARAM_1;
+    framebuffer_t *info = (framebuffer_t *)registers.SYSCALL_PARAM_1;
 
     paging_set_user_range(
         graphics_fb_active->addr,
-        graphics_fb_active->pitch * graphics_fb_active->height
-    );
+        graphics_fb_active->pitch * graphics_fb_active->height);
 
     *info = *graphics_fb_active;
 }
 
 static void _syscall_dispvbuff(regs32_t registers)
 {
-    framebuffer_t* info = (framebuffer_t*)registers.SYSCALL_PARAM_1;
+    framebuffer_t *info = (framebuffer_t *)registers.SYSCALL_PARAM_1;
 
     paging_clear_user_range(
         info->addr,
-        info->pitch * info->height
-    );
+        info->pitch * info->height);
 }
 
-// static keyboard_on_press_fn l
-// static void _syscall_attachints(regs32_t registers)
-// {
-//     interrupt_fn_t* info = (framebuffer_t*)registers.SYSCALL_PARAM_1;
+static void _syscall_attachints_mouse(regs32_t registers)
+{
+    event_on_click_fn click = (event_on_click_fn)registers.SYSCALL_PARAM_1;
+    event_on_move_fn move = (event_on_move_fn)registers.SYSCALL_PARAM_2;
 
+    int32_t *resp1 = (int32_t *)registers.SYSCALL_PARAM_3;
+    int32_t *resp2 = (int32_t *)registers.SYSCALL_PARAM_4;
 
-// }
+    *resp1 = event_click_add_handler(click);
+    *resp2 = event_move_add_handler(move);
+}
 
+static void _syscall_attachints_keyboard(regs32_t registers)
+{
+    event_on_key_fn key = (event_on_key_fn)registers.SYSCALL_PARAM_1;
+
+    int32_t *resp = (int32_t *)registers.SYSCALL_PARAM_2;
+
+    *resp = event_keyboard_add_handler(key);
+}
+
+static void _syscall_removints(regs32_t registers)
+{
+    int32_t click = (int32_t)registers.SYSCALL_PARAM_1;
+    int32_t move = (int32_t)registers.SYSCALL_PARAM_2;
+    int32_t key = (int32_t)registers.SYSCALL_PARAM_3;
+
+    event_click_remove_handler(click);
+    event_move_remove_handler(move);
+    event_keyboard_remove_handler(key);
+}
+
+// @todo remove interrupts
 
 void syscall_dispatch(regs32_t r)
 {
@@ -164,6 +186,10 @@ void syscalls_init()
 
     syscall_create(_syscall_getvbuff, SYSCALL_VBUFF);
     syscall_create(_syscall_dispvbuff, SYSCALL_DISPOSEVBUFF);
+
+    syscall_create(_syscall_attachints_mouse, SYSCALL_HAND_ATTACH_MOUSE);
+    syscall_create(_syscall_attachints_keyboard, SYSCALL_HAND_ATTACH_KB);
+    syscall_create(_syscall_removints, SYSCALL_HAND_REMOVE);
 
     idt_set_gate_user(SYSCALLS_IDT_ENTRY, (void *)syscall_stub);
 }
