@@ -139,7 +139,7 @@ uint32_t file_read(fd_t *info, uint8_t *buffer, uint32_t size)
     return fat32_load_file(info, buffer, size);
 }
 
-// @todo should return/write a list of fd_t
+// @todo maybe this should malloc itself and return ptr? isntead of files_dirsize + malloc in caller which is 2x read
 int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
 {
     ata_rw_data_t fat_buffer;
@@ -216,6 +216,78 @@ int32_t files_ls(fd_t infos[], uint32_t max_size, uint32_t start_cluster)
                 // {
                 //     tty_printf("%s.%s\n", info.name, info.name + info.extension_begin);
                 // }
+            }
+        }
+
+        uint32_t next = fat32_next_cluster(fat_buffer, cluster);
+
+        if (FAT_CLUSTER_IS_EOF(next) || !FAT_CLUSTER_IS_VALID(next))
+            return n;
+
+        cluster = next;
+    }
+
+    return n;
+}
+
+int32_t files_dirsize(uint32_t start_cluster)
+{
+    ata_rw_data_t fat_buffer;
+    ata_rw_data_t sector_buffer;
+    uint8_t sec_per_clus = fat32_get_sec_per_clus();
+    uint32_t cluster = start_cluster;
+
+    if (start_cluster == 0) // @todo maybe not the best way to approach ls from root? If something else calls expecting 0 to fail this breaks
+    {
+        cluster = fat32_get_root();
+    }
+
+    if (!FAT_CLUSTER_IS_VALID(cluster))
+    {
+        tty_printf("Invalid directory start cluster: %d\n", cluster);
+        return -LS_ERROR_CLUSTER;
+    }
+
+    uint32_t n = 0;
+
+    while (1)
+    {
+        uint32_t first_sector = fat32_first_sector_of_cluster(cluster);
+
+        for (uint32_t sec = 0; sec < sec_per_clus; sec++)
+        {
+            fat32_load_sector(sector_buffer, first_sector + sec);
+
+            FAT_entry_t *entries = (FAT_entry_t *)sector_buffer;
+
+            for (uint32_t i = 0; i < 16; i++)
+            {
+                FAT_entry_t *entry = &entries[i];
+
+                if (FAT_ENTRY_IS_END(entry->fileName))
+                {
+                    return n;
+                }
+
+                if (FAT_ENTRY_IS_FREE(entry->fileName))
+                {
+                    continue;
+                }
+
+                if (entry->attributes == FAT_ENTRY_ATTR_LONG_NAME)
+                {
+                    continue;
+                }
+
+                FAT_filename_info_t info;
+                FAT_read_entry_resp_t resp = fat32_read_entry_info(&info, entry);
+
+                if (resp != FILE_FOUND)
+                {
+                    continue;
+                }
+
+                n++;
             }
         }
 

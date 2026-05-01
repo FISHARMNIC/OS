@@ -78,8 +78,10 @@ int main(int argc, char *argv[])
             }
         }
 
-        fd_t fds[10]; // @todo fdirsize syscall
-        uint32_t count = fls(fds, &fd, 10);
+        uint32_t dirsize = fdirsize(&fd);
+
+        fd_t fds[dirsize]; // @todo malloc
+        uint32_t count = fls(fds, &fd, dirsize);
 
         for (uint32_t i = 0; i < count; i++)
         {

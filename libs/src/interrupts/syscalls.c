@@ -71,9 +71,13 @@ static void _syscall_file_ls(regs32_t registers)
 }
 
 // @todo
-// static void _syscall_file_dirsize(regs32_t registers)
-// {
-// }
+static void _syscall_file_dirsize(regs32_t registers)
+{
+    fd_t *fd = (fd_t *)registers.SYSCALL_PARAM_1;
+    uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_2;
+
+    *resp = files_dirsize(fd == NULLPTR ? 0 : fd->cluster);
+}
 
 // @todo should just be simpler, pass directory only and should somehow setjmp here
 
@@ -186,7 +190,7 @@ void syscalls_init()
     syscall_create(_syscall_file_find, SYSCALL_FILE_FIND);
     syscall_create(_syscall_file_read, SYSCALL_FILE_READ);
     syscall_create(_syscall_file_ls, SYSCALL_FILE_LS);
-
+    syscall_create(_syscall_file_dirsize, SYSCALL_FILE_DIRSIZE);
     syscall_create(_syscall_exec, SYSCALL_EXEC);
 
     syscall_create(_syscall_getvbuff, SYSCALL_VBUFF);
