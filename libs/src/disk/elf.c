@@ -7,6 +7,7 @@
 #include <interrupts.h>
 #include <stdbool.h>
 #include <sys/kmalloc.h>
+#include <events.h>
 
 // extern uint8_t stack_top[];
 
@@ -206,6 +207,16 @@ static void elf_jump_user(uint32_t entry, uint32_t user_stack_top, uint32_t argc
         : "eax");
 }
 
+static void elf_before_jump()
+{
+    events_before_userspace();
+}
+
+static void elf_after_jump()
+{
+    events_after_userspace();
+}
+
 elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t stack_size, uint32_t argc, char **argv)
 {
     elf_section_offsets_t elf_info;
@@ -224,12 +235,16 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
 
     // tty_printf("[ELF] Jumping to userspace at %d\n", elf_info.entry_fileOff);
 
+    elf_before_jump();
+
     if (setjmp(kernel_return_ctx) == 0)
     {
         elf_jump_user(elf_info.entry_fileOff, user_stack_top, argc, argv);
     }
     else
     {
+        elf_after_jump();
+
         // tty_puts("[ELF] Longjmp return\n");
         elf_unload(&elf_info);
         paging_clear_user_range((uint32_t)user_stack_glob, user_stack_size);
@@ -255,7 +270,7 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
                      user_stack, user_stack_size,
                      exec_pending_argc, exec_pending_argv);
 
-            if(exec_free_buffer)
+            if (exec_free_buffer)
             {
                 kfree(exec_pending_file);
                 exec_free_buffer = false;
