@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
         {
             uint32_t size = fsize(&fd);
             uint8_t buffer[size];
-            fread(&fd, buffer, size);
+            fread(&fd, (char*) buffer, size);
             printf("%s\n", buffer);
         }
     }

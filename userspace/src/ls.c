@@ -35,10 +35,13 @@ int main(int argc, char *argv[])
     fd_t fd;
 
     uint32_t err;
+
+    bool root = false;
     if (argc == 0)
     {
         printf("listing root\n");
         err = ffind(&fd, NULLPTR);
+        root = true;
     }
     else
     {
@@ -50,6 +53,10 @@ int main(int argc, char *argv[])
     if (err)
     {
         printf("[ERROR] unable to find dir\n");
+    }
+    else if(!fd.name.directory && !root)
+    {
+        printf("[ERROR] not a directory\n");
     }
     else
     {
