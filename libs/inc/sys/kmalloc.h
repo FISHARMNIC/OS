@@ -12,8 +12,8 @@ This was adapted from a malloc I had to wrote for class
 #include <stdint.h>
 
 extern uint32_t mm_init (void);
-extern void *mm_malloc (uint32_t size);
-extern void mm_free (void *ptr);
+extern void *kmalloc (uint32_t size);
+extern void kfree (void *ptr);
 extern void *mm_realloc(void *ptr, uint32_t size);
 
 void mem_init(void);               
@@ -33,7 +33,7 @@ uint32_t mem_heapsize(void);
 /* 
  * Maximum heap size in bytes 
  */
-#define MAX_HEAP (10000)
+#define MAX_HEAP (30000)
 
 #define NULL ((void*) 0)
 

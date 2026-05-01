@@ -32,6 +32,7 @@ This was adapted from a malloc I wrote for class
 
 #include <sys/kmalloc.h>
 #include <sys/string.h>
+#include <graphics.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // Constants and macros
@@ -410,13 +411,15 @@ static void *find_fit(uint32_t asize)
 }
 
 //
-// mm_free - Free a block
+// kfree - Free a block
 //
-void mm_free(void *bp)
+void kfree(void *bp)
 {
   /*
   All this does is mark a block as freed by clearing it alloc bit
   */
+
+  // tty_printf("Free %d\n", bp);
 
   uint32_t currentInfo = GET(HDRP(bp)); // get the current header info (just care about the size)
 
@@ -524,7 +527,7 @@ static void *coalesce(void *bp)
 }
 
 //
-// mm_malloc - Allocate a block with at least size bytes of payload
+// kmalloc - Allocate a block with at least size bytes of payload
 //
 
 /*
@@ -534,13 +537,15 @@ static void *coalesce(void *bp)
 
 */
 
-void *mm_malloc(uint32_t size)
+void *kmalloc(uint32_t size)
 {
-  dbg_printf("\nMallocing %d ", size);
+  // tty_printf("Mallocing %d ", size);
   if (size == 0 || size >= (UINT32_MAX - 4 * DSIZE))
   {
+    tty_printf("[ERROR] Malloc Failiure - SIZE\n");
     return NULL;
   }
+
   else if (size <= DSIZE)
   {
     size = 4 * DSIZE; // if less than 8 bytes, force 8b alignment
@@ -563,7 +568,10 @@ void *mm_malloc(uint32_t size)
   {
     // TODO maybe make bigger than this? but 1 << 12 is alread 4096 so maybe not
     if ((attemptedFit = extend_heap(MAX(size, CHUNKSIZE) / WSIZE)) == NULL) // extend the heap to a new size, and place fit as new empty slot
+    {
+      tty_printf("[ERROR] Malloc Failiure - SBRK\n");
       return NULL;                                                          // sbrk error
+    }
   }
 
   dbg_printf("*");
@@ -571,6 +579,9 @@ void *mm_malloc(uint32_t size)
   // place
   place(attemptedFit, size);
   dbg_printf("*\n");
+
+  // tty_printf("Malloc %d\n", attemptedFit); // @todo notice first alloc gets leaked? after that all have same addr
+
   return attemptedFit;
 }
 
@@ -629,12 +640,12 @@ void *mm_realloc(void *ptr, uint32_t size)
   void *newp;
   uint32_t copySize;
 
-  newp = mm_malloc(size);
+  newp = kmalloc(size);
 
   dbg_printf("*");
   if (newp == NULL)
   {
-    dbg_printf("ERROR: mm_malloc failed in mm_realloc\n");
+    dbg_printf("ERROR: kmalloc failed in mm_realloc\n");
     return NULL; // @todo kernel fault
   }
   copySize = GET_SIZE(HDRP(ptr));
@@ -643,10 +654,9 @@ void *mm_realloc(void *ptr, uint32_t size)
   {
     copySize = size;
   }
-  
   memcpy(newp, ptr, copySize);
   dbg_printf("*");
-  mm_free(ptr);
+  kfree(ptr);
   dbg_printf("*\n");
   return newp;
 }
