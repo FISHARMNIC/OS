@@ -3,6 +3,7 @@
 #include <cpu.h>
 #include <files.h>
 #include <elf.h>
+#include <sys/kmalloc.h>
 
 static interrupt_fn_t syscalls[256];
 
@@ -77,7 +78,8 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
     uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
     uint32_t size = file_size(fd);
-    uint8_t buffer[size];
+    uint8_t buffer[size]; // @todo kmalloc AND MAKE SURE FREE -> maybe needs to be done in elf part
+    // uint8_t* buffer = mm_malloc(size);
 
     // tty_printf("File size %d\n", size);
 
