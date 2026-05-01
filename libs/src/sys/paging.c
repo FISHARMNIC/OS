@@ -1,4 +1,5 @@
 #include <paging.h>
+#include <graphics.h>
 
 #define PAGE_PRESENT  0x001U
 #define PAGE_RW       0x002U
@@ -12,6 +13,7 @@
 #define ALIGN_4MB(vaddr)    ((vaddr) & ~((1U << 22) - 1U))
 
 static uint32_t page_directory[1024] __attribute__((aligned(4096)));
+static uint32_t user_page_refs[1024];
 
 void paging_init(void)
 {
@@ -22,6 +24,7 @@ void paging_init(void)
     // Identity-map full 4G in 4MB chunks, kernel-only by default (no PAGE_USER)
     for (i = 0; i < 1024U; ++i) {
         page_directory[i] = (i << 22) | PAGE_PRESENT | PAGE_RW | PAGE_4MB;
+        user_page_refs[i] = 0;
     }
 
     __asm__ volatile("mov %0, %%cr3" : : "r"(&page_directory[0]) : "memory");
@@ -39,20 +42,38 @@ void paging_init(void)
 void paging_set_user(uint32_t vaddr)
 {
     uint32_t idx = PDE_INDEX(vaddr);
-    page_directory[idx] |= PAGE_USER;
-    __asm__ volatile("invlpg (%0)" : : "r"(ALIGN_4MB(vaddr)) : "memory");
+
+    if (user_page_refs[idx] == 0) {
+        page_directory[idx] |= PAGE_USER;
+        __asm__ volatile("invlpg (%0)" : : "r"(ALIGN_4MB(vaddr)) : "memory");
+    }
+
+    user_page_refs[idx]++;
 }
 
 // Revoke Ring3 access
 void paging_clear_user(uint32_t vaddr)
 {
     uint32_t idx = PDE_INDEX(vaddr);
+
+    if (user_page_refs[idx] == 0) {
+        return;
+    }
+
+    user_page_refs[idx]--;
+
+    if (user_page_refs[idx] != 0) {
+        return;
+    }
+
+    // tty_printf("REVOKE USER ACCESS FOR PAGE %d\n", idx);
+
     page_directory[idx] &= ~PAGE_USER;
     __asm__ volatile("invlpg (%0)" : : "r"(ALIGN_4MB(vaddr)) : "memory");
 }
 
 // Mark every 4MB region covered by [vaddr, vaddr+size) as user-accessible.
-void paging_set_user_range(uint32_t vaddr, uint32_t size)
+void paging_set_user_range(uint32_t vaddr, uint32_t size) // @todo vadder should be pointer, just cleaner
 {
     uint32_t addr = ALIGN_4MB(vaddr);
     uint32_t end  = vaddr + size;

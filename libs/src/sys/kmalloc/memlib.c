@@ -13,7 +13,7 @@ char *mem_start_brk;       /* points to first byte of heap */
 static char *mem_brk;      /* points to last byte of heap */
 static char *mem_max_addr; /* largest legal heap address */
 
-static uint64_t buff[(MAX_HEAP + sizeof(uint64_t) - 1) / sizeof(uint64_t)];
+static uint64_t buff[(MAX_HEAP + sizeof(uint64_t) - 1) / sizeof(uint64_t)] __attribute__((aligned(ALIGNMENT)));
 
 /*
  * mem_init - initialize the memory system model

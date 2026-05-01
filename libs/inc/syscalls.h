@@ -24,6 +24,9 @@ typedef enum
     SYSCALL_HAND_ATTACH_MOUSE,
     SYSCALL_HAND_ATTACH_KB,
     SYSCALL_HAND_REMOVE,
+
+    SYSCALL_MALLOC,
+    SYSCALL_FREE,
 } syscalls_t;
 
 #define STR1(x)  #x

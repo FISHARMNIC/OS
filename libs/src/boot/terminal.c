@@ -115,8 +115,8 @@ static bool terminal_bin_cmd(char *cmd, char *save)
         {
 
             uint32_t size = file_size(&infos[i]);
-
             uint8_t* buffer = kmalloc(size);
+
             if(buffer == NULLPTR)
             {
                 tty_printf("[ERROR] Malloc failiure\n");
