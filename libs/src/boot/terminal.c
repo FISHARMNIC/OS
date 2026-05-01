@@ -114,9 +114,19 @@ static bool terminal_bin_cmd(char *cmd, char *save)
         {
 
             uint32_t size = file_size(&infos[i]);
-            // uint8_t* buffer =
-            uint8_t buffer[size];
-             
+
+            uint8_t* buffer = mm_malloc(size);
+            if(buffer == NULLPTR)
+            {
+                tty_printf("[ERROR] Malloc failiure\n");
+                return true;
+            }
+            else
+            {
+                tty_printf("Malloc %d\n", buffer); // @todo notice first alloc gets leaked? after that all have same addr
+            }
+            // uint8_t buffer[size];
+
             file_read(&infos[i], buffer, size);
 
             char *args[10]; // @todo make this dynamic or do some better way
@@ -139,6 +149,8 @@ static bool terminal_bin_cmd(char *cmd, char *save)
             }
 
             elf_exec(buffer, size, user_stack_glob, user_stack_size, i, args);
+
+            mm_free(buffer);
 
             return true;
         }
