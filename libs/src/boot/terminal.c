@@ -45,8 +45,13 @@ void terminal_init()
     history[i].next = &history[0];
 }
 
-void drawch(uint8_t c)
+void drawch(uint8_t c, keyboard_event_t event)
 {
+    if(event == KEYBOARD_EVENT_KEY_RELEASE)
+    {
+        return;
+    }
+
     static uint32_t n = 0;
 
     if (c == KEY_BACKSPACE)
@@ -166,8 +171,8 @@ static bool terminal_builtin_command(const char *cmd, char *save)
     if (strcmp(cmd, "help") == 0)
     {
         tty_puts("Built in commands:\n\tclear\n\texec\n");
-        tty_puts("BIN commands:\n");
-        terminal_bin_cmd("LS", "BIN f");
+        // tty_puts("BIN commands:\n");
+        terminal_bin_cmd("LS", "BIN f noext");
         return true;
     }
     else if (strcmp(cmd, "clear") == 0)

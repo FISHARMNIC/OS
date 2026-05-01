@@ -19,13 +19,6 @@
 #define MOUSE_RIGHT 0b10
 #define MOUSE_MIDDLE 0b100
 
-
-typedef void (*event_on_click_fn)(int32_t, int32_t, int8_t);
-typedef void (*event_on_move_fn)(int32_t, int32_t);
-
-// extern event_on_click_fn mouse_on_click_fn;
-// extern event_on_move_fn mouse_on_move_fn;
-
 typedef struct
 {
     uint8_t buttons;
@@ -37,6 +30,14 @@ typedef enum {
     NO_MOUSE = 0,
     MOUSE_EXISTS = 1,
 } mouse_existence_t;
+
+typedef enum {
+    MOUSE_EVENT_MOUSEUP = 0,
+    MOUSE_EVENT_MOUSEDOWN = 1,
+} mouse_click_event_t;
+
+typedef void (*event_on_click_fn)(int32_t mouse_x, int32_t mouse_y, mouse_click_event_t mouse_edge_type);
+typedef void (*event_on_move_fn)(int32_t mouse_x, int32_t mouse_y, int8_t mouse_dx, int8_t mouse_dy);
 
 mouse_existence_t mouse_init();
 void mouse_interrupt_handler(regs32_t r);
