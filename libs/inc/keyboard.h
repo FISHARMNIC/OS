@@ -86,9 +86,14 @@
 
 #define KEYCODE_RISING 128
 
+typedef enum {
+    KEYBOARD_EVENT_KEY_PRESS = 0,
+    KEYBOARD_EVENT_KEY_RELEASE = 1
+} keyboard_event_t;
+
 #define KEY_IS_ARROW(k) ((k) == KEY_UP || (k) == KEY_RIGHT || (k) == KEY_DOWN || (k) == KEY_LEFT)
 
-typedef void (*event_on_key_fn)(uint8_t);
+typedef void (*event_on_key_fn)(uint8_t, keyboard_event_t);
 
 // extern volatile event_on_key_fn keyboard_on_press_fn;
 

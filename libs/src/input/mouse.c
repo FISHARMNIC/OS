@@ -13,7 +13,7 @@ volatile uint8_t mouse_down = 0;
 #define SAFE_BUFFER_EXTRA_SIZE 5
 static uint32_t saveBuffer[CHAR_HEIGHT * CHAR_WIDTH + (CHAR_WIDTH * SAFE_BUFFER_EXTRA_SIZE * SAFE_BUFFER_EXTRA_SIZE)]; // @todo is this right
 
-static volatile int8_t mouse_edgeType = 0;
+static volatile mouse_click_event_t mouse_edge_type = 0;
 
 // event_on_click_fn mouse_on_click_fn = NULLPTR;
 // event_on_move_fn mouse_on_move_fn = NULLPTR;
@@ -46,11 +46,11 @@ static void mouse_handle_click(uint8_t data)
 {
     mouse_down = data & MOUSE_BUTTONS_MASK;
 
-    if ((mouse_edgeType == 0 && mouse_down > 0) || (mouse_edgeType == 1 && mouse_down == 0)) // clicked or falling action
+    if ((mouse_edge_type == MOUSE_EVENT_MOUSEUP && mouse_down > 0) || (mouse_edge_type == MOUSE_EVENT_MOUSEDOWN && mouse_down == 0)) // clicked or falling action
     {
-        mouse_edgeType = mouse_down > 0;
-        // mouse_on_click_fn(mouse_x, mouse_y, mouse_edgeType);
-        FOREACH(event_click_functions, event_click_functions_last, mouse_x, mouse_y, mouse_edgeType)
+        mouse_edge_type = mouse_down > 0;
+        // mouse_on_click_fn(mouse_x, mouse_y, mouse_edge_type);
+        FOREACH(event_click_functions, event_click_functions_last, mouse_x, mouse_y, mouse_edge_type)
     }
 }
 
@@ -78,7 +78,7 @@ static void mouse_handle_move(int8_t dx, int8_t dy)
     //     mouse_on_move_fn(mouse_x, mouse_y);
     // }
 
-    FOREACH(event_move_functions, event_move_functions_last, mouse_x, mouse_y);
+    FOREACH(event_move_functions, event_move_functions_last, mouse_x, mouse_y, dx, dy);
 
     graphics_get_buffer(mouse_x, mouse_y, CHAR_WIDTH + SAFE_BUFFER_EXTRA_SIZE, CHAR_HEIGHT + SAFE_BUFFER_EXTRA_SIZE, saveBuffer, &graphics_context_default);
     mouse_render();

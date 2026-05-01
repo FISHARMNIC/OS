@@ -7,9 +7,6 @@
 
 // @todo are these handlers running in ring0? thats not ideal if so
 
-#define HANDLE_INVALID -1
-#define HANDLE_NONE HANDLE_INVALID
-
 typedef int32_t handle_t;
 
 typedef struct

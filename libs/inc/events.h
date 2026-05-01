@@ -5,6 +5,9 @@
 #include <keyboard.h>
 #include <graphics.h>
 
+#define HANDLE_INVALID -1
+#define HANDLE_NONE HANDLE_INVALID
+
 #define CLICK_FUNCTIONS_SIZE 8
 #define MOVE_FUNCTIONS_SIZE 8
 #define KB_FUNCTIONS_SIZE 8
@@ -27,7 +30,7 @@ extern uint32_t event_keyboard_functions_last;
     {                                            \
         if (fn == NULLPTR)                       \
         {                                        \
-            return -1;                           \
+            return HANDLE_INVALID;               \
         }                                        \
         for (uint32_t i = 0; i < size; i++)      \
         {                                        \
@@ -41,7 +44,7 @@ extern uint32_t event_keyboard_functions_last;
                 return i;                        \
             }                                    \
         }                                        \
-        return -1;                               \
+        return HANDLE_INVALID;                   \
     }
 
 #define REMOVE_HANDLER(name, type, arr, last, size)   \
@@ -51,7 +54,7 @@ extern uint32_t event_keyboard_functions_last;
         if ((uint32_t)index >= size || index < 0)     \
         {                                             \
             /*tty_puts("NOT REMOVING " #name "\n");*/ \
-            return -1;                                \
+            return HANDLE_INVALID;                    \
         }                                             \
         /*tty_puts("REMOVING " #name "\n");*/         \
         if ((uint32_t)index == last && index != 0)    \

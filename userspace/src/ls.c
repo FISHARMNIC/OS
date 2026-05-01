@@ -40,14 +40,14 @@ int main(int argc, char *argv[])
     bool root = false;
     if (argc == 0)
     {
-        printf("listing root\n");
+        printf("Listing root\n");
         err = ffind(&fd, NULLPTR);
         root = true;
     }
     else
     {
         str_toupper(argv[0]);
-        printf("listing %s\n", argv[0]);
+        printf("Listing %s\n", argv[0]);
         err = ffind(&fd, argv[0]);
     }
 
@@ -63,20 +63,35 @@ int main(int argc, char *argv[])
     {
         bool include_dirs = true;
         bool include_files = true;
+        bool show_extensions = true;
 
-        if (argc == 2)
+        uint32_t i = 1;
+        while(argc >= 2)
         {
-            char *filter = argv[1];
+            char *filter = argv[i];
             if (strcmp(filter, "f") == 0)
             {
                 include_dirs = false;
-                printf("files only\n");
+                // printf("files only\n");
             }
             else if (strcmp(filter, "d") == 0)
             {
                 include_files = false;
-                printf("directories only\n");
+                // printf("directories only\n");
             }
+            else if(strcmp(filter, "noext") == 0)
+            {
+                show_extensions = false;
+                // printf("hiding extensions\n");
+            }
+            else
+            {
+                printf("[ERROR] Unknown argument '%s'. Valid arguments are:\n\tf : Show only files\n\td : Show only directories\n\tnoext : Hide file extensions\n", filter);
+                return 1;
+            }
+
+            argc--;
+            i++;
         }
 
         uint32_t dirsize = fdirsize(&fd);
@@ -103,7 +118,14 @@ int main(int argc, char *argv[])
             }
             else if (include_files)
             {
-                printf("\t%s.%s\n", current->name, current->name + current->extension_begin);
+                if(!show_extensions)
+                {
+                    printf("\t%s\n", current->name);
+                }
+                else
+                {
+                    printf("\t%s.%s\n", current->name, current->name + current->extension_begin);
+                }
             }
         }
 

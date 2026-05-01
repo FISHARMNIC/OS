@@ -21,9 +21,13 @@ void keyboard_init()
 void keyboard_handler(regs32_t r)
 {
     keyboard_sc = inb(KEYBOARD_PORT);
-    if (keyboard_sc < KEYCODE_RISING)
+    if(keyboard_sc < KEYCODE_RISING)
     {
-        FOREACH(event_keyboard_functions, event_keyboard_functions_last, keyboard_sc);
+        FOREACH(event_keyboard_functions, event_keyboard_functions_last, keyboard_sc, KEYBOARD_EVENT_KEY_PRESS);
+    }
+    else
+    {
+        FOREACH(event_keyboard_functions, event_keyboard_functions_last, keyboard_sc - KEYCODE_RISING, KEYBOARD_EVENT_KEY_RELEASE);
     }
 }
 
