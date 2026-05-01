@@ -13,4 +13,8 @@
 * Userspace
     * stdio syscalls
     * fs syscalls
+    * access to display buffer
+    * mouse and keyboard event handlers
+    * execute other files
 * elf execution in userspace
+* malloc
