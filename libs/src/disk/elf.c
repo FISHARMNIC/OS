@@ -5,14 +5,17 @@
 #include <cpu.h>
 #include <tss.h>
 #include <interrupts.h>
+#include <stdbool.h>
+#include <sys/kmalloc.h>
 
 // extern uint8_t stack_top[];
 
-uint8_t  exec_pending      = 0;
+uint8_t exec_pending = 0;
 uint8_t *exec_pending_file = 0;
 uint32_t exec_pending_size = 0;
 uint32_t exec_pending_argc = 0;
-char   **exec_pending_argv = 0;
+bool exec_free_buffer = false;
+char **exec_pending_argv = 0;
 
 uint8_t user_stack_glob[user_stack_size] __attribute__((aligned(user_stack_size)));
 
@@ -203,7 +206,7 @@ static void elf_jump_user(uint32_t entry, uint32_t user_stack_top, uint32_t argc
         : "eax");
 }
 
-elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t stack_size, uint32_t argc, char** argv)
+elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *user_stack, uint32_t stack_size, uint32_t argc, char **argv)
 {
     elf_section_offsets_t elf_info;
 
@@ -246,14 +249,20 @@ elf_error_t elf_exec(const uint8_t *file_bytes, uint32_t file_size, uint8_t *use
         // }
 
         if (exec_pending)
-    {
-        exec_pending = 0;
-        elf_exec(exec_pending_file, exec_pending_size,
-                 user_stack, user_stack_size,
-                 exec_pending_argc, exec_pending_argv);
-        return ELF_OK;
-    }
+        {
+            exec_pending = 0;
+            elf_exec(exec_pending_file, exec_pending_size,
+                     user_stack, user_stack_size,
+                     exec_pending_argc, exec_pending_argv);
 
+            if(exec_free_buffer)
+            {
+                kfree(exec_pending_file);
+                exec_free_buffer = false;
+            }
+
+            return ELF_OK;
+        }
 
         return ELF_OK;
     }

@@ -39,7 +39,7 @@ uint32_t postboot_init(multiboot_info_t* mbi);
 
 void terminal();
 
-void fattest();
-void elftest(iret_return_fn_t ret);
+// void fattest();
+// void elftest(iret_return_fn_t ret);
 
 #endif

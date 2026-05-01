@@ -6,20 +6,21 @@
  *            with the system's malloc package in libc.
  */
 #include <sys/kmalloc.h>
+#include <graphics.h>
 
 /* private variables */
 char *mem_start_brk;       /* points to first byte of heap */
 static char *mem_brk;      /* points to last byte of heap */
 static char *mem_max_addr; /* largest legal heap address */
 
-static char buff[MAX_HEAP];
+static uint64_t buff[(MAX_HEAP + sizeof(uint64_t) - 1) / sizeof(uint64_t)];
 
 /*
  * mem_init - initialize the memory system model
  */
 void mem_init(void)
 {
-    mem_start_brk = buff;
+    mem_start_brk = (char *)buff;
     mem_max_addr = mem_start_brk + MAX_HEAP; /* max legal heap address */
     mem_brk = mem_start_brk;                 /* heap is empty initially */
 }
@@ -45,6 +46,7 @@ void *mem_sbrk(uint32_t incr)
     {
         // errno = ENOMEM;
         // fprintf(stderr, "ERROR: mem_sbrk failed. Ran out of memory...\n");
+        tty_puts("[MALLOC ERROR] - No more memory!\n");
         return (void *)-1;
     }
     mem_brk += incr;

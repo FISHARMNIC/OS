@@ -78,8 +78,14 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
     uint32_t* resp =  (uint32_t*) registers.SYSCALL_PARAM_4;
 
     uint32_t size = file_size(fd);
-    uint8_t buffer[size]; // @todo kmalloc AND MAKE SURE FREE -> maybe needs to be done in elf part
-    // uint8_t* buffer = mm_malloc(size);
+    // uint8_t buffer[size]; // @todo kmalloc AND MAKE SURE FREE -> maybe needs to be done in elf part
+    uint8_t* buffer = kmalloc(size);
+
+    if(buffer == NULLPTR)
+    {
+        tty_printf("[ERROR] Malloc Failiure\n");
+        return;
+    }
 
     // tty_printf("File size %d\n", size);
 
@@ -96,6 +102,7 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
     exec_pending_argc   = argc;
     exec_pending_argv   = argv;
     exec_pending        = 1;
+    exec_free_buffer = true;
 
     // exit current process — longjmp back to elf_exec's setjmp
     longjmp(kernel_return_ctx, 1);

@@ -2,6 +2,7 @@
 #define ELF_H
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <os_setjmp.h>
 
 // three structs from linux foundation
@@ -162,5 +163,6 @@ extern uint8_t *exec_pending_file;
 extern uint32_t exec_pending_size;
 extern uint32_t exec_pending_argc;
 extern char   **exec_pending_argv;
+extern bool exec_free_buffer; 
 
 #endif
