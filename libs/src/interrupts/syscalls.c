@@ -89,7 +89,7 @@ static void _syscall_exec(regs32_t registers) // @todo fix, page faults
     uint32_t *resp = (uint32_t *)registers.SYSCALL_PARAM_4;
 
     uint32_t size = file_size(fd);
-    // uint8_t buffer[size]; // @todo kmalloc AND MAKE SURE FREE -> maybe needs to be done in elf part
+
     uint8_t *buffer = kmalloc(size);
 
     if (buffer == NULLPTR)
@@ -173,6 +173,59 @@ static void _syscall_removints(regs32_t registers)
     event_keyboard_remove_handler(key);
 }
 
+// @todo temporary. userspace malloc should be on user heap and not use kmalloc directly
+static void _syscall_malloc(regs32_t registers)
+{
+    uint32_t size = (uint32_t)registers.SYSCALL_PARAM_1;
+    void **resp = (void **)registers.SYSCALL_PARAM_2;
+
+    if (size == 0)
+    {
+        *resp = NULLPTR;
+        return;
+    }
+
+    const uint32_t header_size = sizeof(uint32_t);
+    void *alloc = kmalloc(size + header_size);
+
+    if (alloc == NULLPTR)
+    {
+        *resp = NULLPTR;
+    }
+    else
+    {
+        uint32_t *alloc32 = (uint32_t *)alloc;
+
+        alloc32[0] = size + header_size; // size for free
+
+        void *alloc_ret = &alloc32[1]; // return buffer no header
+
+        paging_set_user_range((uint32_t)alloc_ret, size); // only map buffer not including header
+
+        // tty_printf("Malloc %d bytes at %d\n", size, alloc_ret);
+
+        *resp = alloc_ret;
+    }
+}
+
+static void _syscall_free(regs32_t registers)
+{
+    void *ptr = (void *)registers.SYSCALL_PARAM_1;
+
+    if (ptr != NULLPTR)
+    {
+        uint32_t *ptr32 = (uint32_t *)ptr;
+        uint32_t *truebuffer = &ptr32[-1];
+
+        uint32_t size = truebuffer[0];
+
+        kfree(truebuffer);
+
+        paging_clear_user_range((uint32_t)ptr, size); // @todo again, once this is not using kmalloc this should be removed
+
+    }
+}
+
 // @todo remove interrupts
 
 void syscall_dispatch(regs32_t r)
@@ -200,5 +253,8 @@ void syscalls_init()
     syscall_create(_syscall_attachints_keyboard, SYSCALL_HAND_ATTACH_KB);
     syscall_create(_syscall_removints, SYSCALL_HAND_REMOVE);
 
+    syscall_create(_syscall_malloc, SYSCALL_MALLOC);
+    syscall_create(_syscall_free, SYSCALL_FREE);
+    
     idt_set_gate_user(SYSCALLS_IDT_ENTRY, (void *)syscall_stub);
 }

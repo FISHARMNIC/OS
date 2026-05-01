@@ -112,7 +112,7 @@ typedef enum
 
 typedef struct __attribute__((packed))
 {
-    char name[256]; // @todo maybe do a dynamic malloc if long file name, and stick to fixed if short (malloc regardless)
+    char name[256]; // @todo horrifying. Use malloc. 4 files is already 1k
     uint8_t name_len;
     uint8_t extension_len;
     uint32_t extension_begin;

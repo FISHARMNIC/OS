@@ -46,6 +46,7 @@ This was adapted from a malloc I wrote for class
 #define DSIZE 8             /* doubleword size (bytes) */
 #define CHUNKSIZE (1 << 12) /* initial heap size (bytes) */
 #define OVERHEAD 8          /* overhead of header and footer (bytes) */
+#define ALIGN(size) (((size) + (DSIZE - 1)) & ~(DSIZE - 1))
 
 static inline uint32_t MAX(uint32_t x, uint32_t y)
 {
@@ -546,7 +547,9 @@ void *kmalloc(uint32_t size)
     return NULL;
   }
 
-  else if (size <= DSIZE)
+  uint32_t payloadSize = size;
+
+  if (size <= DSIZE)
   {
     size = 4 * DSIZE; // if less than 8 bytes, force 8b alignment
     // The header and footer are each 4 bytes (one word)
@@ -554,10 +557,7 @@ void *kmalloc(uint32_t size)
   }
   else
   {
-    // TODO make sure this is actually right
-    // theoreitcally, should be able to fit 2+ prologues, which should be enough
-    size = DSIZE * ((size - 1 + 2 * DSIZE) / DSIZE);
-    // allocate
+    size = ALIGN(size + OVERHEAD);
   }
 
   void *attemptedFit = find_fit(size);
@@ -580,8 +580,9 @@ void *kmalloc(uint32_t size)
   place(attemptedFit, size);
   dbg_printf("*\n");
 
-  // tty_printf("Malloc %d\n", attemptedFit); // @todo notice first alloc gets leaked? after that all have same addr
+  // tty_printf("Malloc %d bytes at %d\n", size, attemptedFit); // @todo notice first alloc gets leaked? after that all have same addr
 
+  memset(attemptedFit, 0, payloadSize);
   return attemptedFit;
 }
 

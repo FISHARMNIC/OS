@@ -2,6 +2,7 @@
 
 #include <userspace/stdio.h>
 #include <userspace/fs.h>
+#include <userspace/malloc.h>
 
 static void str_toupper(char *s)
 {
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
     {
         printf("[ERROR] unable to find dir\n");
     }
-    else if(!fd.name.directory && !root)
+    else if (!fd.name.directory && !root)
     {
         printf("[ERROR] not a directory\n");
     }
@@ -79,8 +80,14 @@ int main(int argc, char *argv[])
         }
 
         uint32_t dirsize = fdirsize(&fd);
+        fd_t *fds = malloc(dirsize * sizeof(fd_t));
 
-        fd_t fds[dirsize]; // @todo malloc
+        if (fds == NULLPTR)
+        {
+            printf("[ERROR] malloc failure\n");
+            return 1;
+        }
+
         uint32_t count = fls(fds, &fd, dirsize);
 
         for (uint32_t i = 0; i < count; i++)
@@ -99,6 +106,8 @@ int main(int argc, char *argv[])
                 printf("\t%s.%s\n", current->name, current->name + current->extension_begin);
             }
         }
+
+        free(fds);
     }
 
     return 0;
