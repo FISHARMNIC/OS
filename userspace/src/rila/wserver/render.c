@@ -33,7 +33,7 @@ static void swap_buffers()
 render_init_errors_t render_init()
 {
     fd_t font_fd;
-    uint32_t err = ffind(&font_fd, "SYS/FONT.F16"); // @todo move to fonts/font.f16
+    uint32_t err = ffind(&font_fd, "SYS/FONT2.F16"); // @todo move to fonts/font.f16
     if (err)
     {
         return RIN_ERR_FONT;
