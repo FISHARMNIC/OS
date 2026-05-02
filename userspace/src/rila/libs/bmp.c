@@ -1,4 +1,4 @@
-#include "bmp.h"
+#include "inc/bmp.h"
 
 #define BMP_FILE_HEADER_SIZE 14
 #define BMP_INFO_HEADER_MIN_SIZE 40

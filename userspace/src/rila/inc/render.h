@@ -9,8 +9,6 @@
 
 #define BG_COLOR COLOR_FORMAT_RGB(176, 206, 255)
 
-void render_desktop();
-
 typedef enum {
     RIN_OK = 0,
     RIN_ERR_DESKTOP,
