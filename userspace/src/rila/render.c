@@ -24,7 +24,7 @@ static const uint8_t mouse_glyph[] = {
     0b11111000,
     0b11111000,
     0b11101100,
-    0b11101100,
+    0b11001100,
     0b10000110,
     0b00000110,
     0b00000011,
@@ -118,7 +118,7 @@ render_init_errors_t render_init()
     }
 
     fd_t font_fd;
-    err = ffind(&font_fd, "BOOT/FONT.F16"); // @todo move to fonts/font.f16
+    err = ffind(&font_fd, "SYS/FONT.F16"); // @todo move to fonts/font.f16
     if (err)
     {
         return RIN_ERR_FONT;
