@@ -79,7 +79,7 @@ void desktop_render(graphics_context_t *ctx)
         if(!(name[0] == '.' && (name[1] == 0 || (name[1] == '.' && name[2] == 0))))
         {
             rila_bmp_draw(folder_bmp, folder_bmp_size, 30 + x * 60, 30, ctx);
-            draw_string(name, 30 + x * 60, 80, ctx);
+            draw_string(name , 35 + x * 60, 80, ctx);
             x++;
         }
     }
