@@ -35,11 +35,11 @@ set(FONT_OBJ "${CMAKE_BINARY_DIR}/FONT.F16.o")
 
 add_custom_command(
     OUTPUT "${FONT_OBJ}"
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/boot/FONT.F16" "FONT.F16"
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/disk/sys/FONT.F16" "FONT.F16"
     COMMAND ${CROSS_OBJCOPY} -I binary -O elf32-i386 -B i386 "FONT.F16" "FONT.F16.o"
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-    DEPENDS "${CMAKE_SOURCE_DIR}/boot/FONT.F16"
-    COMMENT "Embedding boot/FONT.F16 into kernel"
+    DEPENDS "${CMAKE_SOURCE_DIR}/disk/sys/FONT.F16"
+    COMMENT "Embedding disk/sys/FONT.F16 into kernel"
     VERBATIM
 )
 
