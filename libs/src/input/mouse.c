@@ -10,37 +10,37 @@ static int32_t mouse_x = 0;
 static int32_t mouse_y = 0;
 volatile uint8_t mouse_down = 0;
 
-#define SAFE_BUFFER_EXTRA_SIZE 5
-static uint32_t saveBuffer[CHAR_HEIGHT * CHAR_WIDTH + (CHAR_WIDTH * SAFE_BUFFER_EXTRA_SIZE * SAFE_BUFFER_EXTRA_SIZE)]; // @todo is this right
+// #define SAFE_BUFFER_EXTRA_SIZE 5
+// static uint32_t saveBuffer[CHAR_HEIGHT * CHAR_WIDTH + (CHAR_WIDTH * SAFE_BUFFER_EXTRA_SIZE * SAFE_BUFFER_EXTRA_SIZE)]; // @todo is this right
 
 static volatile mouse_click_event_t mouse_edge_type = 0;
 
 // event_on_click_fn mouse_on_click_fn = NULLPTR;
 // event_on_move_fn mouse_on_move_fn = NULLPTR;
 
-static const uint8_t mouse_glyph[] = {
-    0b10000000,
-    0b11000000,
-    0b11100000,
-    0b11110000,
-    0b11111000,
-    0b11111100,
-    0b11111110,
-    0b11111100,
-    0b11111000,
-    0b11111000,
-    0b11101100,
-    0b11101100,
-    0b10000110,
-    0b00000110,
-    0b00000011,
-    0b00000011
-};
-
-static void mouse_render()
-{
-    graphics_draw_glyph(mouse_glyph, mouse_x, mouse_y, &graphics_context_default);
-}
+// static const uint8_t mouse_glyph[] = {
+//     0b10000000,
+//     0b11000000,
+//     0b11100000,
+//     0b11110000,
+//     0b11111000,
+//     0b11111100,
+//     0b11111110,
+//     0b11111100,
+//     0b11111000,
+//     0b11111000,
+//     0b11101100,
+//     0b11101100,
+//     0b10000110,
+//     0b00000110,
+//     0b00000011,
+//     0b00000011
+// };
+//
+// static void mouse_render()
+// {
+//     graphics_draw_glyph(mouse_glyph, mouse_x, mouse_y, &graphics_context_default);
+// }
 
 static void mouse_handle_click(uint8_t data)
 {
@@ -56,7 +56,7 @@ static void mouse_handle_click(uint8_t data)
 
 static void mouse_handle_move(int8_t dx, int8_t dy)
 {
-    graphics_draw_buffer(mouse_x, mouse_y, CHAR_WIDTH + 5, CHAR_HEIGHT + 5, saveBuffer, &graphics_context_default);
+    // graphics_draw_buffer(mouse_x, mouse_y, CHAR_WIDTH + 5, CHAR_HEIGHT + 5, saveBuffer, &graphics_context_default);
 
     mouse_x += dx;
     mouse_y -= dy;
@@ -80,8 +80,8 @@ static void mouse_handle_move(int8_t dx, int8_t dy)
 
     FOREACH(event_move_functions, event_move_functions_last, mouse_x, mouse_y, dx, dy);
 
-    graphics_get_buffer(mouse_x, mouse_y, CHAR_WIDTH + SAFE_BUFFER_EXTRA_SIZE, CHAR_HEIGHT + SAFE_BUFFER_EXTRA_SIZE, saveBuffer, &graphics_context_default);
-    mouse_render();
+    // graphics_get_buffer(mouse_x, mouse_y, CHAR_WIDTH + SAFE_BUFFER_EXTRA_SIZE, CHAR_HEIGHT + SAFE_BUFFER_EXTRA_SIZE, saveBuffer, &graphics_context_default);
+    // mouse_render();
 }
 
 void mouse_interrupt_handler(regs32_t r)
@@ -173,9 +173,9 @@ mouse_existence_t mouse_init()
     outb(MOUSE_PORT_2, MOUSE_PORT_1);
     outb(MOUSE_PORT_1, res);
 
-    for (uint32_t i = 0; i < CHAR_HEIGHT * CHAR_WIDTH; ++i) {
-        saveBuffer[i] = 0;
-    }
+    // for (uint32_t i = 0; i < CHAR_HEIGHT * CHAR_WIDTH; ++i) {
+    //     saveBuffer[i] = 0;
+    // }
 
     return MOUSE_EXISTS;
 }

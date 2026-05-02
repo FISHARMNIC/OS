@@ -75,4 +75,6 @@ void pic_remap(void);
 void interrupts_exception_handler(void);
 void interrupts_irq_handler(void);
 
+void panic();
+
 #endif

@@ -34,6 +34,7 @@ typedef enum {
 typedef enum {
     MOUSE_EVENT_MOUSEUP = 0,
     MOUSE_EVENT_MOUSEDOWN = 1,
+    MOUSE_EVENT_MOVE
 } mouse_click_event_t;
 
 typedef void (*event_on_click_fn)(int32_t mouse_x, int32_t mouse_y, mouse_click_event_t mouse_edge_type);

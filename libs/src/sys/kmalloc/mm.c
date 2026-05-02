@@ -33,6 +33,7 @@ This was adapted from a malloc I wrote for class
 #include <sys/kmalloc.h>
 #include <sys/string.h>
 #include <graphics.h>
+#include <interrupts.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // Constants and macros
@@ -543,7 +544,9 @@ void *kmalloc(uint32_t size)
   // tty_printf("Mallocing %d ", size);
   if (size == 0 || size >= (UINT32_MAX - 4 * DSIZE))
   {
+    tty_reset();
     tty_printf("[ERROR] Malloc Failiure - SIZE\n");
+    panic();
     return NULL;
   }
 
@@ -569,8 +572,10 @@ void *kmalloc(uint32_t size)
     // TODO maybe make bigger than this? but 1 << 12 is alread 4096 so maybe not
     if ((attemptedFit = extend_heap(MAX(size, CHUNKSIZE) / WSIZE)) == NULL) // extend the heap to a new size, and place fit as new empty slot
     {
+      tty_reset();
       tty_printf("[ERROR] Malloc Failiure - SBRK\n");
-      return NULL;                                                          // sbrk error
+      panic();
+      return NULL; // sbrk error
     }
   }
 

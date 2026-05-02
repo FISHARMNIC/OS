@@ -36,6 +36,8 @@ typedef struct
     const framebuffer_t *fb;
 } graphics_context_t;
 
+typedef void (*tty_putch_handler_t)(char c);
+
 extern const uint8_t _binary_FONT_F16_start[];
 
 extern framebuffer_t graphics_fb_default;

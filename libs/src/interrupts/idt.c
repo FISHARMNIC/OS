@@ -92,6 +92,11 @@ void interrupts_disable(void)
     __asm__ volatile("cli");
 }
 
+void panic()
+{
+    __asm__ volatile("cli; hlt");
+}
+
 void interrupts_exception_handler(void)
 {
     regs32_t regs = {0};
@@ -104,7 +109,7 @@ void interrupts_exception_handler(void)
     graphics_context_default.color_fg = COLOR_FORMAT_RGB(0, COLOR_GREEN_MAX, 0);
     tty_printf("====================================\n====================================\n======[FATAL EXCEPTION] [%d] is : '%s' ======\n====================================\n====================================\n", isr_exception_type, cpu_exceptions[isr_exception_type]);
 
-    __asm__ volatile("hlt");
+    panic();
 }
 
 void interrupts_irq_handler(void)
