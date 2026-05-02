@@ -5,6 +5,7 @@
 
 static uint32_t tty_x = 0;
 static uint32_t tty_y = 0;
+tty_putch_handler_t tty_putch_handler;
 
 uint32_t tty_cols()
 {
@@ -41,11 +42,6 @@ void tty_clear()
         }
     }
 
-    tty_reset();
-}
-
-void tty_reset(void)
-{
     tty_x = 0;
     tty_y = 0;
 }
@@ -61,7 +57,7 @@ static void tty_newline(void)
     }
 }
 
-void tty_putch(char c)
+static void tty_putch_default_handler(char c)
 {
     if (c == '\n')
     {
@@ -100,6 +96,18 @@ void tty_putch(char c)
     {
         tty_newline();
     }
+}
+
+void tty_reset(void)
+{
+    tty_x = 0;
+    tty_y = 0;
+    tty_putch_handler = tty_putch_default_handler;
+}
+
+void tty_putch(char c)
+{
+    tty_putch_handler(c);
 }
 
 void tty_puts(const char *str)

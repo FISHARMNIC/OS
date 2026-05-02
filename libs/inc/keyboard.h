@@ -93,7 +93,7 @@ typedef enum {
 
 #define KEY_IS_ARROW(k) ((k) == KEY_UP || (k) == KEY_RIGHT || (k) == KEY_DOWN || (k) == KEY_LEFT)
 
-typedef void (*event_on_key_fn)(uint8_t, keyboard_event_t);
+typedef void (*event_on_key_fn)(uint8_t sc, keyboard_event_t info);
 
 // extern volatile event_on_key_fn keyboard_on_press_fn;
 
