@@ -255,6 +255,11 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         mm_checkheap();
         return true;
     }
+    else if(strcmp(cmd, "car") == 0)
+    {
+        terminal_bin_cmd("EXEC", "BIN/GAMES/CAR.ELF");
+        return true;
+    }
     else
     {
         return false;
