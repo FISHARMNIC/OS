@@ -58,19 +58,24 @@ static void mouse_handle_move(int8_t dx, int8_t dy)
 {
     // graphics_draw_buffer(mouse_x, mouse_y, CHAR_WIDTH + 5, CHAR_HEIGHT + 5, saveBuffer, &graphics_context_default);
 
+    const uint32_t fb_width = graphics_context_active->fb->width;
+    const uint32_t fb_height = graphics_context_active->fb->height;
+    const uint32_t char_width = graphics_context_active->font.char_width;
+    const uint32_t char_height = graphics_context_active->font.char_height;
+
     mouse_x += dx;
     mouse_y -= dy;
 
     if (mouse_x < 0) {
         mouse_x = 0;
-    } else if (mouse_x >= (int32_t)(graphics_fb_active->width - CHAR_WIDTH)) {
-        mouse_x = graphics_fb_active->width - CHAR_WIDTH - 1;
+    } else if (mouse_x >= (int32_t)(fb_width - char_width)) {
+        mouse_x = fb_width - char_width - 1;
     }
 
     if (mouse_y < 0) {
         mouse_y = 0;
-    } else if (mouse_y >= (int32_t)(graphics_fb_active->height - CHAR_HEIGHT)) {
-        mouse_y = graphics_fb_active->height - CHAR_HEIGHT - 1;
+    } else if (mouse_y >= (int32_t)(fb_height - char_height)) {
+        mouse_y = fb_height - char_height - 1;
     }
 
     // if (mouse_on_move_fn != NULLPTR)

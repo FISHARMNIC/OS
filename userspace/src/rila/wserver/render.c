@@ -1,5 +1,6 @@
 #include "inc/wserver.h"
 #include "inc/window.h"
+#include "inc/click.h"
 
 #include <userspace/fs.h>
 #include <userspace/malloc.h>
@@ -9,6 +10,7 @@
 static graphics_context_t ctx;
 static framebuffer_t render_buffer_fb;
 static uint8_t *render_buffer = NULLPTR;
+static handle_t mhandlec; 
 
 void panic()
 {
@@ -20,45 +22,46 @@ void panic()
 
 static void swap_buffers()
 {
-    uint8_t *front = (uint8_t *)framebuffer.addr;
-    uint8_t *back = (uint8_t *)render_buffer_fb.addr;
-    uint32_t size = framebuffer.pitch * framebuffer.height;
-
-    for (uint32_t i = 0; i < size; i++)
-    {
+    uint32_t *front = (uint32_t *)framebuffer.addr;
+    uint32_t *back  = (uint32_t *)render_buffer_fb.addr;
+    uint32_t count  = (framebuffer.pitch * framebuffer.height) >> 2; // divide by 4
+    
+    for (uint32_t i = 0; i < count; i++)
         front[i] = back[i];
-    }
 }
 
 render_init_errors_t render_init()
 {
     fd_t font_fd;
-    uint32_t err = ffind(&font_fd, "SYS/FONT2.F16"); // @todo move to fonts/font.f16
+    uint32_t err = ffind(&font_fd, "SYS/FONT.F16");
     if (err)
     {
         return RIN_ERR_FONT;
     }
 
     uint32_t font_size = fsize(&font_fd);
-    ctx.font = malloc(font_size);
-    if (ctx.font == NULLPTR)
+    ctx.font.ptr = (const uint8_t *)malloc(font_size);
+    if (ctx.font.ptr == NULLPTR)
     {
         return RIN_ERR_FONT_MALLOC;
     }
 
-    if (fread(&font_fd, (char *)ctx.font, font_size) != font_size)
+    if (fread(&font_fd, (char *)ctx.font.ptr, font_size) != font_size)
     {
-        free((uint8_t *)ctx.font);
-        ctx.font = NULLPTR;
+        free((uint8_t *)ctx.font.ptr);
+        ctx.font.ptr = NULLPTR;
         return RIN_ERR_FONT_READ;
     }
+    
+    ctx.font.char_width = 8;
+    ctx.font.char_height = 16;
 
     uint32_t render_buffer_size = framebuffer.pitch * framebuffer.height;
     render_buffer = malloc(render_buffer_size);
     if (render_buffer == NULLPTR)
     {
-        free((uint8_t *)ctx.font);
-        ctx.font = NULLPTR;
+        free((uint8_t *)ctx.font.ptr);
+        ctx.font.ptr = NULLPTR;
         return RIN_ERR_BUFFER_MALLOC;
     }
 
@@ -72,11 +75,13 @@ render_init_errors_t render_init()
     if (err != RIN_OK)
     {
         free(render_buffer);
-        free((uint8_t *)ctx.font);
+        free((uint8_t *)ctx.font.ptr);
         render_buffer = NULLPTR;
-        ctx.font = NULLPTR;
+        ctx.font.ptr = NULLPTR;
         return err;
     }
+
+    mhandlec = user_events_add_mouse(handle_click, NULLPTR).click;
 
     return RIN_OK;
 }
@@ -84,8 +89,10 @@ render_init_errors_t render_init()
 void render_deinit()
 {
     desktop_deinit();
-    free((uint8_t *)ctx.font);
+    free((uint8_t *)ctx.font.ptr);
     free(render_buffer);
+
+    user_events_remove(mhandlec, HANDLE_NONE, HANDLE_NONE);
 }
 
 void render()

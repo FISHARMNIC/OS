@@ -1,7 +1,10 @@
-#include "inc/wserver.h"
-#include "../libs/inc/bmp.h"
 #include <userspace/fs.h>
 #include <userspace/malloc.h>
+
+#include "../libs/inc/bmp.h"
+
+#include "inc/wserver.h"
+#include "inc/click.h"
 
 static fd_t desktop_fd;
 static fd_t *desk_infos = NULLPTR;

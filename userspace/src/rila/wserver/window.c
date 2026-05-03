@@ -28,13 +28,13 @@ static void draw_bordered_rect(uint32_t x, uint32_t y, uint32_t width, uint32_t 
 
 static void draw_transparent_char(uint8_t character, uint32_t x, uint32_t y, graphics_context_t *ctx)
 {
-    const uint8_t *glyph = ctx->font + (character * CHAR_HEIGHT);
+    const uint8_t *glyph = ctx->font.ptr + (character * ctx->font.char_height);
 
-    for (uint32_t offy = 0; offy < CHAR_HEIGHT; offy++)
+    for (uint32_t offy = 0; offy < ctx->font.char_height; offy++)
     {
-        for (uint32_t offx = 0; offx < CHAR_WIDTH; offx++)
+        for (uint32_t offx = 0; offx < ctx->font.char_width; offx++)
         {
-            if ((glyph[offy] & MASK(CHAR_WIDTH - 1 - offx)) != 0)
+            if ((glyph[offy] & MASK(ctx->font.char_width - 1 - offx)) != 0)
             {
                 put_pixel(x + offx, y + offy, ctx->color_fg, (framebuffer_t*)ctx->fb);
             }
@@ -47,7 +47,7 @@ static void draw_transparent_string(char *string, uint32_t x, uint32_t y, graphi
     while (*string)
     {
         draw_transparent_char((uint8_t)*string, x, y, ctx);
-        x += CHAR_WIDTH;
+        x += ctx->font.char_width;
         string++;
     }
 }

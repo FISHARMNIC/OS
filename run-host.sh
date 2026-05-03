@@ -103,7 +103,7 @@ if [[ "${MODE}" == "iso" ]]; then
     rm -rf "${ISO_ROOT}"
     mkdir -p "${ISO_ROOT}/boot/grub"
     cp "${KERNEL_BIN}"             "${ISO_ROOT}/boot/MyOS.bin"
-    cp "${ROOT_DIR}/boot/FONT.F16" "${ISO_ROOT}/boot/FONT.F16"
+    cp "${ROOT_DIR}/disk/sys/FONT.F16" "${ISO_ROOT}/boot/FONT.F16"
     cp "${ROOT_DIR}/boot/grub.cfg" "${ISO_ROOT}/boot/grub/grub.cfg"
     "${GRUB_MKRESCUE}" -o "${ISO_PATH}" "${ISO_ROOT}"
     [[ -f "${ISO_PATH}" ]] || die "ISO not found at ${ISO_PATH}"

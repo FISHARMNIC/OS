@@ -25,11 +25,11 @@ void mouse_render(framebuffer_t *fb)
     uint32_t mouse_x = input.mouse.mouse_x < 0 ? 0 : (uint32_t)input.mouse.mouse_x;
     uint32_t mouse_y = input.mouse.mouse_y < 0 ? 0 : (uint32_t)input.mouse.mouse_y;
 
-    for (uint32_t offy = 0; offy < CHAR_HEIGHT; offy++)
+    for (uint32_t offy = 0; offy < 16; offy++)
     {
-        for (uint32_t offx = 0; offx < CHAR_WIDTH; offx++)
+        for (uint32_t offx = 0; offx < 8; offx++)
         {
-            if ((mouse_glyph[offy] & MASK(CHAR_WIDTH - 1 - offx)) != 0)
+            if ((mouse_glyph[offy] & MASK(8 - 1 - offx)) != 0)
             {
                 put_pixel(mouse_x + offx, mouse_y + offy, COLOR_BLACK, fb);
             }
