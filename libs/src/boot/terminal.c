@@ -170,7 +170,7 @@ static bool terminal_builtin_command(const char *cmd, char *save)
 
     if (strcmp(cmd, "help") == 0)
     {
-        tty_puts("Built in commands:\n\tclear\n\texec\n");
+        tty_puts("Built in commands:\n\tclear\n\texec\n\tmem\n");
         // tty_puts("BIN commands:\n");
         terminal_bin_cmd("LS", "BIN f noext");
         return true;
