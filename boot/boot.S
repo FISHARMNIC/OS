@@ -22,6 +22,9 @@
 .long 640
 .long 480
 .long 32
+// .long 1280
+// .long 720
+// .long 32
 
 .section .bss
 .align 16

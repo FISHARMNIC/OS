@@ -66,9 +66,9 @@ static inline void draw_glyph(const uint8_t *glyph, uint32_t x, uint32_t y, grap
     const uint32_t color_fg = ctx->color_fg;
     // const uint32_t color_bg = ctx->color_bg;
 
-    for (uint32_t offy = 0; offy < CHAR_HEIGHT; offy++)
+    for (uint32_t offy = 0; offy < ctx->font.char_height; offy++)
     {
-        for (uint32_t offx = 1; offx <= CHAR_WIDTH; offx++)
+        for (uint32_t offx = 1; offx <= ctx->font.char_width; offx++)
         {
 
             const uint32_t sx = x + offx;
@@ -79,7 +79,7 @@ static inline void draw_glyph(const uint8_t *glyph, uint32_t x, uint32_t y, grap
                 continue;
             }
 
-            // const uint32_t color = (glyph[offy] & MASK(CHAR_WIDTH - offx)) ? color_fg : color_bg;
+            // const uint32_t color = (glyph[offy] & MASK(ctx->font.char_width - offx)) ? color_fg : color_bg;
             // const uint8_t *row = (uint8_t *)(addr + (sy * pitch));
 
             // if (bpp == 32) {
@@ -88,7 +88,7 @@ static inline void draw_glyph(const uint8_t *glyph, uint32_t x, uint32_t y, grap
             //     ((uint16_t *)row)[sx] = (uint16_t)color;
             // }
 
-            bool draw = (glyph[offy] & MASK(CHAR_WIDTH - offx));
+            bool draw = (glyph[offy] & MASK(ctx->font.char_width - offx));
             if (draw)
             {
                 const uint8_t *row = (uint8_t *)(addr + (sy * pitch));
@@ -108,7 +108,7 @@ static inline void draw_glyph(const uint8_t *glyph, uint32_t x, uint32_t y, grap
 
 static inline void draw_char(uint8_t character, uint32_t x, uint32_t y, graphics_context_t *ctx)
 {
-    const uint8_t *glyph = ctx->font + (character * CHAR_HEIGHT);
+    const uint8_t *glyph = ctx->font.ptr + (character * ctx->font.char_height);
 
     draw_glyph(glyph, x, y, ctx);
 }
@@ -118,7 +118,7 @@ static inline void draw_string(char *string, uint32_t x, uint32_t y, graphics_co
     while (*string)
     {
         draw_char((uint8_t)*string, x, y, ctx);
-        x += CHAR_WIDTH;
+        x += ctx->font.char_width;
         string++;
     }
 }

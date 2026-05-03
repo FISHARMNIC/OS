@@ -17,16 +17,24 @@ uint32_t postboot_init(multiboot_info_t* mbi)
 
     // Setup default framebuffer
     graphics_init_fb(&graphics_fb_default, mbi);
-    graphics_fb_active = &graphics_fb_default;
 
     // Setup default context
-    graphics_init_context(&graphics_context_default, &graphics_fb_default, _binary_FONT_F16_start, COLOR_WHITE, COLOR_BLACK);
+    graphics_init_context(&graphics_context_default, &graphics_fb_default, (font_info_t){
+        .char_width = 8,
+        .char_height = 16,
+        .ptr = _binary_FONT_F16_start
+    }, COLOR_BLACK, COLOR_WHITE);
+    
+    graphics_set_active_context(&graphics_context_default);
     
     tty_reset();
+    tty_clear();
+
     tty_puts("... Paging and Graphics enabled\n");
 
     // Load interrupts into IDT and register custom handlers.
     idt_load_stubs();
+    
     idt_load_interrupt(IRQ_MOUSE, mouse_interrupt_handler);
     idt_load_interrupt(IRQ_KEYBOARD, keyboard_handler);
 

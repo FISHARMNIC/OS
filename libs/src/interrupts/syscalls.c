@@ -126,10 +126,10 @@ static void _syscall_getvbuff(regs32_t registers)
     framebuffer_t *info = (framebuffer_t *)registers.SYSCALL_PARAM_1;
 
     paging_set_user_range(
-        graphics_fb_active->addr,
-        graphics_fb_active->pitch * graphics_fb_active->height);
+        graphics_context_active->fb->addr,
+        graphics_context_active->fb->pitch * graphics_context_active->fb->height);
 
-    *info = *graphics_fb_active;
+    *info = *graphics_context_active->fb;
 }
 
 static void _syscall_dispvbuff(regs32_t registers)

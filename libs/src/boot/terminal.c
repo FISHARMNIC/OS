@@ -248,6 +248,13 @@ static bool terminal_builtin_command(const char *cmd, char *save)
         return true;
     }
     */
+    
+    else if(strcmp(cmd, "mem") == 0)
+    {
+        tty_printf("Heap size: %d\n", mem_heapsize());
+        mm_checkheap();
+        return true;
+    }
     else
     {
         return false;
@@ -263,7 +270,7 @@ void terminal()
 
     while (1)
     {
-        tty_puts(PROMPT);
+        tty_printf(TC_BLUE PROMPT TC_PURP);
         keyboard_gets(buff, MAX_INPUT_SIZE);
 
         memcpy(history_wp->str, (void *)buff, MAX_INPUT_SIZE);
@@ -276,7 +283,7 @@ void terminal()
         char *save;
         char *resp = strtok_r((void *)buff, " ", &save);
 
-        tty_putch('\n');
+        tty_printf("\n"TC_GREEN);
 
         bool valid = terminal_builtin_command(resp, save);
 
@@ -289,7 +296,7 @@ void terminal()
             valid = terminal_bin_cmd(resp, save);
             if (!valid)
             {
-                tty_printf("Unknown command '%s'. Run 'help' for a list of commands\n", resp);
+                tty_printf(TC_RED"Unknown command '%s'. Run 'help' for a list of commands\n"TC_BLACK, resp);
             }
         }
     }

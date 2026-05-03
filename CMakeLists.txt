@@ -31,15 +31,18 @@ set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/boot/linker.ld")
 set(KERNEL_OUT_DIR "${CMAKE_BINARY_DIR}/compiled")
 set(ISO_ROOT "${CMAKE_BINARY_DIR}/isodir")
 set(ISO_FILE "${KERNEL_OUT_DIR}/${OS_NAME}.iso")
-set(FONT_OBJ "${CMAKE_BINARY_DIR}/FONT.F16.o")
+set(FONT_FILE "${CMAKE_SOURCE_DIR}/disk/sys/FONT.F16")
+set(EMBEDDED_FONT_NAME "FONT.F16")
+set(FONT_OBJ "${CMAKE_BINARY_DIR}/${EMBEDDED_FONT_NAME}.o")
+message(STATUS "Embedding font: ${FONT_FILE}")
 
 add_custom_command(
     OUTPUT "${FONT_OBJ}"
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/disk/sys/FONT.F16" "FONT.F16"
-    COMMAND ${CROSS_OBJCOPY} -I binary -O elf32-i386 -B i386 "FONT.F16" "FONT.F16.o"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${FONT_FILE}" "${EMBEDDED_FONT_NAME}"
+    COMMAND ${CROSS_OBJCOPY} -I binary -O elf32-i386 -B i386 "${EMBEDDED_FONT_NAME}" "${EMBEDDED_FONT_NAME}.o"
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-    DEPENDS "${CMAKE_SOURCE_DIR}/disk/sys/FONT.F16"
-    COMMENT "Embedding disk/sys/FONT.F16 into kernel"
+    DEPENDS "${FONT_FILE}"
+    COMMENT "Embedding ${FONT_FILE} into kernel as ${EMBEDDED_FONT_NAME}"
     VERBATIM
 )
 
@@ -105,11 +108,11 @@ if(GRUB_MKRESCUE)
         OUTPUT "${ISO_FILE}"
         COMMAND ${CMAKE_COMMAND} -E make_directory "${ISO_ROOT}/boot/grub"
         COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${KERNEL_TARGET}>" "${ISO_ROOT}/boot/${OS_NAME}.bin"
-        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/boot/FONT.F16" "${ISO_ROOT}/boot/FONT.F16"
+        COMMAND ${CMAKE_COMMAND} -E copy "${FONT_FILE}" "${ISO_ROOT}/boot/${EMBEDDED_FONT_NAME}"
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/boot/grub.cfg" "${ISO_ROOT}/boot/grub/grub.cfg"
         COMMAND ${CMAKE_COMMAND} -E make_directory "${KERNEL_OUT_DIR}"
         COMMAND ${GRUB_MKRESCUE} -o "${ISO_FILE}" "${ISO_ROOT}"
-        DEPENDS ${KERNEL_TARGET} "${CMAKE_SOURCE_DIR}/boot/grub.cfg" "${CMAKE_SOURCE_DIR}/boot/FONT.F16"
+        DEPENDS ${KERNEL_TARGET} "${CMAKE_SOURCE_DIR}/boot/grub.cfg" "${FONT_FILE}"
         COMMENT "Creating bootable ISO"
         VERBATIM
     )

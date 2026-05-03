@@ -7,43 +7,23 @@ static uint32_t tty_x = 0;
 static uint32_t tty_y = 0;
 tty_putch_handler_t tty_putch_handler;
 
-uint32_t tty_cols()
+uint32_t tty_cols(void)
 {
-    return graphics_fb_active->width / CHAR_WIDTH;
+    return graphics_context_active->fb->width / graphics_context_active->font.char_width;
 }
 
-uint32_t tty_rows()
+uint32_t tty_rows(void)
 {
-    return graphics_fb_active->height / CHAR_HEIGHT;
+    return graphics_context_active->fb->height / graphics_context_active->font.char_height;
 }
 
 void tty_clear()
 {
-    const uint8_t bpp = graphics_fb_active->bpp;
-    const uint32_t width = graphics_fb_active->width;
-    const uint32_t height = graphics_fb_active->height;
-    const uint32_t pitch = graphics_fb_active->pitch;
-    const uint32_t addr = graphics_fb_active->addr;
-    const uint32_t color = graphics_context_default.color_bg;
-
-    for (uint32_t y = 0; y < height; ++y)
-    {
-        uint8_t *row = (uint8_t *)(addr + (y * pitch));
-        for (uint32_t x = 0; x < width; ++x)
-        {
-            if (bpp == 32)
-            {
-                ((uint32_t *)row)[x] = color;
-            }
-            else if (bpp == 16)
-            {
-                ((uint16_t *)row)[x] = (uint16_t)color;
-            }
-        }
-    }
+    graphics_clear_screen(graphics_context_active->color_bg, graphics_context_active->fb);
 
     tty_x = 0;
     tty_y = 0;
+
 }
 
 static void tty_newline(void)
@@ -80,7 +60,7 @@ static void tty_putch_default_handler(char c)
             tty_y--;
             tty_x = tty_cols() - 1;
         }
-        graphics_draw_char((uint8_t)' ', tty_x * CHAR_WIDTH, tty_y * CHAR_HEIGHT, &graphics_context_default);
+        graphics_draw_char((uint8_t)' ', tty_x * graphics_context_active->font.char_width, tty_y * graphics_context_active->font.char_height, graphics_context_active);
         return;
     }
 
@@ -89,7 +69,7 @@ static void tty_putch_default_handler(char c)
         tty_newline();
     }
 
-    graphics_draw_char((uint8_t)c, tty_x * CHAR_WIDTH, tty_y * CHAR_HEIGHT, &graphics_context_default);
+    graphics_draw_char((uint8_t)c, tty_x * graphics_context_active->font.char_width, tty_y * graphics_context_active->font.char_height, graphics_context_active);
     tty_x++;
 
     if (tty_x >= tty_cols())
@@ -158,11 +138,13 @@ void tty_printf(const char *str, ...)
     va_start(args, str);
 
     bool fmtspec = false;
+    bool colspec = false;
 
     uint32_t i = 0;
     while (str[i] != 0)
     {
         const char ch = str[i];
+
         if (fmtspec)
         {
             fmtspec = false;
@@ -181,9 +163,41 @@ void tty_printf(const char *str, ...)
                     break;
             }
         }
+        else if(colspec)
+        {
+            colspec = false;
+            switch(ch)
+            {
+                case 'b':
+                    graphics_context_active->color_fg = COLOR_BLACK;
+                    break;
+                case 'w':
+                    graphics_context_active->color_fg = COLOR_WHITE;
+                    break;
+                case 'r':
+                    graphics_context_active->color_fg = COLOR_FORMAT_RGB(200, 50, 50);
+                    break;
+                case 'g':
+                    graphics_context_active->color_fg = COLOR_FORMAT_RGB(50, 200, 50);
+                    break;
+                case 'u':
+                    graphics_context_active->color_fg = COLOR_FORMAT_RGB(50, 50, 200);
+                    break;
+                case 'p':
+                    graphics_context_active->color_fg = COLOR_FORMAT_RGB(200, 50, 200);
+                    break;
+                default:
+                    break;
+            }
+        }
         else if (ch == '%')
         {
             fmtspec = true;
+        }
+        else if(ch == '\x1B')
+        {
+            // tty_puts("-COL-");
+            colspec = true;
         }
         else
         {
