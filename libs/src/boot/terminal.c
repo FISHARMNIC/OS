@@ -7,6 +7,7 @@
 #include <elf.h>
 #include <sys/kmalloc.h>
 #include <events.h>
+#include <context.h>
 
 #define PROMPT "> "
 
@@ -47,7 +48,7 @@ void terminal_init()
 
 void drawch(uint8_t c, keyboard_event_t event)
 {
-    if(event == KEYBOARD_EVENT_KEY_RELEASE)
+    if (event == KEYBOARD_EVENT_KEY_RELEASE)
     {
         return;
     }
@@ -120,9 +121,9 @@ static bool terminal_bin_cmd(char *cmd, char *save)
         {
 
             uint32_t size = file_size(&infos[i]);
-            uint8_t* buffer = kmalloc(size);
+            uint8_t *buffer = kmalloc(size);
 
-            if(buffer == NULLPTR)
+            if (buffer == NULLPTR)
             {
                 tty_printf("[ERROR] Malloc failiure\n");
                 return true;
@@ -241,25 +242,29 @@ static bool terminal_builtin_command(const char *cmd, char *save)
             }
         }
         return true;
-    }    
+    }
     else if (strcmp(cmd, "pwd") == 0)
     {
         tty_printf("pwd: %s\n", pwd);
         return true;
     }
     */
-    
-    else if(strcmp(cmd, "mem") == 0)
+
+    else if (strcmp(cmd, "mem") == 0)
     {
         tty_printf("Heap size: %d\n", mem_heapsize());
         mm_checkheap();
         return true;
     }
-    else if(strcmp(cmd, "car") == 0)
+    else if (strcmp(cmd, "car") == 0)
     {
         terminal_bin_cmd("EXEC", "BIN/GAMES/CAR.ELF");
         return true;
     }
+    // else if (strcmp(cmd, "ctest") == 0)
+    // {
+
+    // }
     else
     {
         return false;
@@ -288,7 +293,7 @@ void terminal()
         char *save;
         char *resp = strtok_r((void *)buff, " ", &save);
 
-        tty_printf("\n"TC_GREEN);
+        tty_printf("\n" TC_GREEN);
 
         bool valid = terminal_builtin_command(resp, save);
 
@@ -301,7 +306,7 @@ void terminal()
             valid = terminal_bin_cmd(resp, save);
             if (!valid)
             {
-                tty_printf(TC_RED"Unknown command '%s'. Run 'help' for a list of commands\n"TC_BLACK, resp);
+                tty_printf(TC_RED "Unknown command '%s'. Run 'help' for a list of commands\n" TC_BLACK, resp);
             }
         }
     }

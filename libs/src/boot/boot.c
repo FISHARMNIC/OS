@@ -10,6 +10,7 @@
 #include <tss.h>
 #include <os_setjmp.h>
 #include <sys/kmalloc.h>
+#include <context.h>
 
 static char* welcome_msg = "\
                                               \n\
@@ -48,6 +49,7 @@ uint32_t postboot_init(multiboot_info_t* mbi)
     // Load interrupts into IDT and register custom handlers.
     idt_load_stubs();
     
+    // idt_load_interrupt(IRQ_TIMER, task_switch);
     idt_load_interrupt(IRQ_MOUSE, mouse_interrupt_handler);
     idt_load_interrupt(IRQ_KEYBOARD, keyboard_handler);
 
@@ -59,6 +61,8 @@ uint32_t postboot_init(multiboot_info_t* mbi)
 
     // Move IRQs to vectors 32-47 and unmask needed lines.
     pic_remap();
+    
+    // pic_enable_irq(IRQ_TIMER);
     pic_enable_irq(IRQ_CASCADE); // Slave PIC
     pic_enable_irq(IRQ_MOUSE);
     pic_enable_irq(IRQ_KEYBOARD);

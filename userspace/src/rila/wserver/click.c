@@ -4,6 +4,7 @@
 static click_ll_t* base = NULLPTR;
 static click_ll_t* head = NULLPTR;
 
+// @todo change to return the malloc and then remove takes that
 void add_click(click_ll_fn_t event)
 {
     click_ll_t* new = malloc(sizeof(click_ll_t));
