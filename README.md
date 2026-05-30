@@ -1,6 +1,6 @@
 # NicoOS
 
-<img width="907" height="740" alt="Screenshot 2026-04-29 at 2 37 29 PM" src="https://github.com/user-attachments/assets/63c04e63-b64c-4bdd-bd4d-be0700259fb2" />
+<img width="1079" height="869" alt="Screenshot 2026-05-30 at 1 11 40 PM" src="https://github.com/user-attachments/assets/4dcf8abb-5121-4efd-959c-25d04dc1f279" />
 
 `./run-host.sh`
 
@@ -18,3 +18,10 @@
     * execute other files
 * elf execution in userspace
 * malloc
+
+
+## WIP desktop
+execute by running `rila`  
+
+<img width="1079" height="869" alt="Screenshot 2026-05-30 at 1 12 28 PM" src="https://github.com/user-attachments/assets/714cf3a2-31ce-47de-9cdf-6aa0f3127674" />
+
