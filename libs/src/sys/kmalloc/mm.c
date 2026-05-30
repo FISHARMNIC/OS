@@ -33,6 +33,7 @@ This was adapted from a malloc I wrote for class
 #include <sys/kmalloc.h>
 #include <sys/string.h>
 #include <graphics.h>
+#include <interrupts.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // Constants and macros
@@ -543,7 +544,9 @@ void *kmalloc(uint32_t size)
   // tty_printf("Mallocing %d ", size);
   if (size == 0 || size >= (UINT32_MAX - 4 * DSIZE))
   {
+    tty_reset();
     tty_printf("[ERROR] Malloc Failiure - SIZE\n");
+    panic();
     return NULL;
   }
 
@@ -569,8 +572,10 @@ void *kmalloc(uint32_t size)
     // TODO maybe make bigger than this? but 1 << 12 is alread 4096 so maybe not
     if ((attemptedFit = extend_heap(MAX(size, CHUNKSIZE) / WSIZE)) == NULL) // extend the heap to a new size, and place fit as new empty slot
     {
+      tty_reset();
       tty_printf("[ERROR] Malloc Failiure - SBRK\n");
-      return NULL;                                                          // sbrk error
+      panic();
+      return NULL; // sbrk error
     }
   }
 
@@ -662,50 +667,6 @@ void *mm_realloc(void *ptr, uint32_t size)
   return newp;
 }
 
-//
-// mm_checkheap - Check the heap for consistency
-//
-// void mm_checkheap(uint32_t verbose)
-// {
-//   //
-//   // This provided implementation assumes you're using the structure
-//   // of the sample solution in the text. If not, omit this code
-//   // and provide your own mm_checkheap
-//   //
-//   void *bp = heap_listp;
-
-//   if (verbose)
-//   {
-//     dbg_printf("Heap (%p):\n", heap_listp);
-//   }
-
-//   if ((GET_SIZE(HDRP(heap_listp)) != DSIZE) || !GET_ALLOC(HDRP(heap_listp)))
-//   {
-//     dbg_printf("Bad prologue header\n");
-//   }
-
-//   checkblock(heap_listp);
-
-//   for (bp = heap_listp; GET_SIZE(HDRP(bp)) > 0; bp = NEXT_BLKP(bp))
-//   {
-//     if (verbose)
-//     {
-//       printblock(bp);
-//     }
-//     checkblock(bp);
-//   }
-
-//   if (verbose)
-//   {
-//     printblock(bp);
-//   }
-
-//   if ((GET_SIZE(HDRP(bp)) != 0) || !(GET_ALLOC(HDRP(bp))))
-//   {
-//     dbg_printf("Bad epilogue header\n");
-//   }
-// }
-
 // static void printblock(void *bp)
 // {
 //   uint32_t hsize, halloc, fsize, falloc;
@@ -727,14 +688,65 @@ void *mm_realloc(void *ptr, uint32_t size)
 //          (uint32_t)fsize, (falloc ? 'a' : 'f'));
 // }
 
-// static void checkblock(void *bp)
-// {
-//   if ((uintptr_t)bp % 8)
-//   {
-//     dbg_printf("Error: %p is not doubleword aligned\n", bp);
-//   }
-//   if (GET(HDRP(bp)) != GET(FTRP(bp)))
-//   {
-//     dbg_printf("Error: header does not match footer\n");
-//   }
-// }
+static void checkblock(void *bp)
+{
+  if ((uintptr_t)bp % 8)
+  {
+    tty_printf("\t[BAD HEAP] %d is not doubleword aligned\n", bp);
+  }
+  if (GET(HDRP(bp)) != GET(FTRP(bp)))
+  {
+    tty_puts("\t[BAD HEAP] header does not match footer\n");
+  }
+}
+
+
+//
+// mm_checkheap - Check the heap for consistency
+
+void mm_checkheap()
+{
+  //
+  // This provided implementation assumes you're using the structure
+  // of the sample solution in the text. If not, omit this code
+  // and provide your own mm_checkheap
+  //
+  void *bp = heap_listp;
+
+  // if (verbose)
+  // {
+  tty_printf("Checking heap (%d):\n", heap_listp);
+  // }
+
+  // bool failed = false;
+
+  if ((GET_SIZE(HDRP(heap_listp)) != DSIZE) || !GET_ALLOC(HDRP(heap_listp)))
+  {
+    tty_puts("\t[BAD HEAP] Bad prologue header\n");
+    // failed = true;
+  }
+
+  checkblock(heap_listp);
+
+  for (bp = heap_listp; GET_SIZE(HDRP(bp)) > 0; bp = NEXT_BLKP(bp))
+  {
+    // if (verbose)
+    // {
+    //   printblock(bp);
+    // }
+    checkblock(bp);
+    
+  }
+
+  // if (verbose)
+  // {
+  //   printblock(bp);
+  // }
+
+  if ((GET_SIZE(HDRP(bp)) != 0) || !(GET_ALLOC(HDRP(bp))))
+  {
+    tty_puts("\t[BAD HEAP] Bad epilogue header\n");
+  }
+
+  tty_puts("Heap check done\n");
+}

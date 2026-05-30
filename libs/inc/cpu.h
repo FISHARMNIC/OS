@@ -9,6 +9,7 @@ typedef struct
     uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; 
     uint32_t intn, errc;
     uint32_t eip, cs, eflags, usresp, ss; 
+    uint32_t ds, es, fs, gs;
 } regs32_t;
 
 #define NULLPTR ((void*)0)

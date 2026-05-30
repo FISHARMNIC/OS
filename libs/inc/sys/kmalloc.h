@@ -23,6 +23,8 @@ void mem_reset_brk(void);
 void *mem_heap_lo(void);
 void *mem_heap_hi(void);
 uint32_t mem_heapsize(void);
+
+void mm_checkheap();
 // uint32_t mem_pagesize(void);
 
 /* 
@@ -33,7 +35,7 @@ uint32_t mem_heapsize(void);
 /* 
  * Maximum heap size in bytes 
  */
-#define MAX_HEAP (1024 * 1024 * 10)
+#define MAX_HEAP (1024 * 1024 * 100)
 
 #define NULL ((void*) 0)
 

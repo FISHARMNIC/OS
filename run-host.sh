@@ -103,7 +103,7 @@ if [[ "${MODE}" == "iso" ]]; then
     rm -rf "${ISO_ROOT}"
     mkdir -p "${ISO_ROOT}/boot/grub"
     cp "${KERNEL_BIN}"             "${ISO_ROOT}/boot/MyOS.bin"
-    cp "${ROOT_DIR}/boot/FONT.F16" "${ISO_ROOT}/boot/FONT.F16"
+    cp "${ROOT_DIR}/disk/sys/FONT.F16" "${ISO_ROOT}/boot/FONT.F16"
     cp "${ROOT_DIR}/boot/grub.cfg" "${ISO_ROOT}/boot/grub/grub.cfg"
     "${GRUB_MKRESCUE}" -o "${ISO_PATH}" "${ISO_ROOT}"
     [[ -f "${ISO_PATH}" ]] || die "ISO not found at ${ISO_PATH}"
@@ -179,12 +179,13 @@ M mmd z:/boot/grub
 # M mmd z:/dir1
 # M mmd z:/dir1/dir1A
 M mmd z:/bin
-M mmd z:/docs
-M mmd z:/docs/stuff
+M mmd z:/desk
+M mmd z:/sys
 
 M mcopy "${KERNEL_BIN}"                           z:/boot/MyOS.bin
 M mcopy "${ROOT_DIR}/boot/grub.cfg"               z:/boot/grub/grub.cfg
-M mcopy "${ROOT_DIR}/boot/FONT.F16"               z:/boot/FONT.F16
+# M mcopy "${ROOT_DIR}/boot/FONT.F16"               z:/boot/FONT.F16 # @todo move to sys
+
 # M mcopy "${ROOT_DIR}/userspace/gen/bin/test.elf"  z:/test/test.elf
 # M mcopy "${ROOT_DIR}/userspace/gen/bin/filetest.elf"  z:/test/file.elf
 
@@ -195,8 +196,8 @@ M mcopy "${ROOT_DIR}/boot/FONT.F16"               z:/boot/FONT.F16
 # M mcopy "${ROOT_DIR}/userspace/gen/bin/touch.elf"  z:/bin/touch.elf
 
 M mcopy -s "${ROOT_DIR}/userspace/bin/." z:/bin
-M mcopy -s "${ROOT_DIR}/userspace/docs/." z:/docs
-M mcopy -s "${ROOT_DIR}/userspace/docs/." z:/docs/stuff
+M mcopy -s "${ROOT_DIR}/disk/desk/." z:/desk
+M mcopy -s "${ROOT_DIR}/disk/sys/." z:/sys
 
 # Build GRUB core image
 CORE_IMG="${COMPILED}/core.img"

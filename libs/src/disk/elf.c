@@ -190,7 +190,7 @@ static void elf_jump_user(uint32_t entry, uint32_t user_stack_top, uint32_t argc
     user_stack_top = (uint32_t)ustack32;
 
     __asm__ volatile(
-        "mov $0x23, %%ax    \n"
+        "mov $0x23, %%ax    \n" // @todo shpuld not be hardcoded
         "mov %%ax,  %%ds    \n"
         "mov %%ax,  %%es    \n"
         "mov %%ax,  %%fs    \n"

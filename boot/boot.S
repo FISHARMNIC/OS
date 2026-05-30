@@ -22,6 +22,9 @@
 .long 640
 .long 480
 .long 32
+// .long 1280
+// .long 720
+// .long 32
 
 .section .bss
 .align 16
@@ -78,9 +81,18 @@ _USER_DATA_SEG:
 isr_stub_\n:
     movb $\n, isr_exception_type
     cli
+    push %ds
+    push %es
+    push %fs
+    push %gs
     pushal
+    cld
     call interrupts_exception_handler
     popal
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
     addl $4, %esp
     iret
 .endm
@@ -89,9 +101,18 @@ isr_stub_\n:
 isr_stub_\n:
     movb $\n, isr_exception_type
     cli
+    push %ds
+    push %es
+    push %fs
+    push %gs
     pushal
+    cld
     call interrupts_exception_handler
     popal
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
     iret
 .endm
 
@@ -99,9 +120,18 @@ isr_stub_\n:
 isr_stub_\n:
     movb $\n, isr_exception_type
     cli
+    push %ds
+    push %es
+    push %fs
+    push %gs
     pushal
+    cld
     call interrupts_irq_handler
     popal
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
     iret
 .endm
 
@@ -213,11 +243,21 @@ isr_stub_table:
     .long isr_stub_50
 
 .global syscall_stub
+.global syscall_stub
 syscall_stub:
     cli
+    push %ds
+    push %es
+    push %fs
+    push %gs
     pushal
+    cld
     call syscall_dispatch
     popal
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
     iret
 
 _start:
@@ -242,3 +282,55 @@ halt:
     jmp halt
 
 .size _start, . - _start
+
+# restores registers from regs32_t structure and returns via iret
+# called when task_switch needs to jump to a new task
+.global task_restore_registers
+# restores registers from regs32_t structure and returns via iret
+# called when task_switch needs to jump to a new task
+.global task_restore_registers
+.global task_restore_registers
+task_restore_registers:
+    # eax = regs32_t* (pointer to saved registers)
+    
+    # Save pointer in ebx (we'll restore ebx from struct at the end)
+    mov %eax, %ebx
+    
+    # Build iret frame at the top of the kernel stack
+    subl $20, %esp
+    
+    # Load iret frame values
+    mov 40(%ebx), %ecx      # eip
+    mov %ecx, 0(%esp)
+    
+    mov 44(%ebx), %ecx      # cs
+    mov %ecx, 4(%esp)
+    
+    mov 48(%ebx), %ecx      # eflags
+    mov %ecx, 8(%esp)
+    
+    mov 52(%ebx), %ecx      # user esp
+    mov %ecx, 12(%esp)
+    
+    mov 56(%ebx), %ecx      # ss
+    mov %ecx, 16(%esp)
+    
+    # Restore most registers (skip ebx, we restore it last)
+    mov 0(%ebx), %edi
+    mov 4(%ebx), %esi
+    mov 8(%ebx), %ebp
+    mov 16(%ebx), %edx
+    mov 20(%ebx), %ecx
+    mov 24(%ebx), %eax
+    # ebx will be restored from struct after we're done
+    mov 28(%ebx), %ebx      # restore original ebx last
+    
+    # Set segment registers (hardcoded 0x23 for user mode)
+    mov $0x23, %cx
+    mov %cx, %ds
+    mov %cx, %es
+    mov %cx, %fs
+    mov %cx, %gs
+    
+    # The iret frame is ready at (%esp)
+    iret

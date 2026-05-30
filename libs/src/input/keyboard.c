@@ -21,7 +21,7 @@ void keyboard_init()
 void keyboard_handler(regs32_t r)
 {
     keyboard_sc = inb(KEYBOARD_PORT);
-    if(keyboard_sc < KEYCODE_RISING)
+    if (keyboard_sc < KEYCODE_RISING)
     {
         FOREACH(event_keyboard_functions, event_keyboard_functions_last, keyboard_sc, KEYBOARD_EVENT_KEY_PRESS);
     }
@@ -43,7 +43,8 @@ uint8_t keyboard_get_keycode()
 
 char keyboard_keycode_to_char(uint8_t keycode)
 {
-    if (keycode >= sizeof(KEYSET)) {
+    if (keycode >= sizeof(KEYSET))
+    {
         return 0;
     }
     return KEYSET[keycode];
@@ -65,13 +66,13 @@ void keyboard_gets(volatile char *buffer, uint32_t len)
     // event_on_key_fn onk = keyboard_on_press_fn; // destroy event handler to prioritize stdio
     // keyboard_on_press_fn = NULLPTR;
 
-    memset((void*) buffer, 0, len);
+    memset((void *)buffer, 0, len);
 
     uint32_t index = 0;
 
     char got = 0;
 
-    // bool possible_external_influence = false;
+    bool relen = false;
 
     while ((got = keyboard_get_keycode()) != KEY_ENTER)
     {
@@ -89,9 +90,33 @@ void keyboard_gets(volatile char *buffer, uint32_t len)
             buffer[index] = ' ';
             index++;
         }
-        else if(got != KEY_UP && !KEY_IS_ARROW(got))
+        else if (got == KEY_UP || got == KEY_DOWN)
+        {
+            relen = true;
+        }
+        // else if(got == KEY_LEFT)
+        // {
+        //     if(index >= 1)
+        //     {
+        //         index--;
+        //     }
+        // }
+        // else if(got == KEY_RIGHT)
+        // {
+        //     if(index < len - 1 && buffer[index + 1] != 0)
+        //     {
+        //         index++;
+        //     }
+        // }
+        else
         {
             // possible_external_influence = true;
+
+            if (relen)
+            {
+                relen = false;
+                index = strlen((const char *)buffer);
+            }
             buffer[index] = keyboard_keycode_to_char(got);
             index++;
         }
